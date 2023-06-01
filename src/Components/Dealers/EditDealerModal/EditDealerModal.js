@@ -63,7 +63,7 @@ function EditDealerModal(props) {
 
   const getAllVehicleOemDetails = async () => {
     const { data } = await getAllVehicleOEM();
-    // console.log(data, "OEM");
+
     if (data) {
       if (data) {
         let OemData = [];
@@ -83,7 +83,7 @@ function EditDealerModal(props) {
 
   const getStateDetails = async () => {
     const { data } = await getAllStateDetails();
-    // console.log(data, "state");
+
     if (data) {
       let stateData = [];
       data?.data?.data?.map((val) => {
@@ -178,7 +178,6 @@ function EditDealerModal(props) {
   }, [props.editDealerData]);
 
   const onStateChange = (name, e, value) => {
-    // console.log(value, "value");
     setEditingDealer({
       ...editingDealer,
       [name]: value,
@@ -186,7 +185,6 @@ function EditDealerModal(props) {
   };
 
   const handleVehicleOEMChange = (name, event, value) => {
-    // console.log(name,value,"ejhgf");
     setEditingDealer({
       ...editingDealer,
       [name]: value,
@@ -205,11 +203,10 @@ function EditDealerModal(props) {
 
   // useEffect(() => {
   //   getStatusOfDealerByChecker(props.mainDealerID, approve);
-  //   console.log(approve,"approve");
+
   // }, []);
 
   const getStatusOfDealerByChecker = async (dealerID) => {
-    // console.log(dealerID,"params");
     let payload = {
       dealerName: editingDealer?.dealerName,
       dealerType: editingDealer?.dealerType,
@@ -239,7 +236,7 @@ function EditDealerModal(props) {
       dealerPaniniCheck: editingDealer?.dealerPaniniCheck,
     };
     const { data, errRes } = await getStatusDetails(dealerID, payload);
-    // console.log(data, "data");
+
     if (data) {
       if (data.error === "FALSE") {
         props.getDealersDetails();

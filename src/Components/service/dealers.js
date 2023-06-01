@@ -4,7 +4,6 @@ const getAllMainDealersDetails = (params) => {
   return serviceUtil
     .get(`getmaindealers?flag=${params}`)
     .then((res) => {
-      // console.log(res,"res");
       const data = res.data;
       return { data };
     })
@@ -18,14 +17,11 @@ const addMainDealersDetails = (payload) => {
   return serviceUtil
     .post(`addmaindealer`, payload)
     .then((res) => {
-      // console.log(res, "response add maindealer");
-      // console.log(payload, "payload");
       const data = res;
       return { data };
     })
     .catch((err) => {
       const errRes = err && err.response && err.response.data;
-      // console.log(errRes, "errRes");
       return { errRes };
     });
 };
@@ -51,7 +47,6 @@ const getAllVehicleOEM = () => {
   return serviceUtil
     .get(`getoems`)
     .then((res) => {
-      // console.log(res, "response");
       const data = res;
       return { data };
     })
@@ -81,7 +76,6 @@ const showVehicleVariantsInMainDealer = (mainDealerID) => {
   return serviceUtil
     .get(`avaliablemainvariants?mainDealerID=${mainDealerID}`)
     .then((res) => {
-      // console.log(res,"responseshowvarianta");
       const data = res;
       return { data };
     })
@@ -95,8 +89,6 @@ const showVehicleVariantsToAddInMainDealer = (params) => {
   return serviceUtil
     .get(`mainvariants?mainDealerID=${params}`)
     .then((res) => {
-      // console.log(params,"params");
-      // console.log(res, "responseshowvariant");
       const data = res;
       return { data };
     })
@@ -110,7 +102,6 @@ const addAllVehicleVariantsInMainDealer = (params, payload) => {
   return serviceUtil
     .post(`addmainvariant?MainDealerID=${params}`, payload)
     .then((res) => {
-      // console.log(res,"response");
       const data = res;
       return { data };
     })
@@ -125,7 +116,6 @@ const removeAllVehicleVariantsInMainDealer = (params, payload) => {
   return serviceUtil
     .deleteById(`removemainvariant?mainDealerID=${params}`, payload)
     .then((res) => {
-      // console.log(res, "response");
       const data = res;
       return { data };
     })
@@ -140,7 +130,6 @@ const getAllBranchesInMainDealer = (params) => {
   return serviceUtil
     .get(`showavaliablemainbranches?mainDealerID=${params}`)
     .then((res) => {
-      // console.log(res, "response");
       const data = res;
       return { data };
     })
@@ -151,11 +140,9 @@ const getAllBranchesInMainDealer = (params) => {
 };
 
 const getAllBranchesToAddInMainDealer = (mainDealerID) => {
-  // console.log("params", params);
   return serviceUtil
     .getWithResp(`showmainbranches?mainDealerID=${mainDealerID}`)
     .then((res) => {
-      // console.log(res, "response");
       const data = res;
       return { data };
     })
@@ -166,7 +153,6 @@ const getAllBranchesToAddInMainDealer = (mainDealerID) => {
 };
 
 const addAllBranchesInMainDealer = (params, payload) => {
-  // console.log("params", params);
   return serviceUtil
     .post(`addmainbranch?mainDealerID=${params}`, payload)
     .then((res) => {
@@ -181,11 +167,9 @@ const addAllBranchesInMainDealer = (params, payload) => {
 };
 
 const removeAllBranchesInMainDealer = (params, payload) => {
-  // console.log("params", params);
   return serviceUtil
     .deleteById(`removemainbranch?mainDealerID=${params}`, payload)
     .then((res) => {
-      // console.log(res, "response");
       const data = res;
       return { data };
     })

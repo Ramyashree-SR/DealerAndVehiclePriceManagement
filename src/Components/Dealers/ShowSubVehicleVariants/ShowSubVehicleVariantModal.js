@@ -26,11 +26,11 @@ function ChildModal(props) {
   };
 
   const [showVariantToAdd, setShowVariantToAdd] = useState([]);
-// console.log(showVariantToAdd,"dfghjk");
+
 
   const showVehicleVariantsToAdd = async (params) => {
     const { data } = await showVehicleVariantsInSubDealerToAdd(params);
-    // console.log(data, "showtoadd");
+  
     if (data) {
       if (data) {
         let showData = data?.data?.data;
@@ -40,7 +40,7 @@ function ChildModal(props) {
   };
 
   const [addvehicle, setaddvehicle] = useState([])
-  // console.log(addvehicle,"dfghj");
+ 
 
 const adddisplayedVariantToTheTable=async(params)=>{
     let payload={
@@ -48,7 +48,7 @@ const adddisplayedVariantToTheTable=async(params)=>{
         variantName:addvehicle?.variantName,
     }
 const {data}=await addVehicleVariantsInSubDealer(params,payload)
-    // console.log(data?.data,"addvehicle");
+   
     if(data){
         if(data){
           let tempArr=[]
@@ -120,7 +120,7 @@ const {data}=await addVehicleVariantsInSubDealer(params,payload)
 
 function ShowSubVehicleVariantModal(props) {
   //  const {addVariants}=props
-//   console.log(props, "fghj");
+
 
   return (
     <>

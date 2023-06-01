@@ -37,13 +37,13 @@ function ShowBranchesForSubDealers(props) {
       tempArr.push({ ...item });
     });
     // setRemoveRowData([...props.showSubBranch]);
-    // console.log(props, "props");
+    
   }, [props.showSubBranch]);
 
   const removeRowDataofBranchesFromTable = async (params, value) => {
     let payload = [value];
     const { data } = await removeBranchesInSubDealer(params, payload);
-    // console.log("data", data);
+    
     if (data?.data?.error === "False") {
       props.getShowBranchesInSubDealers(props.subDealerID);
       props.getShowBranchesInSubDealersToAdd(props.subDealerID);
@@ -186,15 +186,15 @@ const ChildModal = (props) => {
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
   const [filterAddSubBranch, setFilterAddSubBranch] = useState([]);
-  // const [addMainBranches, setAddMainBranches] = useState([]);
+  
   const [selectedDistrict, setselectedDistrict] = useState([]);
   const [addSubBranches, setAddSubBranches] = useState([]);
   const [selectedId, setselectedId] = useState([]);
   const [checked, setChecked] = useState(false);
   const [regionData, setRegionData] = useState([]);
-  // console.log(regionData,"dfgh");
+  
   const [areaData, setAreaData] = useState([]);
-  // console.log(areaData,"areaData");
+  
   const [sendselectedBranches, setsendselectedBranches] = useState([]);
 
   const handleChangePage = (event, newPage) => {
@@ -255,7 +255,7 @@ const ChildModal = (props) => {
       }
     });
     const { data } = await addBranchesInSubDealer(mainDealerID, payload);
-    // console.log(data,"datasub");
+    
     if (data?.data?.error === "FALSE") {
       props.getShowBranchesInSubDealers(props.subDealerID);
       props.getShowBranchesInSubDealersToAdd(props.subDealerID);
@@ -299,7 +299,7 @@ const ChildModal = (props) => {
 
   const getAllAreaDetailsOnSelect = async (state) => {
     const payload = selectedDistrict;
-    // console.log(payload,"payload");
+   
     const { data } = await getAreaDetailsByStateandRegionInSubDealers(
       state,
       payload
@@ -319,7 +319,7 @@ const ChildModal = (props) => {
   };
 
   useEffect(() => {
-    // console.log(props.showSubBranchToAdd, "props.showSubBranchToAdd");
+    
     if (selectedDistrict.length > 0 || filterAddSubBranch.length > 0) {
       if (selectedDistrict.length > 0) {
         const filteredDatas = props.showSubBranchToAdd.filter((item) => {

@@ -17,7 +17,6 @@ function UploadDocumentsModal(props) {
   const PennyCheckfileInput = React.useRef();
   const ApproveMailsfileInput = React.useRef();
   const KYCfileInput = React.useRef();
-  // console.log(props,"props");
   const [openViewModal, setopenViewModal] = useState(false);
   const [agreementfile, setagreementFile] = useState({
     file: {},

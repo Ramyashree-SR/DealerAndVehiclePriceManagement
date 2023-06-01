@@ -157,21 +157,21 @@ export default function DealerSubDealerTable(props) {
   const [allDealersCopy, setAllDealersCopy] = useState([]);
   const [searchText, setsearchText] = useState("");
   const [state, setState] = useState([]);
-  // console.log(state,"state");
+
   const [district, setDistrict] = useState([]);
   const [filterAllDealer, setFilterAllDealer] = useState({});
   const [filterAllDealer1, setFilterAllDealer1] = useState({});
-  // console.log(filterAllDealer1, "filterAllDealer1");
+
   const [vehicleOEM, setVehicleOEM] = useState([]);
-  // console.log(vehicleOEM, "vehicleOEM");
+
   const [filterAllDealers, setFilterAllDealers] = useState({});
-  // console.log(filterAllDealers,"filterAllDealers");
+
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [mainDealerData, setMainDealerData] = useState({});
-  // console.log(mainDealerData, "mainDealerData");
+
   const [showVariants, setShowVariants] = useState([]);
-  // console.log("fgh",showVariants);
+
   const [openAddDealerModal, setOpenAddDealerModal] = useState(false);
   const [openEditDealerModal, setOpenEditDealerModal] = useState(false);
   // const [openShowVariants, setOpenShowVariants] = useState(false);
@@ -182,26 +182,26 @@ export default function DealerSubDealerTable(props) {
   const [openAddSubDealerModal, setopenAddSubDealerModal] = useState(false);
   const [openEditSubDealerModal, setOpenEditSubDealerModal] = useState(false);
   const [EditSubDealerData, setEditSubDealerData] = useState({});
-  // console.log(EditSubDealerData, "EditSubDealerData");
+
   const [rowData, setRowData] = useState("");
-  // console.log(rowData,"fghjk");
+
   const [paramsId, setParamsId] = useState("");
-  // console.log(paramsId, "ds");
+
   const [showAddVariants, setshowAddVariants] = useState([]);
-  // console.log(showAddVariants,"fghjk");
+
   const [OpenShowBranchModal, setOpenShowBranchModal] = useState(false);
   const [showBranch, setShowBranch] = useState([]);
-  // console.log(showSubVariants,"ghjk");
+
   const [showBranchToAdd, setShowBranchToAdd] = useState([]);
-  // console.log(showSubVariants,"ghjk");
+
   const [filterAddBranch, setFilterAddBranch] = useState({});
   const [openShowSubBranchModal, setOpenShowSubBranchModal] = useState(false);
   const [showSubBranch, setShowSubBranch] = useState([]);
-  // console.log(showSubBranch, "showSubBranch");
+
   const [showSubBranchToAdd, setshowSubBranchToAdd] = useState([]);
   const [disableStateOption, setdisableStateOption] = useState(true);
   const [disableDistrictOption, setdisableDistrictOption] = useState(true);
-  // console.log(showSubBranchToAdd, "showSubBranchToAdd");
+
   const [openAddDocumentModal, setOpenAddDocumentModal] = useState(false);
   const [filemainDealerId, setfileMaindealerId] = useState(null);
   const [addStateId, setaddStateId] = useState(null);
@@ -222,7 +222,6 @@ export default function DealerSubDealerTable(props) {
   };
 
   const handleDistrictChange = (value) => {
-    // console.log(value, "value");
     setFilterAllDealer1({
       ...filterAllDealer1,
       district: value.target.outerText,
@@ -230,7 +229,6 @@ export default function DealerSubDealerTable(props) {
   };
 
   const handleVehicleOEMChange = (value) => {
-    // console.log(value.target.outerText, "value");
     if (value) {
       setFilterAllDealers({
         ...filterAllDealers,
@@ -372,9 +370,8 @@ export default function DealerSubDealerTable(props) {
   }, []);
 
   const getDealersDetails = async (id) => {
-    // console.log(state, "state");
     let paramsData = id ? id : "All";
-    // console.log(paramsData, "tej");
+
     const { data } = await getAllMainDealersDetails(paramsData);
     if (data) {
       if (data) {
@@ -389,7 +386,7 @@ export default function DealerSubDealerTable(props) {
   const getSubDealerDetails = async (mainDealerId) => {
     // setOpen(!open);
     const { data } = await getAllSubDealersDetails(mainDealerId);
-    // console.log(params, "params");
+
     const subdealerData = data?.data?.data;
     setallSubDealers(subdealerData);
   };
@@ -407,7 +404,7 @@ export default function DealerSubDealerTable(props) {
 
   const getAllAddVariantsDetails = async (params) => {
     const { data } = await showVehicleVariantsToAddInMainDealer(params);
-    // console.log(data?.data,"data");
+
     if (data) {
       if (data) {
         setshowAddVariants(data?.data?.data);
@@ -432,9 +429,8 @@ export default function DealerSubDealerTable(props) {
   };
 
   const getShowBranchesToAddInMainDealers = async (mainDealerID) => {
-    // console.log(mainDealerID,"mainDealerID");
     const { data } = await getAllBranchesToAddInMainDealer(mainDealerID);
-    // console.log(data?.data, "Dealer");
+
     if (data) {
       if (data) {
         if (data) {
@@ -447,7 +443,7 @@ export default function DealerSubDealerTable(props) {
 
   const getShowBranchesInSubDealers = async (params) => {
     const { data } = await getAllBranchesInSubDealer(params);
-    // console.log(data.data?.data, "datainsub");
+
     if (data) {
       if (data) {
         let subBranchData = data?.data?.data;
@@ -458,7 +454,7 @@ export default function DealerSubDealerTable(props) {
 
   const getShowBranchesInSubDealersToAdd = async (params) => {
     const { data } = await getAllBranchesInSubDealerToAdd(params);
-    // console.log(data.data, "datainsub1");
+
     if (data) {
       if (data) {
         let subBranchDataToAdd = data?.data?.data;

@@ -169,7 +169,7 @@ const ChildModal = (props) => {
     }
   };
 
-  console.log("state", addMainVariant);
+  
   return (
     <>
       <Typography sx={{ fontSize: 20, fontWeight: "bold" }}>

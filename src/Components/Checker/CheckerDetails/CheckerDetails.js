@@ -133,27 +133,25 @@ const ColorIcon = styled(Button)(({ theme }) => ({
 }));
 
 export default function CheckerDetails(props) {
-  let role = ["Maker", "Checker"];
-
   const [allDealers, setAllDealers] = useState([]);
   const [allDealersCopy, setAllDealersCopy] = useState([]);
   const [searchText, setsearchText] = useState("");
   const [state, setState] = useState([]);
-  // console.log(state,"state");
+
   const [district, setDistrict] = useState([]);
   const [filterAllDealer, setFilterAllDealer] = useState({});
   const [filterAllDealer1, setFilterAllDealer1] = useState({});
-  // console.log(filterAllDealer1, "filterAllDealer1");
+
   const [vehicleOEM, setVehicleOEM] = useState([]);
-  // console.log(vehicleOEM,"vehicleOEM");
+
   const [filterAllDealers, setFilterAllDealers] = useState({});
-  // console.log(filterAllDealers,"filterAllDealers");
+
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [mainDealerData, setMainDealerData] = useState({});
-  // console.log(mainDealerData, "mainDealerData");
+
   const [showVariants, setShowVariants] = useState([]);
-  // console.log("fgh",showVariants);
+
   const [openAddDealerModal, setOpenAddDealerModal] = useState(false);
   const [openEditDealerModal, setOpenEditDealerModal] = useState(false);
   // const [openShowVariants, setOpenShowVariants] = useState(false);
@@ -165,24 +163,24 @@ export default function CheckerDetails(props) {
   const [openEditSubDealerModal, setOpenEditSubDealerModal] = useState(false);
   const [EditSubDealerData, setEditSubDealerData] = useState({});
   const [rowData, setRowData] = useState("");
-  // console.log(rowData,"fghjk");
+
   const [paramsId, setParamsId] = useState("");
-  // console.log(params,"ds");
+
   const [showAddVariants, setshowAddVariants] = useState([]);
-  // console.log(showAddVariants,"fghjk");
+
   const [OpenShowBranchModal, setOpenShowBranchModal] = useState(false);
   const [showBranch, setShowBranch] = useState([]);
-  // console.log(showSubVariants,"ghjk");
+
   const [showBranchToAdd, setShowBranchToAdd] = useState([]);
-  // console.log(showSubVariants,"ghjk");
+
   const [filterAddBranch, setFilterAddBranch] = useState({});
   const [openShowSubBranchModal, setOpenShowSubBranchModal] = useState(false);
   const [showSubBranch, setShowSubBranch] = useState([]);
-  // console.log(showSubBranch, "showSubBranch");
+
   const [showSubBranchToAdd, setshowSubBranchToAdd] = useState([]);
   const [disableStateOption, setdisableStateOption] = useState(true);
   const [disableDistrictOption, setdisableDistrictOption] = useState(true);
-  // console.log(showSubBranchToAdd, "showSubBranchToAdd");
+
   const [openAddDocumentModal, setOpenAddDocumentModal] = useState(false);
   const [filemainDealerId, setfileMaindealerId] = useState(null);
   const [addStateId, setaddStateId] = useState(null);
@@ -211,7 +209,6 @@ export default function CheckerDetails(props) {
   };
 
   const handleDistrictChange = (value) => {
-    // console.log(value,"value");
     setFilterAllDealer1({
       ...filterAllDealer1,
       district: value.target.outerText,
@@ -274,9 +271,8 @@ export default function CheckerDetails(props) {
   };
 
   const getShowBranchesToAddInMainDealers = async (mainDealerID) => {
-    // console.log(mainDealerID,"mainDealerID");
     const { data } = await getAllBranchesToAddInMainDealer(mainDealerID);
-    // console.log(data?.data, "Dealer");
+
     if (data) {
       if (data) {
         if (data) {
@@ -289,7 +285,7 @@ export default function CheckerDetails(props) {
 
   const getShowBranchesInSubDealers = async (params) => {
     const { data } = await getAllBranchesInSubDealer(params);
-    // console.log(data.data?.data, "datainsub");
+
     if (data) {
       if (data) {
         let subBranchData = data?.data?.data;
@@ -300,7 +296,7 @@ export default function CheckerDetails(props) {
 
   const getShowBranchesInSubDealersToAdd = async (params) => {
     const { data } = await getAllBranchesInSubDealerToAdd(params);
-    // console.log(data.data, "datainsub1");
+
     if (data) {
       if (data) {
         let subBranchDataToAdd = data?.data?.data;
@@ -441,11 +437,10 @@ export default function CheckerDetails(props) {
                 variant="h6"
                 gutterBottom
                 component="div"
-                sx={{ fontWeight: "bold", m: 1,fontSize:30 }}
+                sx={{ fontWeight: "bold", m: 1, fontSize: 30 }}
                 align="left"
-                
               >
-                Dealers And SubDealers 
+                Dealers And SubDealers
               </Typography>
 
               <Grid sx={{ m: 1, ml: 180 }}></Grid>
@@ -486,7 +481,6 @@ export default function CheckerDetails(props) {
                 {allDealers &&
                   allDealers
                     ?.filter((value) => {
-                      // console.log(value,"value");
                       if (searchText === "") {
                         return value;
                       } else if (
@@ -494,7 +488,6 @@ export default function CheckerDetails(props) {
                           .toLowerCase()
                           .includes(searchText.toLowerCase())
                       ) {
-                        // console.log(searchText,"searchText");
                         return value;
                       }
                     })

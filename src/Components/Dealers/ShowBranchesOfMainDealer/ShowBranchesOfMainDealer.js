@@ -46,7 +46,7 @@ function ShowBranchesOfMainDealer(props) {
     setPage(newPage);
   };
 
-  // console.log(props, "props");
+  
 
   const handleChangeRowsPerPage = (event) => {
     setRowsPerPage(+event.target.value);
@@ -69,8 +69,7 @@ function ShowBranchesOfMainDealer(props) {
 
     // setRemoveRowData([...props.showBranch]);
   }, [props.showBranch]);
-  // console.log(props.showBranch, "props.showBranch"); 	
-  // console.log();
+ 
   const removeRowDataofBranchesFromTable = async (params, value) => {
     let payload = [value];
 
@@ -247,15 +246,15 @@ const ChildModal = (props) => {
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
   const [regionData, setRegionData] = useState([]);
-  // console.log("regionData", regionData);
+  
   const [selectedDistrict, setselectedDistrict] = useState([]);
-  // console.log(selectedDistrict, "selectedDistrict");
+
   const [areaData, setAreaData] = useState([]);
-  // console.log(areaData, "areaData");
+ 
   const [addMainBranches, setAddMainBranches] = useState([]);
-  //   console.log("removeRowData", props.showBranchToAdd);
+  
   const [selectedId, setselectedId] = useState([]);
-  // console.log(selectedId,"selectedId");
+  
   const [checked, setChecked] = useState(false);
   const [filterAddBranch, setFilterAddBranch] = useState([]);
   const [sendselectedBranches, setsendselectedBranches] = useState([]);
@@ -264,7 +263,7 @@ const ChildModal = (props) => {
     setPage(newPage);
   };
 
-  // console.log(props, "props");
+  
 
   const handleChangeRowsPerPage = (event) => {
     setRowsPerPage(+event.target.value);

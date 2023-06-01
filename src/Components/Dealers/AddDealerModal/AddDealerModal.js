@@ -38,7 +38,7 @@ export default function AddDealerModal(props) {
   const { addToast } = useToasts();
   const navigate = useNavigate();
   const [dealerState, setDealerState] = useState([]);
-  // console.log(dealerState,"dealerState");
+ 
   const [vehicleOEM, setVehicleOEM] = useState([]);
 
   let DealerSubDealer = ["MAIN ", "SUBDEALER"];
@@ -155,7 +155,7 @@ export default function AddDealerModal(props) {
     }
   };
   const handleStateChange = (name, e, value) => {
-    // console.log(value, "value");
+    
     setAddDealer(() => ({
       ...addDealer,
       [name]: value,
@@ -199,10 +199,10 @@ export default function AddDealerModal(props) {
       mainDealerActivationStatus: addDealer?.mainDealerActivationStatus,
     };
     const { data, errRes } = await addMainDealersDetails(payload);
-    // console.log(data?.data?.data, "dataaaaa");
+    
     if (data) {
       // if (data) {
-      // console.log(data.data, "dataaaaa");
+     
       setAddDealer({
         mainDealerName: "",
         mainDealerManufacturerName: "",
@@ -234,7 +234,7 @@ export default function AddDealerModal(props) {
       props.close();
     } else if (errRes) {
       addToast(errRes, { appearance: "error" });
-      // console.log(errRes?.data?.message, "errRes");
+      
     }
   };
 
@@ -289,7 +289,7 @@ export default function AddDealerModal(props) {
     }
   };
 
-  // console.log(addDealer, "te");
+  
 
   const updateChange = (event) => {
     setAddDealer({
@@ -320,9 +320,9 @@ export default function AddDealerModal(props) {
   };
 
   const handleActivationDateChange = (val) => {
-    console.log(val, "val1");
+  
     const date = moment(val).format("YYYY-MM-DD");
-    console.log(date, "val1");
+   
     setAddDealer({
       ...addDealer,
       mainDealerActivationData: date,
@@ -349,14 +349,14 @@ export default function AddDealerModal(props) {
     }));
   };
 
-  // console.log(vehicleOEM,"fghj");
+  
   useEffect(() => {
     getAllVehicleOemDetails();
   }, []);
 
   const getAllVehicleOemDetails = async () => {
     const { data } = await getVehicleOEM();
-    // console.log(data, "OEM");
+    
     if (data) {
       let OemData = [];
       data.data?.data?.map((val) => {
@@ -389,12 +389,12 @@ export default function AddDealerModal(props) {
 
   useEffect(() => {
     if (props.type === "edit") {
-      // console.log(props.EditDealerData,"props.EditDealerData");
+    
       getEditDetails(props.EditDealerData);
     }
   }, [props.EditDealerData]);
 
-  // console.log(addDealer, "addDealer");
+  
 
   let Submit = () => {
     ContactNumberValidation();

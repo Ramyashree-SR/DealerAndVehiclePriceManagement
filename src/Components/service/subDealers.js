@@ -4,8 +4,6 @@ const getAllSubDealersDetails = (params) => {
   return serviceUtil
     .get(`getsubdealers?mainDealerID=${params}`)
     .then((res) => {
-      // console.log(params,"getsubdealer");
-      // console.log(res,"response");
       const data = res;
       return { data };
     })
@@ -34,8 +32,6 @@ const editSubDealersDetails = (params, payload) => {
   return serviceUtil
     .put(`editsubdealer?subDealerID=${params}`, payload)
     .then((res) => {
-      // console.log(params,"bnm");
-      // console.log(res,"response");
       const data = res;
       return { data };
     })
@@ -45,17 +41,11 @@ const editSubDealersDetails = (params, payload) => {
     });
 };
 
-console.log("====================================");
-
-console.log("====================================");
-
 //Vehicle Variant Api
 const showVehicleVariantsInSubDealer = (params) => {
   return serviceUtil
     .get(`avaliablesubvariants?subDealerID=${params}`)
     .then((res) => {
-      // console.log(params, "params");
-      // console.log(res, "responseshowvarianta");
       const data = res;
       return { data };
     })
@@ -69,8 +59,6 @@ const showVehicleVariantsInSubDealerToAdd = (params) => {
   return serviceUtil
     .get(`subvariants?subDealerID=${params}`)
     .then((res) => {
-      // console.log(params, "params");
-      // console.log(res, "responseshowvarianta");
       const data = res;
       return { data };
     })
@@ -84,8 +72,6 @@ const addVehicleVariantsInSubDealer = (params, payload) => {
   return serviceUtil
     .post(`addsubvariant?subDealerID=${params}`, payload)
     .then((res) => {
-      // console.log(payload, "params");
-      // console.log(res, "responseshowvarianta");
       const data = res;
       return { data };
     })
@@ -95,18 +81,12 @@ const addVehicleVariantsInSubDealer = (params, payload) => {
     });
 };
 
-console.log("====================================");
-
-console.log("====================================");
-
 ///Branches Api
 
 const getAllBranchesInSubDealer = (params) => {
   return serviceUtil
     .get(`showavaliablesubbranches?subDealerID=${params}`)
     .then((res) => {
-      // console.log("params", params);
-      // console.log(res, "response");
       const data = res;
       return { data };
     })
@@ -120,8 +100,6 @@ const getAllBranchesInSubDealerToAdd = (params) => {
   return serviceUtil
     .getWithResp(`showsubbranches?subDealerID=${params}`)
     .then((res) => {
-      // console.log("params", params);
-      // console.log(res, "response");
       const data = res;
       return { data };
     })
@@ -135,8 +113,6 @@ const addBranchesInSubDealer = (params, payload) => {
   return serviceUtil
     .post(`addsubbranch?subDealerID=${params}`, payload)
     .then((res) => {
-      // console.log("params", params);
-      // console.log(res, "response");
       const data = res;
       return { data };
     })
@@ -150,8 +126,6 @@ const removeBranchesInSubDealer = (params, payload) => {
   return serviceUtil
     .deleteById(`removesubbranch?subDealerID=${params}`, payload)
     .then((res) => {
-      // console.log("params", params);
-      // console.log(res, "response");
       const data = res;
       return { data };
     })

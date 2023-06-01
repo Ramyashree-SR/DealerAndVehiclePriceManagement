@@ -65,7 +65,6 @@ export default function AddSubDealerModal(props) {
   };
   console.log(props.mainDealerData, "props.mainDealerData");
   const addAllSubDealersDetails = async (params) => {
-    // console.log(params, "dfgh");
     let payload = {
       mainDealerID: props.paramsId,
       subDealerName: addSubDealer?.subDealerName,
@@ -96,7 +95,7 @@ export default function AddSubDealerModal(props) {
       subDealerActivationStatus: addSubDealer?.subDealerActivationStatus,
     };
     const { data } = await addSubDealersDetails(params, payload);
-    // console.log(data, "addSubDealer");
+
     if (data) {
       if (data) {
         setAddSubDealer({
@@ -232,7 +231,6 @@ export default function AddSubDealerModal(props) {
       [name]: value,
     }));
   };
-  // console.log(props.paramsId, "paramsId");
 
   const AddEditSubmit = () => {
     ContactNumberValidation();

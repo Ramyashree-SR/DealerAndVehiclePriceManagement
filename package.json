@@ -36,7 +36,9 @@
     "web-vitals": "^2.1.4",
     "xlsx": "^0.18.5"
   },
-  "scripts": {
+  "scripts": { 
+    "predeploy": "npm run build",
+    "deploy": "npm run start",
     "start": "env-cmd -f .env.local react-scripts start",
     "build": "env-cmd -f .env.local react-scripts build",
     "test": "react-scripts test",

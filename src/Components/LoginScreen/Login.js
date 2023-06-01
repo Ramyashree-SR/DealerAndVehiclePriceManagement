@@ -62,7 +62,6 @@ function Login() {
   };
 
   let updateChange = (e) => {
-    // console.log(value);
     setLoginDetails({
       ...loginDetails,
       [e.target.name]: e.target.value,
@@ -133,16 +132,14 @@ function Login() {
           ml: 100,
           mt: 30,
           position: "fixed",
-          background:"#D0F0F5 "
-      
+          background: "#D0F0F5 ",
         }}
         //  variant="contained-success"
         elevation={12}
-        
       >
         <Grid sx={{ ml: 40, p: 3 }}>
           <img
-            src="./assets/cagllogo.png"
+            src="./assets/cagllogo1.png"
             alt="cagllogo"
             width="220px"
             height="120px"
@@ -154,7 +151,13 @@ function Login() {
         </Typography>
 
         <Grid
-          sx={{ alignItems: "center", justifyContent: "center", ml: 25, mt: 9,size:"lg" }}
+          sx={{
+            alignItems: "center",
+            justifyContent: "center",
+            ml: 25,
+            mt: 9,
+            size: "lg",
+          }}
         >
           <Typography sx={{ fontSize: 20, fontWeight: 800 }}>
             UserName
@@ -217,9 +220,19 @@ function Login() {
         </Grid>
 
         <Grid
-          sx={{ alignItems: "center", justifyContent: "center", ml: 45, mt: 10 }}
+          sx={{
+            alignItems: "center",
+            justifyContent: "center",
+            ml: 45,
+            mt: 10,
+          }}
         >
-          <Button variant="contained" onClick={() => Submit()} size="large" sx={{width:200,height:50,fontSize:20,background:"#297E09"}}>
+          <Button
+            variant="contained"
+            onClick={() => Submit()}
+            size="large"
+            sx={{ width: 200, height: 50, fontSize: 20, background: "#297E09" }}
+          >
             Login
           </Button>
         </Grid>

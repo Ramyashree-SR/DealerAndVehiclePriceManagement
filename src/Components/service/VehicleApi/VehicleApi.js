@@ -9,7 +9,6 @@ const getAllVehicleDetails = () => {
   return serviceUtil
     .get(`api/cag1/twowheelerlone/vehicaldata`)
     .then((res) => {
-      // console.log(res,"res");
       const data = res.data;
       return { data };
     })
@@ -23,7 +22,6 @@ const addAllNewVehicleDetails = (payload) => {
   return serviceUtil
     .post(`api/cag1/twowheelerlone/insertvehicle`, payload)
     .then((res) => {
-      // console.log(res,"res");
       const data = res.data;
       return { data };
     })
@@ -52,7 +50,6 @@ const getAllStateInVehicleDetails = () => {
   return serviceUtil
     .get(`api/cag1/twowheelerlone/vehicleallstate`)
     .then((res) => {
-      // console.log(res, "resState");
       const data = res.data;
       return { data };
     })
@@ -66,8 +63,6 @@ const getAllVehicleOEMDetails = (params) => {
   return serviceUtil
     .get(`api/cag1/twowheelerlone/vehiclealloem?state=${params}`)
     .then((res) => {
-      // console.log(state,"state");
-      // console.log(res, "resOem");
       const data = res.data;
       return { data };
     })
@@ -96,7 +91,6 @@ const getVehicleOEM = () => {
   return serviceUtil
     .get(`alloem`)
     .then((res) => {
-      // console.log(res, "response");
       const data = res;
       return { data };
     })
@@ -125,7 +119,7 @@ const postAllVariantImageOnSelect = (payload) => {
   return serviceUtil
     .post(`checker/uploadVariantimage`, payload)
     .then((res) => {
-      // console.log(res, "res");
+      
       const data = res.data;
       return { data };
     })
@@ -139,7 +133,6 @@ const getAllVariantImageView = (variantId) => {
   return serviceUtil
     .get(`checker/viewvariantimage?variantID=${variantId}`)
     .then((res) => {
-      // console.log(res, "res");
       const data = res.data;
       return { data };
     })

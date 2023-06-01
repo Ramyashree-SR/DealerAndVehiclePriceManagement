@@ -10,8 +10,6 @@ import DealerSubDealerTable from "./../Dealers/DealerSubDealerTable";
 import { Button, Grid, Typography } from "@mui/material";
 import VehicleDetails from "../Vehicles/VehicleDetails";
 
-// import { Button } from "react-bootstrap";
-
 const { Header, Content, Sider } = Layout;
 
 function Dashboard() {
@@ -39,11 +37,8 @@ function Dashboard() {
   };
 
   return (
-    <Layout >
-      <Header
-        className=""
-        style={{ height: "150px", background: "#ffffff"}}
-      >
+    <Layout>
+      <Header className="" style={{ height: "150px", background: "#ffffff" }}>
         <Grid sx={{ display: "flex", width: "100%" }}>
           <Grid sx={{ mr: 100, mt: 3 }}>
             <img
@@ -88,7 +83,7 @@ function Dashboard() {
           </Grid>
         </Grid>
       </Header>
-      <Layout >
+      <Layout>
         <Sider
           trigger={null}
           collapsible
@@ -100,9 +95,9 @@ function Dashboard() {
             background: "#ffffff ", //#D9EEED
             // height: "100%",
             // position:"fixed",
-            marginLeft:"20px",
-            marginTop:"20px",
-            marginBottom:"60px"
+            marginLeft: "20px",
+            marginTop: "20px",
+            marginBottom: "60px",
           }}
         >
           <div className="logo" />
@@ -141,8 +136,8 @@ function Dashboard() {
               margin: 0,
               height: "100%",
               // position:"relative",
-              marginLeft:"10px",
-              marginTop:"20px",
+              marginLeft: "10px",
+              marginTop: "20px",
               background: colorBgContainer,
             }}
           >

@@ -186,6 +186,7 @@ export default function VehicleDetails(props) {
 
   const getAllVehicleOemDetails = async (state) => {
     const { data } = await getAllVehicleOEMDetails(state);
+    console.log(data, "data");
     if (data) {
       let OemData = [];
       data?.data?.map((val) => {
@@ -463,7 +464,7 @@ export default function VehicleDetails(props) {
                 <StyledTableCell>Ex ShowRoom Price</StyledTableCell>
                 <StyledTableCell>On Road Price</StyledTableCell>
                 <StyledTableCell>Max Loan Amount</StyledTableCell>
-                <StyledTableCell>Updated User</StyledTableCell>
+                <StyledTableCell>Updated UserID</StyledTableCell>
                 <StyledTableCell>Updated Date</StyledTableCell>
                 <StyledTableCell align="center">Actions</StyledTableCell>
               </TableRow>
@@ -501,12 +502,8 @@ export default function VehicleDetails(props) {
                       <StyledTableCell>
                         {row.vehicleMaxLoanAmount}
                       </StyledTableCell>
-                      <StyledTableCell>
-                        {row.vehicleMaxLoanAmount}
-                      </StyledTableCell>
-                      <StyledTableCell>
-                        {row.vehicleMaxLoanAmount}
-                      </StyledTableCell>
+                      <StyledTableCell>{row.updaterUserID}</StyledTableCell>
+                      <StyledTableCell>{row.updatedDate}</StyledTableCell>
 
                       <StyledTableCell align="left">
                         <ColorIcon>

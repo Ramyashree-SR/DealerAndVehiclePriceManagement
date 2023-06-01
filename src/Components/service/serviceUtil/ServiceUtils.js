@@ -2,7 +2,7 @@ import { axiosInstance } from "../axiosconfig/axiosconfig";
 
 
 const get = (url) => {
-  // console.log("Entered"+url);
+
   return axiosInstance.get(url);
 };
 const getWithResp = (url, reqObj) => {
