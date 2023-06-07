@@ -4,7 +4,6 @@ import { Button, Modal } from "react-bootstrap";
 import { editSubDealersDetails } from "../../service/subDealers";
 
 export default function EditSubDealerModal(props) {
-  // const [isEditing, setisEditing] = useState(false)
   const [editingSubDealer, setEditingSubDealer] = useState({
     mainDealerID: "",
     subDealerName: "",
@@ -106,6 +105,7 @@ export default function EditSubDealerModal(props) {
         size="lg"
         aria-labelledby="contained-modal-title-vcenter"
         centered
+        className="mw-100"
       >
         <Modal.Header>
           <Modal.Title

@@ -94,9 +94,7 @@ function EditDealerModal(props) {
       setDealerState([]);
     }
   };
-  // useEffect(() => {
-  //   editDealerDetails();
-  // }, []);
+  
 
   const editDealerDetails = async (dealerID) => {
     let payload = {
@@ -201,11 +199,7 @@ function EditDealerModal(props) {
     });
   };
 
-  // useEffect(() => {
-  //   getStatusOfDealerByChecker(props.mainDealerID, approve);
-
-  // }, []);
-
+ 
   const getStatusOfDealerByChecker = async (dealerID) => {
     let payload = {
       dealerName: editingDealer?.dealerName,
@@ -276,6 +270,7 @@ function EditDealerModal(props) {
         size="lg"
         aria-labelledby="contained-modal-title-vcenter"
         centered
+        className="mw-100"
       >
         <Modal.Header>
           <Modal.Title
@@ -309,7 +304,7 @@ function EditDealerModal(props) {
               <Autocomplete
                 id="combo-box-demo"
                 options={dealerState}
-                sx={{ width: "225px", ml: 1, m: 1 }}
+                sx={{ width: 225, ml: 1, m: 1 }}
                 // size="small"
                 filterOptions={(x) => x}
                 // getOptionLabel={option=>option.val}

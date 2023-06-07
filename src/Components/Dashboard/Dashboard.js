@@ -4,11 +4,12 @@ import {
   UserOutlined,
 } from "@ant-design/icons";
 import { Layout, Menu, theme } from "antd";
-import React, { Children, useState } from "react";
+import React, { Children, useContext, useState } from "react";
 import { Link, Route, Routes, useNavigate } from "react-router-dom";
 import DealerSubDealerTable from "./../Dealers/DealerSubDealerTable";
-import { Button, Grid, Typography } from "@mui/material";
+import { Box, Button, Grid, Typography } from "@mui/material";
 import VehicleDetails from "../Vehicles/VehicleDetails";
+// import { GlobalContext } from "../Loader/GloabalProvider";
 
 const { Header, Content, Sider } = Layout;
 
@@ -37,76 +38,76 @@ function Dashboard() {
   };
 
   return (
+    // <Box sx={{position:"",width:"100%"}}>
     <Layout>
-      <Header className="" style={{ height: "150px", background: "#ffffff" }}>
-        <Grid sx={{ display: "flex", width: "100%" }}>
-          <Grid sx={{ mr: 100, mt: 3 }}>
+      <Header className="" style={{ height: "100px", background: "#ffffff" }}>
+        <Box
+          sx={{
+            display: "flex",
+            width: "100%",
+            justifyContent: "space-between",
+            alignItems: "center",
+          }}
+        >
+          <Box>
             <img
               src="./assets/cagllogo.png"
               alt="cagllogo"
-              width="220px"
+              width="130px"
               height="100%"
-              margin="20px"
+              marginTop="1px"
             />
-          </Grid>
+          </Box>
 
-          <Grid sx={{ alignItems: "center", justifyContent: "center" }}>
+          <Box>
             <Typography
               sx={{
-                fontSize: 30,
+                fontSize: 18,
                 fontWeight: 800,
-                // color: "#C83815",
                 textAlign: "center",
-                mt: 6,
                 fontFamily: "sans-serif",
               }}
             >
               Dealer And Vehicle Price Management
             </Typography>
-          </Grid>
+          </Box>
 
-          <Grid sx={{ ml: 70 }}>
+          <Box>
             <Button
               variant="contained"
-              size="large"
+              size="medium"
               onClick={navigateToLogin}
               sx={{
-                mt: 6,
                 background: "green",
-                fontSize: 25,
-                alignItems: "center",
-                justifyContent: "center",
+                fontSize: 15,
               }}
             >
               Logout
             </Button>
-          </Grid>
-        </Grid>
+          </Box>
+        </Box>
       </Header>
       <Layout>
         <Sider
           trigger={null}
           collapsible
           collapsed={collapsed}
-          // backgroundColor="#ffffff"
-          width="320px"
+          
+          width="115px"
           height="100%"
           style={{
             background: "#ffffff ", //#D9EEED
-            // height: "100%",
-            // position:"fixed",
-            marginLeft: "20px",
-            marginTop: "20px",
+            marginLeft: "12px",
+            marginTop: "10px",
             marginBottom: "60px",
           }}
         >
-          <div className="logo" />
           {/* <Link to={"./dealers"}> */}
           <Button
             id="Dealer"
             className="bg-success"
             onClick={navigateToDealersTable}
-            sx={{ margin: 2, color: "white", mt: 20, fontSize: 20 }}
+            sx={{ margin: 1, color: "white", mt: 5, fontSize: 10, width: 100 }}
           >
             Dealer SubDealer Details
           </Button>
@@ -117,26 +118,27 @@ function Dashboard() {
             id="Dealer"
             className="bg-success"
             onClick={navigateToVehicleTable}
-            sx={{ margin: 2, color: "white", fontSize: 20 }}
+            sx={{ margin: 1, color: "white", mt: 2, fontSize: 10, width: 100 }}
           >
             Vehicle Price Management
           </Button>
           {/* </Link> */}
         </Sider>
+
         {/* <BreadCrumb/> */}
         <Layout
           style={{
-            padding: "0 24px 24px",
+            padding: "0 12px 12px",
           }}
         >
           <Content
             style={{
               mt: 10,
-              padding: 24,
+              // padding: 24,
               margin: 0,
-              height: "100%",
+              // height: "100%",
               // position:"relative",
-              marginLeft: "10px",
+              // marginLeft: "10px",
               marginTop: "20px",
               background: colorBgContainer,
             }}
@@ -147,6 +149,7 @@ function Dashboard() {
         </Layout>
       </Layout>
     </Layout>
+    // </Box>
   );
 }
 

@@ -35,7 +35,6 @@ const editMainDealersDetails = (mainDealerID, payload) => {
     })
     .catch((err) => {
       const errRes = err && err.response && err.response.data;
-      console.log(errRes, "errRes");
       return { errRes };
     });
 };
@@ -61,7 +60,6 @@ const getVehicleOEM = () => {
   return serviceUtil
     .get(`alloem`)
     .then((res) => {
-      console.log(res, "response");
       const data = res;
       return { data };
     })
@@ -112,7 +110,6 @@ const addAllVehicleVariantsInMainDealer = (params, payload) => {
 };
 
 const removeAllVehicleVariantsInMainDealer = (params, payload) => {
-  console.log("payload", payload);
   return serviceUtil
     .deleteById(`removemainvariant?mainDealerID=${params}`, payload)
     .then((res) => {
@@ -156,7 +153,6 @@ const addAllBranchesInMainDealer = (params, payload) => {
   return serviceUtil
     .post(`addmainbranch?mainDealerID=${params}`, payload)
     .then((res) => {
-      console.log(res, "response");
       const data = res;
       return { data };
     })

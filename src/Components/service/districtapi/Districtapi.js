@@ -4,7 +4,6 @@ const getAllDistrictDetails = (state) => {
   return serviceUtil
     .get(`districtdropdown?state=${state}`)
     .then((res) => {
-      console.log(res, "districtres");
       const data = res;
       return { data };
     })
@@ -57,7 +56,6 @@ const getAreaDetailsByStateandRegionInSubDealers = (state, payload) => {
   return serviceUtil
     .post(`areadropdown?state=${state}`, payload)
     .then((res) => {
-      console.log(res, "areares");
       const data = res;
       return { data };
     })

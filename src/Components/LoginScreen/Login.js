@@ -1,6 +1,6 @@
 // import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import {
   Box,
   Button,
@@ -17,13 +17,17 @@ import Cookies from "universal-cookie";
 import { Gradient, Visibility, VisibilityOff } from "@mui/icons-material";
 import { type } from "@testing-library/user-event/dist/type";
 import { useNavigate } from "react-router-dom";
+import { GlobalContext } from "../Loader/GloabalProvider";
+import { useToasts } from "react-toast-notifications";
 
 function Login() {
+  const { addToast } = useToasts();
   const [showPassword, setShowPassword] = useState(true);
   const [loginDetails, setLoginDetails] = useState({
     userName: "",
     password: "",
   });
+  const { setDashboard } = useContext(GlobalContext);
 
   const navigate = useNavigate();
   const [userNameErr, setUserNameErr] = useState("");
@@ -73,7 +77,7 @@ function Login() {
       userName: loginDetails.userName,
       userPassword: loginDetails.password,
     };
-    const { data } = await getLoginDetails(payload);
+    const { data, errRes } = await getLoginDetails(payload);
     // console.log(data,"data");
     if (data) {
       if (data) {
@@ -85,81 +89,76 @@ function Login() {
             navigate("/checkerdashboard");
           }
         });
-        // const roles = JSON.stringify(data.userrole || []);
-        // // console.log(roles,"roles");
-        // cookies.set("userName", data?.userName);
-        // // console.log(data?.userName,"data?.userName");
-        // cookies.set("userrole", data?.roles);
-        // cookies.set("token", JSON.stringify(data?.token));
-        // cookies.set("refreshtoken", data.data?.refreshToken);
-        // localStorage.setItem("role", roles);
-        // if (data?.roles?.length > 0) {
-        //   let dataArr= [];
-        //   data?.roles?.map((item,idx) => {
-        //     console.log("role",idx);
-        //     if (dataArr === "") {
-        //      dataArr=item
-        //      } else if (dataArr[0] === "ROLE_MAKER") {
-        //       navigate("/dashboard");
-        //     } else if (dataArr[1] === "ROLE_CM") {
-        //       navigate("/checker");
-        //       return false;
-        //     }
-        //   });
       }
+      // sessionStorage.setItem("jwtData", JSON.stringify(data));
+      // sessionStorage.setItem("userName", loginDetails?.userName);
+      // sessionStorage.setItem("token", JSON.stringify(data?.token));
+      // if (data?.userrole.includes("ROLE_MAKER")) {
+      //   navigate("/dashboard");
+      // } else if (data?.userrole.includes("ROLE_CHECKER")) {
+      //   navigate("/checkerdashboard");
+      // } else {
+      //   navigate("/dashboard");
+      // }
+
+      // window.location.reload();
+      addToast(data.message, { appearance: "success" });
+    } else if (errRes) {
+      addToast(errRes, { appearance: "error" });
     }
   };
 
   const Submit = () => {
-    // userNameValidation();
-    // passwordValidation();
-    // if (userNameValidation() && passwordValidation()) {
-    //   setLoginDetails({
-    //     userName: "",
-    //     password: "",
-    //   });
-    // }
+    userNameValidation();
+    passwordValidation();
+    if (userNameValidation() && passwordValidation()) {
+      setLoginDetails({
+        userName: "",
+        password: "",
+      });
+    }
     loginDetailsOfMakerChecker();
-    // navigate("/dashboard");
+    setDashboard();
   };
 
   return (
-    <>
+    <Box
+      className="d-flex align-items-center justify-content-center "
+      sx={{ height: "100vh" }}
+    >
       <Paper
         sx={{
-          width: 900,
-          height: 700,
-          ml: 100,
-          mt: 30,
-          position: "fixed",
+          width: 500,
+          height: 400,
           background: "#D0F0F5 ",
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          justifyContent: "space-around",
         }}
-        //  variant="contained-success"
         elevation={12}
       >
-        <Grid sx={{ ml: 40, p: 3 }}>
+        <Box>
           <img
             src="./assets/cagllogo1.png"
             alt="cagllogo"
-            width="220px"
-            height="120px"
-            margin="50px"
+            width="150px"
+            height="80px"
           />
-        </Grid>
-        <Typography sx={{ fontSize: 30, fontWeight: 800, textAlign: "center" }}>
+        </Box>
+        <Typography sx={{ fontSize: 20, fontWeight: 700, textAlign: "center" }}>
           LOGIN
         </Typography>
 
-        <Grid
+        <Box
           sx={{
-            alignItems: "center",
+            width: "60%",
+            display: "flex",
             justifyContent: "center",
-            ml: 25,
-            mt: 9,
-            size: "lg",
+            flexDirection: "column",
           }}
         >
-          <Typography sx={{ fontSize: 20, fontWeight: 800 }}>
+          <Typography sx={{ fontSize: 15, fontWeight: 600 }}>
             UserName
           </Typography>
           <TextField
@@ -169,75 +168,75 @@ function Login() {
             onChange={(e) => {
               updateChange(e);
             }}
-            sx={{ width: 500 }}
-            height="100px"
-            size="large"
+            size="small"
           />
-        </Grid>
+        </Box>
 
-        <Grid
+        <Box
           sx={{
-            alignItems: "center",
+            width: "60%",
+            display: "flex",
             justifyContent: "center",
-            ml: 25,
-            mt: 5,
-            position: "relative",
+            flexDirection: "column",
           }}
         >
-          <Typography sx={{ fontSize: 20, fontWeight: 800 }}>
+          <Typography sx={{ fontSize: 15, fontWeight: 600 }}>
             Password
           </Typography>
-          <Grid sx={{ position: "relative" }}>
-            <TextField
-              type={showPassword ? "text" : "password"}
-              placeholder="Enter Password"
-              name="password"
-              value={loginDetails.password}
-              onChange={(e) => updateChange(e)}
-              sx={{ width: 500 }}
-            />
+          <TextField
+            type={showPassword ? "text" : "password"}
+            placeholder="Enter Password"
+            name="password"
+            value={loginDetails.password}
+            onChange={(e) => updateChange(e)}
+            size="small"
+            InputProps={{
+              endAdornment: (
+                <IconButton onClick={() => setShowPassword(!showPassword)}>
+                  {showPassword ? (
+                    <Visibility
+                      sx={{
+                        fill: "#A6A6A6",
+                      }}
+                    />
+                  ) : (
+                    <VisibilityOff
+                      sx={{
+                        fill: "#A6A6A6",
+                      }}
+                    />
+                  )}
+                </IconButton>
+              ),
+            }}
+          />
+        </Box>
 
-            <IconButton
-              aria-label="toggle password visibility"
-              onClick={() => setShowPassword(!showPassword)}
-              sx={{ position: "absolute", top: 10, left: 430 }}
-            >
-              {showPassword ? (
-                <Visibility
-                  sx={{
-                    fill: "#A6A6A6",
-                  }}
-                />
-              ) : (
-                <VisibilityOff
-                  sx={{
-                    fill: "#A6A6A6",
-                  }}
-                />
-              )}
-            </IconButton>
-          </Grid>
-        </Grid>
-
-        <Grid
+        <Box
           sx={{
+            width: "100%",
+            display: "flex",
             alignItems: "center",
             justifyContent: "center",
-            ml: 45,
-            mt: 10,
           }}
         >
+          {/* {dashboard ? ( */}
           <Button
             variant="contained"
             onClick={() => Submit()}
-            size="large"
-            sx={{ width: 200, height: 50, fontSize: 20, background: "#297E09" }}
+            sx={{
+              fontSize: 12,
+              background: "#297E09",
+              paddingX: "15px",
+              paddingY: "10px",
+            }}
           >
             Login
           </Button>
-        </Grid>
+          {/* ) : null} */}
+        </Box>
       </Paper>
-    </>
+    </Box>
   );
 }
 

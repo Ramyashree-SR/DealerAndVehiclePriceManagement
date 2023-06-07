@@ -32,13 +32,12 @@ import { DemoContainer } from "@mui/x-date-pickers/internals/demo";
 import moment from "moment/moment";
 import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
 import { useToasts } from "react-toast-notifications";
-// import { ToastProvider, useToasts } from "react-toast-notifications";
 
 export default function AddDealerModal(props) {
   const { addToast } = useToasts();
   const navigate = useNavigate();
   const [dealerState, setDealerState] = useState([]);
- 
+
   const [vehicleOEM, setVehicleOEM] = useState([]);
 
   let DealerSubDealer = ["MAIN ", "SUBDEALER"];
@@ -155,7 +154,6 @@ export default function AddDealerModal(props) {
     }
   };
   const handleStateChange = (name, e, value) => {
-    
     setAddDealer(() => ({
       ...addDealer,
       [name]: value,
@@ -199,10 +197,7 @@ export default function AddDealerModal(props) {
       mainDealerActivationStatus: addDealer?.mainDealerActivationStatus,
     };
     const { data, errRes } = await addMainDealersDetails(payload);
-    
     if (data) {
-      // if (data) {
-     
       setAddDealer({
         mainDealerName: "",
         mainDealerManufacturerName: "",
@@ -234,7 +229,6 @@ export default function AddDealerModal(props) {
       props.close();
     } else if (errRes) {
       addToast(errRes, { appearance: "error" });
-      
     }
   };
 
@@ -289,53 +283,22 @@ export default function AddDealerModal(props) {
     }
   };
 
-  
-
   const updateChange = (event) => {
     setAddDealer({
       ...addDealer,
       [event.target.name]: event.target.value,
     });
-    // if (props.type === "add") {
-    //   if (addDealer?.mainDealerPanNumber.includes(event.target.value.trim())) {
-    //     setPanNoError("*PAN No Already Exist");
-    //   } else {
-    //     setPanNoError("");
-    //   }
-
-    //   if (addDealer?.mainDealerGstNumber.includes(event.target.value.trim())) {
-    //     setgstNumberError("*Gst No Already Exist");
-    //   } else {
-    //     setgstNumberError("");
-    //   }
-
-    //   if (
-    //     addDealer?.mainDealerBankAccNumber.includes(event.target.value.trim())
-    //   ) {
-    //     setaccountNoError("*Account No Already Exist");
-    //   } else {
-    //     setaccountNoError("");
-    //   }
-    // }
   };
 
   const handleActivationDateChange = (val) => {
-  
     const date = moment(val).format("YYYY-MM-DD");
-   
+
     setAddDealer({
       ...addDealer,
       mainDealerActivationData: date,
     });
   };
 
-  // const handleExpiryDateChange = (val) => {
-  //   const date = moment(val).format("YYYY-MM-DD");
-  //   setAddDealer({
-  //     ...addDealer,
-  //     mainDealerExpireData: date,
-  //   });
-  // };
   const handleActivationChange = (name, event, value) => {
     setAddDealer(() => ({
       ...addDealer,
@@ -349,14 +312,13 @@ export default function AddDealerModal(props) {
     }));
   };
 
-  
   useEffect(() => {
     getAllVehicleOemDetails();
   }, []);
 
   const getAllVehicleOemDetails = async () => {
     const { data } = await getVehicleOEM();
-    
+
     if (data) {
       let OemData = [];
       data.data?.data?.map((val) => {
@@ -389,12 +351,9 @@ export default function AddDealerModal(props) {
 
   useEffect(() => {
     if (props.type === "edit") {
-    
       getEditDetails(props.EditDealerData);
     }
   }, [props.EditDealerData]);
-
-  
 
   let Submit = () => {
     ContactNumberValidation();
@@ -421,6 +380,7 @@ export default function AddDealerModal(props) {
         size="lg"
         aria-labelledby="contained-modal-title-vcenter"
         centered
+        className="mw-100"
       >
         <Modal.Header>
           <Modal.Title id="contained-modal-title-vcenter">
@@ -620,6 +580,7 @@ export default function AddDealerModal(props) {
                 value={addDealer?.mainDealerBankBranchName}
                 onChange={(e) => updateChange(e)}
               />
+
               <Grid>
                 <TextField
                   id="outlined-basic"
@@ -655,37 +616,39 @@ export default function AddDealerModal(props) {
               </Grid>
             </Grid>
 
-            <TextField
-              id="outlined-basic"
-              label="Account Holder Name"
-              variant="outlined"
-              // size="small"
-              sx={{ m: 1 }}
-              name="mainDealerAccountHolderName"
-              value={addDealer?.mainDealerAccountHolderName}
-              onChange={(e) => updateChange(e)}
-            />
-            <TextField
-              id="outlined-basic"
-              label="Address"
-              variant="outlined"
-              // size="small"
-              sx={{ m: 1 }}
-              name="addressDetails"
-              value={addDealer?.addressDetails}
-              onChange={(e) => updateChange(e)}
-            />
-            <TextField
-              id="outlined-basic"
-              label="City"
-              variant="outlined"
-              // size="small"
-              sx={{ m: 1 }}
-              name="city"
-              value={addDealer?.city}
-              onChange={(e) => updateChange(e)}
-            />
+            <Grid sx={{ display: "flex" }}>
+              <TextField
+                id="outlined-basic"
+                label="Account Holder Name"
+                variant="outlined"
+                // size="small"
+                sx={{ m: 1 }}
+                name="mainDealerAccountHolderName"
+                value={addDealer?.mainDealerAccountHolderName}
+                onChange={(e) => updateChange(e)}
+              />
 
+              <TextField
+                id="outlined-basic"
+                label="Address"
+                variant="outlined"
+                // size="small"
+                sx={{ m: 1 }}
+                name="addressDetails"
+                value={addDealer?.addressDetails}
+                onChange={(e) => updateChange(e)}
+              />
+              <TextField
+                id="outlined-basic"
+                label="City"
+                variant="outlined"
+                // size="small"
+                sx={{ m: 1 }}
+                name="city"
+                value={addDealer?.city}
+                onChange={(e) => updateChange(e)}
+              />
+            </Grid>
             <Grid sx={{ display: "flex" }}>
               <TextField
                 id="outlined-basic"
@@ -752,7 +715,7 @@ export default function AddDealerModal(props) {
               <Autocomplete
                 id="combo-box-demo"
                 options={pennyCheckStatus}
-                sx={{ width: 225, ml: 1, m: 1 }}
+                sx={{ width: 225 }}
                 // size="small"
                 // getOptionLabel={(option) => option.oemName}
                 renderInput={(params) => (
@@ -770,7 +733,7 @@ export default function AddDealerModal(props) {
                 label="Dealer EmailID"
                 variant="outlined"
                 // size="small"
-                sx={{ m: 1 }}
+                sx={{ ml: 2 }}
                 name="mainDealerMailID"
                 value={addDealer?.mainDealerMailID}
                 onChange={(e) => updateChange(e)}

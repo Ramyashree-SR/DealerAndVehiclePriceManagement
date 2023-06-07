@@ -4,12 +4,11 @@ const getLoginDetails = (payload) => {
   return serviceUtil
     .post(`login`, payload)
     .then((res) => {
-      console.log(res, "res");
       const data = res.data;
       return { data };
     })
     .catch((err) => {
-      const errRes = err;
+      const errRes = err && err.response && err.response.data;
       return { errRes };
     });
 };

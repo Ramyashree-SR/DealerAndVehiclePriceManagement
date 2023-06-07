@@ -95,8 +95,7 @@ export default function AddSubDealerModal(props) {
       subDealerActivationStatus: addSubDealer?.subDealerActivationStatus,
     };
     const { data } = await addSubDealersDetails(params, payload);
-
-    if (data) {
+     if (data) {
       if (data) {
         setAddSubDealer({
           mainDealerID: "",
@@ -129,7 +128,6 @@ export default function AddSubDealerModal(props) {
   };
 
   const editAllSubDealersDetails = async (subDealerID) => {
-    // console.log(subDealerID, "dfgh");
     let payload = {
       mainDealerID: props.paramsId,
       subDealerName: addSubDealer?.subDealerName,
@@ -247,6 +245,7 @@ export default function AddSubDealerModal(props) {
         size="lg"
         aria-labelledby="contained-modal-title-vcenter"
         centered
+        className="mw-100"
       >
         <Modal.Header>
           <Modal.Title id="contained-modal-title-vcenter">

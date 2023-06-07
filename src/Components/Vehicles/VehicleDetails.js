@@ -45,14 +45,17 @@ import VariantImageModal from "./VariantImage/VariantImageModal";
 // import VariantImage from "./VariantImage/VariantImages";
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
+  [`&.${tableCellClasses.root}`]: {
+    padding: "2px",
+  },
   [`&.${tableCellClasses.head}`]: {
     backgroundColor: theme.palette.info.dark,
     color: theme.palette.common.white,
-    fontSize: 20,
+    fontSize: 12,
     fontWeight: "bold",
   },
   [`&.${tableCellClasses.body}`]: {
-    fontSize: 17,
+    fontSize: 12,
     fontWeight: 800,
   },
 }));
@@ -186,7 +189,7 @@ export default function VehicleDetails(props) {
 
   const getAllVehicleOemDetails = async (state) => {
     const { data } = await getAllVehicleOEMDetails(state);
-    console.log(data, "data");
+    // console.log(data, "data");
     if (data) {
       let OemData = [];
       data?.data?.map((val) => {
@@ -308,114 +311,154 @@ export default function VehicleDetails(props) {
   };
 
   return (
-    <Paper sx={{ width: "100%", overflow: "hidden", mt: 2 }} xs={12} md={12}>
+    <Box sx={{ width: "100%", overflow: "hidden", mt: 2 }} xs={12} md={12}>
       <Grid container xs={12} md={12}>
-        <Typography
-          sx={{
-            fontSize: 35,
-            fontWeight: "bold",
-            fontFamily: "sans-serif",
-            textAlign: "center",
-            color: "#091CA4",
-          }}
-        >
-          Vehicle Models And Price Details
-        </Typography>
+        <Grid item xs={12} md={12}>
+          <Typography
+            sx={{
+              fontSize: 20,
+              fontWeight: "bold",
+              fontFamily: "sans-serif",
+              textAlign: "center",
+              color: "#091CA4",
+            }}
+          >
+            Vehicle Models And Price Details
+          </Typography>
+        </Grid>
 
         <Grid
           item
           sx={{
+            ml: 4,
             display: "flex",
             flexDirection: "row",
             alignItems: "center",
-            justifyContent: "center",
-            mt: 4,
-            ml: 1,
+            justifyContent: "space-between",
+            // mt: 4,
+            // ml: 1,
           }}
           xs={12}
           md={12}
         >
           <Typography
             sx={{
-              ml: 1,
-              fontSize: 13,
-              alignItems: "center",
-              justifyContent: "center",
+              flexBasis: "5%",
+              fontSize: 5,
             }}
           >
             <TuneIcon />
             <br /> Filter By
           </Typography>
 
-          <Autocomplete
-            // ref={ref0}
-            id="combo-box-demo"
-            options={State}
-            sx={{ m: 1, width: 450, ml: 1 }}
-            size="large"
-            // filterOptions={(x) => x}
-            // getOptionLabel={(option) => option.label}
-            renderInput={(params) => (
-              <TextField {...params} label="Select State" />
-            )}
-            value={filterAllVehicles?.State}
-            onChange={(e) => handleStateChange(e)}
-            inputValue={filterAllVehicles?.State}
-          />
-
-          <Autocomplete
-            // ref={ref0}
-            id="combo-box-demo"
-            options={VehicleOEM}
-            sx={{ m: 1, width: 450, ml: 1 }}
-            size="large"
-            renderInput={(params) => (
-              <TextField {...params} label="Select Vehicle OEM" />
-            )}
-            value={filterAllVehicles1?.VehicleOEM ?? ""}
-            onChange={(e) => handleVehicleOEMChange(e)}
-            disabled={disableOemOption}
-          />
-
-          <Autocomplete
-            disablePortal
-            id="combo-box-demo"
-            options={VehicleModel}
-            sx={{ m: 1, width: 550, ml: 1 }}
-            size="large"
-            renderInput={(params) => (
-              <TextField {...params} label="Select Vehicle Model" />
-            )}
-            name="Model"
-            value={filterAllVehicles2?.VehicleModel ?? ""}
-            inputValue={filterAllVehicles2?.VehicleModel ?? ""}
-            onChange={(e) => handleVehicleModelChange(e)}
-            disabled={disableModelOptions}
-          />
-
-          <TextField
-            id="outlined-size-small"
-            placeholder="Search"
-            InputProps={{
-              "aria-label": "Without label",
-              startAdornment: (
-                <InputAdornment position="start">
-                  <SearchIcon />
-                </InputAdornment>
-              ),
+          <Box
+            sx={{
+              flexBasis: "15%",
             }}
-            size="large"
-            sx={{ width: 900, m: 1, ml: 1 }}
-            value={searchText}
-            onChange={(e) => {
-              setsearchText(e.target.value);
-            }}
-          />
+          >
+            <Autocomplete
+              // ref={ref0}
+              id="combo-box-demo"
+              options={State}
+              size="small"
+              // filterOptions={(x) => x}
+              // getOptionLabel={(option) => option.label}
+              renderInput={(params) => (
+                <TextField {...params} label="Select State" />
+              )}
+              value={filterAllVehicles?.State}
+              onChange={(e) => handleStateChange(e)}
+              inputValue={filterAllVehicles?.State}
+            />
+          </Box>
 
-          <Grid sx={{ ml: 90 }}>
+          <Box
+            sx={{
+              flexBasis: "15%",
+            }}
+          >
+            <Autocomplete
+              // ref={ref0}
+              id="combo-box-demo"
+              options={VehicleOEM}
+              // sx={{ m: 1, width: 450, ml: 1 }}
+              size="small"
+              renderInput={(params) => (
+                <TextField {...params} label="Select Vehicle OEM" />
+              )}
+              value={filterAllVehicles1?.VehicleOEM ?? ""}
+              onChange={(e) => handleVehicleOEMChange(e)}
+              disabled={disableOemOption}
+            />
+          </Box>
+
+          <Box
+            sx={{
+              flexBasis: "15%",
+            }}
+          >
+            <Autocomplete
+              disablePortal
+              id="combo-box-demo"
+              options={VehicleModel}
+              // sx={{ m: 1, width: 550, ml: 1 }}
+              size="small"
+              renderInput={(params) => (
+                <TextField {...params} label="Select Vehicle Model" />
+              )}
+              name="Model"
+              value={filterAllVehicles2?.VehicleModel ?? ""}
+              inputValue={filterAllVehicles2?.VehicleModel ?? ""}
+              onChange={(e) => handleVehicleModelChange(e)}
+              disabled={disableModelOptions}
+            />
+          </Box>
+
+          <Box
+            sx={{
+              flexBasis: "40%",
+            }}
+          >
+            <TextField
+              id="outlined-size-small"
+              placeholder="Search"
+              InputProps={{
+                "aria-label": "Without label",
+                startAdornment: (
+                  <InputAdornment position="start">
+                    <SearchIcon />
+                  </InputAdornment>
+                ),
+              }}
+              size="small"
+              value={searchText}
+              onChange={(e) => {
+                setsearchText(e.target.value);
+              }}
+            />
+          </Box>
+        </Grid>
+
+        <Box
+          sx={{
+            margin: "10px 30px 0px 45px",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "space-between",
+            width: "100%",
+          }}
+        >
+          <Box
+            sx={{
+              ml: 140,
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "space-between",
+            }}
+          >
             <ColorButton
               variant="contained"
-              size="large"
+              size="small"
               sx={{ m: 2, background: "#2F41C6" }}
               onClick={() => {
                 setopenVariantImageModal(true);
@@ -432,26 +475,25 @@ export default function VehicleDetails(props) {
               close={() => setopenVariantImageModal(false)}
               allVariants={allVariants}
             />
-          </Grid>
+          </Box>
 
-          <Grid sx={{ mr: 3 }}>
+          <Box sx={{ mr: 3 }}>
             <ColorButton
               variant="contained"
               size="large"
-              sx={{ m: 2, background: "green", fontSize: 18 }}
+              sx={{ ml: 2, background: "green", fontSize: 10 }}
               onClick={() => setOpenAddVehicleModal(true)}
             >
               <AddIcon /> Add and Update Vehicle/Price
             </ColorButton>
-          </Grid>
+          </Box>
           <AddVehiclesModal
             show={openAddVehicleModal}
             close={() => setOpenAddVehicleModal(false)}
             getAllVehicleDetails={getAllVehicleDetails}
           />
-        </Grid>
-      </Grid>
-      <Grid>
+        </Box>
+
         <TableContainer component={Paper}>
           <Table sx={{ minWidth: 600 }} aria-label="customized table">
             <TableHead>
@@ -517,8 +559,9 @@ export default function VehicleDetails(props) {
                           >
                             <ModeEditIcon
                               onClick={() => handleEditVehicleTable(row)}
+                              fontSize="small"
                             />
-                            <Typography sx={{ fontWeight: "bold" }}>
+                            <Typography sx={{ fontWeight: "bold" ,fontSize:"small"}}>
                               EDIT
                             </Typography>
                             <EditVehiclesModal
@@ -537,17 +580,19 @@ export default function VehicleDetails(props) {
             </TableBody>
           </Table>
         </TableContainer>
-        <TablePagination
-          rowsPerPageOptions={[10, 25, 100]}
-          component="div"
-          count={allVehicleDetails.length}
-          rowsPerPage={rowsPerPage}
-          page={page}
-          onPageChange={handleChangePage}
-          onRowsPerPageChange={handleChangeRowsPerPage}
-          sx={{ alignItems: "center", justifyContent: "center" }}
-        />
+        <Grid item xs={12} md={12}>
+          <TablePagination
+            rowsPerPageOptions={[10, 25, 100]}
+            component="div"
+            count={allVehicleDetails.length}
+            rowsPerPage={rowsPerPage}
+            page={page}
+            onPageChange={handleChangePage}
+            onRowsPerPageChange={handleChangeRowsPerPage}
+            sx={{ alignItems: "center", justifyContent: "center" }}
+          />
+        </Grid>
       </Grid>
-    </Paper>
+    </Box>
   );
 }

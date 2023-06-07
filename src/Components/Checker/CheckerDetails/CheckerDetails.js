@@ -56,26 +56,20 @@ import EditSubDealerModal from "../../Dealers/SubDealerEditModal/EditSubDealerMo
 import ShowBranchesForSubDealers from "../../Dealers/ShowBranchesForSubDealers/ShowBranchesForSubDealers";
 import EditDealerModal from "../../Dealers/EditDealerModal/EditDealerModal";
 
-const CustomWidthTooltip = styled(({ className, ...props }) => (
-  <Tooltip {...props} classes={{ popper: className }} />
-))({
-  [`& .${tooltipClasses.tooltip}`]: {
-    maxWidth: 700,
-    backgroundColor: "gray",
-  },
-});
-
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
+  [`&.${tableCellClasses.root}`]: {
+    padding: "6px",
+  },
   [`&.${tableCellClasses.head}`]: {
     backgroundColor: theme.palette.warning.dark,
     color: theme.palette.common.white,
-    fontSize: 20,
+    fontSize: 10,
     // borderRight:2,
     // borderWidth:1
   },
   [`&.${tableCellClasses.body}`]: {
-    fontSize: 17,
-    fontWeight: 850,
+    fontSize: 10,
+    fontWeight: 800,
     backgroundColor: "#EEF5C7",
     // borderRight:2,
     // borderWidth:1
@@ -83,12 +77,16 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
 }));
 
 const StyledSubTableCell = styled(TableCell)(({ theme }) => ({
+  [`&.${tableCellClasses.root}`]: {
+    padding: "6px",
+  },
   [`&.${tableCellClasses.head}`]: {
     backgroundColor: theme.palette.warning.dark,
     color: theme.palette.common.white,
+    fontSize: 10,
   },
   [`&.${tableCellClasses.body}`]: {
-    fontSize: 16,
+    fontSize: 10,
     fontWeight: 800,
     backgroundColor: " ",
     fontFamily: "sans-serif",
@@ -114,6 +112,7 @@ const StyledSubTableRow = styled(TableRow)(({ theme }) => ({
     border: 0,
   },
 }));
+
 const ColorButton = styled(Button)(({ theme }) => ({
   color: theme.palette.getContrastText(green[500]),
   backgroundColor: deepOrange[500],
@@ -305,690 +304,535 @@ export default function CheckerDetails(props) {
     }
   };
 
-  //   const downloadXLSFile = async () => {
-  //     await axios
-  //       .get("http://localhost:9666/downloadexcel", {
-  //         method: "GET",
-  //         responseType: "blob", // important
-  //       })import { type } from '@testing-library/user-event/dist/type';
-
-  //       .then((response) => {
-  //         const url = window.URL.createObjectURL(new Blob([response.data]));
-  //         const link = document.createElement("a");
-  //         link.href = url;
-  //         link.setAttribute("download", `${Date.now()}.xlsx`);
-  //         document.body.appendChild(link);
-  //         link.click();
-  //       });
-  //   };
-
   return (
     <Box
       sx={{
         alignSelf: "center",
         justifyContent: "center",
-        width: "100%",
-        height: "100%",
         backgroundColor: "light.dark",
       }}
     >
       <Grid container spacing={2} sx={{ mt: 2 }}>
-        {/* <Grid item xs={12} md={12}>
+        <Grid item xs={12} md={12}>
           <Typography
             sx={{
               fontFamily: "sans-serif",
-              fontSize: 34,
+              fontSize: 20,
               fontWeight: "bold",
               textAlign: "center",
-              color:"#202DAF "
+              color: "#202DAF ",
             }}
           >
             Dealer and SubDealer Details
           </Typography>
-        </Grid> */}
+        </Grid>
 
-        {/* <Grid
-          item
-          sx={{ ml: 4, display: "flex", flexDirection: "row" }}
-          xs={12}
-          md={12}
-        >
-          <Typography
-            sx={{
-              ml: 1,
-              fontSize: 13,
-              alignItems: "center",
-              justifyContent: "center",
-            }}
-          >
-            <TuneIcon />
-            <br /> Filter By
-          </Typography>
-
-          <Autocomplete
-            ref={ref0}
-            id="combo-box-demo"
-            options={vehicleOEM}
-            sx={{ m: 1, width: 200, ml: 1 }}
-            size="small"
-            renderInput={(params) => (
-              <TextField {...params} label="Select Vehicle OEM" />
-            )}
-            value={filterAllDealers?.vehicleOEM}
-            onChange={(e) => handleVehicleOEMChange(e)}
-          />
-
-          <Autocomplete
-            ref={ref0}
-            id="combo-box-demo"
-            options={state}
-            sx={{ m: 1, width: 200, ml: 1 }}
-            size="small"
-            renderInput={(params) => (
-              <TextField {...params} label="Select State" />
-            )}
-            name="state"
-            onChange={(e) => handleStateChange(e)}
-            value={filterAllDealer?.state ?? ""}
-            inputValue={filterAllDealer?.state ?? ""}
-            disabled={disableStateOption}
-          />
-
-          <Autocomplete
-            disablePortal
-            id="combo-box-demo"
-            options={district}
-            sx={{ m: 1, width: 200, ml: 1 }}
-            size="small"
-            renderInput={(params) => (
-              <TextField {...params} label="Select District" />
-            )}
-            name="district"
-            value={filterAllDealer1?.district ?? ""}
-            inputValue={filterAllDealer1?.district ?? ""}
-            onChange={(e) => handleDistrictChange(e)}
-            disabled={disableDistrictOption}
-          />
-
-          <TextField
-            id="outlined-size-small"
-            placeholder="Search"
-            InputProps={{
-              "aria-label": "Without label",
-              startAdornment: (
-                <InputAdornment position="start">
-                  <SearchIcon />
-                </InputAdornment>
-              ),
-            }}
-            size="small"
-            sx={{ width: 600, m: 1, ml: 6 }}
-            value={searchText}
-            onChange={(e) => {
-              setsearchText(e.target.value);
-            }}
-          />
-        </Grid> */}
-
-        <Grid item xs={12} md={12}>
-          <TableContainer component={Paper}>
-            <Grid sx={{ display: "flex" }}>
-              <Typography
-                variant="h6"
-                gutterBottom
-                component="div"
-                sx={{ fontWeight: "bold", m: 1, fontSize: 30 }}
-                align="left"
-              >
-                Dealers And SubDealers
-              </Typography>
-
-              <Grid sx={{ m: 1, ml: 180 }}></Grid>
-            </Grid>
-            <Table aria-label="collapsible table" sx={{ width: "100%" }}>
-              <TableHead>
-                <TableRow>
-                  <StyledTableCell align="right">Vehicle OEM</StyledTableCell>
-                  <StyledTableCell align="right">State</StyledTableCell>
-                  <StyledTableCell align="right">District</StyledTableCell>
-                  <StyledTableCell align="right">Address</StyledTableCell>
-                  <StyledTableCell>Dealers ID</StyledTableCell>
-                  <StyledTableCell>Dealers Name</StyledTableCell>
-                  <StyledTableCell>Dealers Type</StyledTableCell>
-                  <StyledTableCell align="right">Contact No.</StyledTableCell>
-                  <StyledTableCell align="right">
-                    Alternative No.
-                  </StyledTableCell>
-                  <StyledTableCell align="right">
-                    Contact Person Name
-                  </StyledTableCell>
-                  <StyledTableCell align="right">
-                    Contact Person Mobile
-                  </StyledTableCell>
-                  <StyledTableCell align="right" style={{ display: "none" }}>
-                    EmailId
-                  </StyledTableCell>
-                  <StyledTableCell align="right">
-                    Activation Date
-                  </StyledTableCell>
-                  <StyledTableCell align="right">Expiry Date</StyledTableCell>
-                  <StyledTableCell align="right">Actions</StyledTableCell>
-                  <StyledTableCell />
-                  <StyledTableCell>Checker Status</StyledTableCell>
-                </TableRow>
-              </TableHead>
-              <TableBody>
-                {allDealers &&
-                  allDealers
-                    ?.filter((value) => {
-                      if (searchText === "") {
-                        return value;
-                      } else if (
-                        value.dealerName
-                          .toLowerCase()
-                          .includes(searchText.toLowerCase())
-                      ) {
-                        return value;
-                      }
-                    })
-                    .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                    .map((row, id) => (
-                      <React.Fragment>
-                        <StyledTableRow
-                          sx={{ "& > *": { borderBottom: "unset" } }}
-                          key={row.dealerID}
+        {/* <Grid item xs={12} md={12}> */}
+        <TableContainer component={Paper} sx={{ margin: "30px" }}>
+          <Table aria-label="collapsible table" sx={{ minWidth: 650 }}>
+            <TableHead>
+              <TableRow>
+                <StyledTableCell align="right">Vehicle OEM</StyledTableCell>
+                <StyledTableCell align="right">State</StyledTableCell>
+                <StyledTableCell align="right">District</StyledTableCell>
+                <StyledTableCell align="right">Address</StyledTableCell>
+                <StyledTableCell>Dealers ID</StyledTableCell>
+                <StyledTableCell>Dealers Name</StyledTableCell>
+                <StyledTableCell>Dealers Type</StyledTableCell>
+                <StyledTableCell align="right">Contact No.</StyledTableCell>
+                <StyledTableCell align="right">Alternative No.</StyledTableCell>
+                <StyledTableCell align="right">
+                  Contact Person Name
+                </StyledTableCell>
+                <StyledTableCell align="right">
+                  Contact Person Mobile
+                </StyledTableCell>
+                <StyledTableCell align="right" style={{ display: "none" }}>
+                  EmailId
+                </StyledTableCell>
+                <StyledTableCell align="right">Activation Date</StyledTableCell>
+                <StyledTableCell align="right">Expiry Date</StyledTableCell>
+                <StyledTableCell align="right">Actions</StyledTableCell>
+                <StyledTableCell />
+                <StyledTableCell>Checker Status</StyledTableCell>
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {allDealers &&
+                allDealers
+                  ?.filter((value) => {
+                    if (searchText === "") {
+                      return value;
+                    } else if (
+                      value.dealerName
+                        .toLowerCase()
+                        .includes(searchText.toLowerCase())
+                    ) {
+                      return value;
+                    }
+                  })
+                  .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                  .map((row, id) => (
+                    <React.Fragment>
+                      <StyledTableRow
+                        sx={{ "& > *": { borderBottom: "unset" } }}
+                        key={row.dealerID}
+                      >
+                        <StyledTableCell align="right">
+                          {row.dealerManufacturerName}
+                        </StyledTableCell>
+                        <StyledTableCell align="right">
+                          {row.state}
+                        </StyledTableCell>
+                        <StyledTableCell align="right">
+                          {row.district}
+                        </StyledTableCell>
+                        <StyledTableCell align="right">
+                          {row.addressDetails}
+                        </StyledTableCell>
+                        <StyledTableCell component="th" scope="row">
+                          {row.dealerID}
+                        </StyledTableCell>
+                        <StyledTableCell component="th" scope="row">
+                          {row.dealerName}
+                        </StyledTableCell>
+                        <StyledTableCell component="th" scope="row">
+                          {row.dealerType}
+                        </StyledTableCell>
+                        <StyledTableCell align="right">
+                          {row.dealerContactNumber}
+                        </StyledTableCell>
+                        <StyledTableCell align="right">
+                          {row.dealerAlternateContactNumber}
+                        </StyledTableCell>
+                        <StyledTableCell align="right">
+                          {row.dealerContactPersonName}
+                        </StyledTableCell>
+                        <StyledTableCell align="right">
+                          {row.contactPersonMobile}
+                        </StyledTableCell>
+                        <StyledTableCell
+                          align="right"
+                          style={{ display: "none" }}
                         >
-                          <StyledTableCell align="right">
-                            {row.dealerManufacturerName}
-                          </StyledTableCell>
-                          <StyledTableCell align="right">
-                            {row.state}
-                          </StyledTableCell>
-                          <StyledTableCell align="right">
-                            {row.district}
-                          </StyledTableCell>
-                          <StyledTableCell align="right">
-                            {row.addressDetails}
-                          </StyledTableCell>
-                          <StyledTableCell component="th" scope="row">
-                            {row.dealerID}
-                          </StyledTableCell>
-                          <StyledTableCell component="th" scope="row">
-                            {row.dealerName}
-                          </StyledTableCell>
-                          <StyledTableCell component="th" scope="row">
-                            {row.dealerType}
-                          </StyledTableCell>
-                          <StyledTableCell align="right">
-                            {row.dealerContactNumber}
-                          </StyledTableCell>
-                          <StyledTableCell align="right">
-                            {row.dealerAlternateContactNumber}
-                          </StyledTableCell>
-                          <StyledTableCell align="right">
-                            {row.dealerContactPersonName}
-                          </StyledTableCell>
-                          <StyledTableCell align="right">
-                            {row.contactPersonMobile}
-                          </StyledTableCell>
-                          <StyledTableCell
-                            align="right"
-                            style={{ display: "none" }}
+                          {row.dealerMailID}
+                        </StyledTableCell>
+                        <StyledTableCell align="right">
+                          {row.dealerActivationData}
+                        </StyledTableCell>
+                        <StyledTableCell align="right">
+                          {row.dealerExpireData}
+                        </StyledTableCell>
+                        <StyledTableCell align="right">
+                          <Grid
+                            sx={{
+                              display: "flex",
+                              alignItems: "center",
+                              justifyContent: "center",
+                              // ml: 5,
+                            }}
                           >
-                            {row.dealerMailID}
-                          </StyledTableCell>
-                          <StyledTableCell align="right">
-                            {row.dealerActivationData}
-                          </StyledTableCell>
-                          <StyledTableCell align="right">
-                            {row.dealerExpireData}
-                          </StyledTableCell>
-                          <StyledTableCell align="right">
-                            <Grid
-                              sx={{
-                                display: "flex",
-                                alignItems: "center",
-                                justifyContent: "center",
-                                // ml: 5,
-                              }}
-                            >
-                              <StyledTableCell align="right">
-                                <Grid
-                                  sx={{
-                                    display: "flex",
-                                    alignItems: "center",
-                                    justifyContent: "center",
-                                    // ml: 5,
-                                  }}
-                                >
-                                  <ColorIcon>
-                                    <Grid
-                                      sx={{
-                                        display: "flex",
-                                        flexDirection: "column",
-                                        alignItems: "center",
-                                      }}
-                                    >
-                                      <EditIcon
-                                        fontSize="large"
-                                        onClick={() => {
-                                          handleEditTable(row);
-                                          setdealerId(row?.dealerID);
-                                        }}
-                                      />
-                                      <Typography
-                                        sx={{ fontSize: 12, fontWeight: 800 }}
-                                      >
-                                        View & Check Details
-                                      </Typography>
-                                    </Grid>
-                                  </ColorIcon>
-                                  <EditDealerModal
-                                    show={openEditDealerModal}
-                                    close={() => setOpenEditDealerModal(false)}
-                                    editDealerData={EditDealerData}
-                                    getDealersDetails={getDealersDetails}
-                                    dealerID={dealerId}
-                                  />
-                                </Grid>
-                              </StyledTableCell>
-                              {/* <ColorIcon>
-                                <Grid
-                                  sx={{
-                                    display: "flex",
-                                    flexDirection: "column",
-                                    alignItems: "center",
-                                  }}
-                                >
-                                  <EditIcon
-                                    fontSize="large"
-                                    onClick={() => handleEditTable(row)}
-                                  />
-                                  <Typography
-                                    sx={{ fontSize: 12, fontWeight: 800 }}
-                                  >
-                                    View & Edit
-                                  </Typography>
-                                </Grid>
-                              </ColorIcon> */}
-
-                              {/* <EditDealerModal
-                                show={openEditDealerModal}
-                                close={() => setOpenEditDealerModal(false)}
-                                editDealerData={EditDealerData}
-                                getDealersDetails={getDealersDetails}
-                              /> */}
-                              {/* <EditDealerDataModal
-                                show={openEditDealerModal}
-                                close={() => setOpenEditDealerModal(false)}
-                                editDealerData={EditDealerData}
-                                getDealersDetails={getDealersDetails}
-                              /> */}
-                              <ColorIcon>
-                                <Grid
-                                  sx={{
-                                    display: "flex",
-                                    flexDirection: "column",
-                                    alignItems: "center",
-                                  }}
-                                >
-                                  <UploadFileIcon
-                                    fontSize="large"
-                                    onClick={() => {
-                                      setOpenAddDocumentModal(true);
-                                      setfileMaindealerId(row.dealerID);
-                                    }}
-                                  />
-                                  <Typography
-                                    sx={{ fontSize: 12, fontWeight: 800 }}
-                                  >
-                                    Upload Documents
-                                  </Typography>
-                                </Grid>
-                              </ColorIcon>
-
-                              {openAddDocumentModal && (
-                                <UploadDocumentsModal
-                                  show={openAddDocumentModal}
-                                  close={() => {
-                                    setOpenAddDocumentModal(false);
-                                    setfileMaindealerId(null);
-                                  }}
-                                  mainDealerID={filemainDealerId}
-                                  // sx={{display:dealerType==="SubDealer"? "none":""}}
-                                />
-                              )}
-
-                              <ColorIcon>
-                                <Grid
-                                  sx={{
-                                    display: "flex",
-                                    flexDirection: "column",
-                                    alignItems: "center",
-                                  }}
-                                >
-                                  <AutoAwesomeMotionIcon
-                                    fontSize="large"
-                                    onClick={() => {
-                                      setOpenShowBranchModal(true);
-                                      setaddStateId(row?.state);
-                                      getShowBranchesInMainDealers(
-                                        row.dealerID
-                                      );
-                                      getShowBranchesToAddInMainDealers(
-                                        row.dealerID
-                                      );
-                                      setaddMaindealerId(row.dealerID);
-                                    }}
-                                  />
-                                  <Typography
-                                    sx={{ fontSize: 13, fontWeight: 800 }}
-                                  >
-                                    Branch Mapping
-                                  </Typography>
-                                </Grid>
-                              </ColorIcon>
-                              <ShowBranchesOfMainDealer
-                                show={OpenShowBranchModal}
-                                close={() => setOpenShowBranchModal(false)}
-                                mainDealerID={addMaindealerId}
-                                showBranch={showBranch}
-                                showBranchToAdd={showBranchToAdd}
-                                setShowBranchToAdd={setShowBranchToAdd}
-                                getShowBranchesInMainDealers={
-                                  getShowBranchesInMainDealers
-                                }
-                                getShowBranchesToAddInMainDealers={
-                                  getShowBranchesToAddInMainDealers
-                                }
-                                filterAddBranch={filterAddBranch}
-                                setFilterAddBranch={setFilterAddBranch}
-                                state={addStateId}
-                                city={row?.city}
-                              />
-                            </Grid>
-                          </StyledTableCell>
-
-                          <StyledTableCell />
-                          <StyledTableCell>{row.dealerStatus}</StyledTableCell>
-                        </StyledTableRow>
-
-                        <React.Fragment>
-                          <TableRow>
-                            <TableCell
-                              style={{
-                                paddingBottom: 0,
-                                paddingTop: 0,
-                                m: 2,
-                              }}
-                              colSpan={19}
-                            >
-                              <Collapse
-                                in={Boolean(open === id)}
-                                timeout="auto"
-                                unmountOnExit
+                            <StyledTableCell align="right">
+                              <Grid
+                                sx={{
+                                  display: "flex",
+                                  alignItems: "center",
+                                  justifyContent: "center",
+                                  // ml: 5,
+                                }}
                               >
-                                <Box sx={{ margin: 1 }}>
-                                  <Grid sx={{ display: "flex", m: 1 }}>
-                                    <Typography
-                                      variant="h6"
-                                      gutterBottom
-                                      component="div"
-                                      sx={{
-                                        fontSize: 23,
-                                        fontWeight: "bold",
-                                        display: "flex",
-                                        flexDirection: "row",
-                                        alignItems: "center",
-                                        justifyContent: "center",
-                                        textAlign: "center",
+                                <ColorIcon>
+                                  <Grid
+                                    sx={{
+                                      display: "flex",
+                                      flexDirection: "column",
+                                      alignItems: "center",
+                                    }}
+                                  >
+                                    <EditIcon
+                                      fontSize="small"
+                                      onClick={() => {
+                                        handleEditTable(row);
+                                        setdealerId(row?.dealerID);
                                       }}
+                                    />
+                                    <Typography
+                                      sx={{ fontSize: 8, fontWeight: 800 }}
                                     >
-                                      Sub Dealers (
-                                      <Typography
-                                        sx={{ fontSize: 15, fontWeight: 800 }}
-                                      >
-                                        {row.dealerID}
-                                      </Typography>
-                                      )
+                                      View & Check Details
                                     </Typography>
                                   </Grid>
-                                  <Table size="small" aria-label="purchases">
-                                    <TableHead>
-                                      <StyledSubTableRow>
+                                </ColorIcon>
+                                <EditDealerModal
+                                  show={openEditDealerModal}
+                                  close={() => setOpenEditDealerModal(false)}
+                                  editDealerData={EditDealerData}
+                                  getDealersDetails={getDealersDetails}
+                                  dealerID={dealerId}
+                                />
+                              </Grid>
+                            </StyledTableCell>
+
+                            <ColorIcon>
+                              <Grid
+                                sx={{
+                                  display: "flex",
+                                  flexDirection: "column",
+                                  alignItems: "center",
+                                }}
+                              >
+                                <UploadFileIcon
+                                  fontSize="small"
+                                  onClick={() => {
+                                    setOpenAddDocumentModal(true);
+                                    setfileMaindealerId(row.dealerID);
+                                  }}
+                                />
+                                <Typography
+                                  sx={{ fontSize: 8, fontWeight: 800 }}
+                                >
+                                  Upload Documents
+                                </Typography>
+                              </Grid>
+                            </ColorIcon>
+
+                            {openAddDocumentModal && (
+                              <UploadDocumentsModal
+                                show={openAddDocumentModal}
+                                close={() => {
+                                  setOpenAddDocumentModal(false);
+                                  setfileMaindealerId(null);
+                                }}
+                                mainDealerID={filemainDealerId}
+                                // sx={{display:dealerType==="SubDealer"? "none":""}}
+                              />
+                            )}
+
+                            <ColorIcon>
+                              <Grid
+                                sx={{
+                                  display: "flex",
+                                  flexDirection: "column",
+                                  alignItems: "center",
+                                }}
+                              >
+                                <AutoAwesomeMotionIcon
+                                  fontSize="small"
+                                  onClick={() => {
+                                    setOpenShowBranchModal(true);
+                                    setaddStateId(row?.state);
+                                    getShowBranchesInMainDealers(row.dealerID);
+                                    getShowBranchesToAddInMainDealers(
+                                      row.dealerID
+                                    );
+                                    setaddMaindealerId(row.dealerID);
+                                  }}
+                                />
+                                <Typography
+                                  sx={{ fontSize: 8, fontWeight: 800 }}
+                                >
+                                  Branch Mapping
+                                </Typography>
+                              </Grid>
+                            </ColorIcon>
+                            <ShowBranchesOfMainDealer
+                              show={OpenShowBranchModal}
+                              close={() => setOpenShowBranchModal(false)}
+                              mainDealerID={addMaindealerId}
+                              showBranch={showBranch}
+                              showBranchToAdd={showBranchToAdd}
+                              setShowBranchToAdd={setShowBranchToAdd}
+                              getShowBranchesInMainDealers={
+                                getShowBranchesInMainDealers
+                              }
+                              getShowBranchesToAddInMainDealers={
+                                getShowBranchesToAddInMainDealers
+                              }
+                              filterAddBranch={filterAddBranch}
+                              setFilterAddBranch={setFilterAddBranch}
+                              state={addStateId}
+                              city={row?.city}
+                            />
+                          </Grid>
+                        </StyledTableCell>
+
+                        <StyledTableCell />
+                        <StyledTableCell>{row.dealerStatus}</StyledTableCell>
+                      </StyledTableRow>
+
+                      <React.Fragment>
+                        <TableRow>
+                          <TableCell
+                            style={{
+                              paddingBottom: 0,
+                              paddingTop: 0,
+                              m: 2,
+                            }}
+                            colSpan={19}
+                          >
+                            <Collapse
+                              in={Boolean(open === id)}
+                              timeout="auto"
+                              unmountOnExit
+                            >
+                              <Box sx={{ margin: 1 }}>
+                                <Grid sx={{ display: "flex", m: 1 }}>
+                                  <Typography
+                                    variant="h6"
+                                    gutterBottom
+                                    component="div"
+                                    sx={{
+                                      fontSize: 23,
+                                      fontWeight: "bold",
+                                      display: "flex",
+                                      flexDirection: "row",
+                                      alignItems: "center",
+                                      justifyContent: "center",
+                                      textAlign: "center",
+                                    }}
+                                  >
+                                    Sub Dealers (
+                                    <Typography
+                                      sx={{ fontSize: 15, fontWeight: 800 }}
+                                    >
+                                      {row.dealerID}
+                                    </Typography>
+                                    )
+                                  </Typography>
+                                </Grid>
+                                <Table size="small" aria-label="purchases">
+                                  <TableHead>
+                                    <StyledSubTableRow>
+                                      <StyledSubTableCell>
+                                        Dealers ID
+                                      </StyledSubTableCell>
+                                      <StyledSubTableCell>
+                                        Dealers Name
+                                      </StyledSubTableCell>
+                                      <StyledSubTableCell
+                                        align="right"
+                                        style={{ display: "none" }}
+                                      >
+                                        EmailId
+                                      </StyledSubTableCell>
+                                      <StyledSubTableCell align="right">
+                                        Manufacturer Name
+                                      </StyledSubTableCell>
+                                      <StyledSubTableCell align="right">
+                                        Contact No.
+                                      </StyledSubTableCell>
+                                      <StyledSubTableCell align="right">
+                                        Alternative No.
+                                      </StyledSubTableCell>
+                                      <StyledSubTableCell align="right">
+                                        Contact Person Name
+                                      </StyledSubTableCell>
+                                      <StyledSubTableCell align="right">
+                                        Contact Person Mobile
+                                      </StyledSubTableCell>
+                                      <StyledSubTableCell align="right">
+                                        Activation Date
+                                      </StyledSubTableCell>
+                                      <StyledSubTableCell align="right">
+                                        Expiry Date
+                                      </StyledSubTableCell>
+                                      <StyledSubTableCell align="right">
+                                        Address
+                                      </StyledSubTableCell>
+                                      <StyledSubTableCell align="right">
+                                        State
+                                      </StyledSubTableCell>
+                                      <StyledSubTableCell align="right">
+                                        District
+                                      </StyledSubTableCell>
+                                      <StyledSubTableCell align="right">
+                                        Actions
+                                      </StyledSubTableCell>
+                                      <StyledSubTableCell>
+                                        Status
+                                      </StyledSubTableCell>
+                                    </StyledSubTableRow>
+                                  </TableHead>
+                                  <TableBody>
+                                    {allSubDealers?.map((val) => (
+                                      <StyledSubTableRow key={val.dealerID}>
                                         <StyledSubTableCell>
-                                          Dealers ID
+                                          {val.dealerID}
                                         </StyledSubTableCell>
-                                        <StyledSubTableCell>
-                                          Dealers Name
+                                        <StyledSubTableCell
+                                          component="th"
+                                          scope="row"
+                                        >
+                                          {val.dealerName}
                                         </StyledSubTableCell>
                                         <StyledSubTableCell
                                           align="right"
                                           style={{ display: "none" }}
                                         >
-                                          EmailId
+                                          {val.dealerMailID}
                                         </StyledSubTableCell>
                                         <StyledSubTableCell align="right">
-                                          Manufacturer Name
+                                          {val.dealerManufacturerName}
                                         </StyledSubTableCell>
                                         <StyledSubTableCell align="right">
-                                          Contact No.
+                                          {val.dealerContactNumber}
                                         </StyledSubTableCell>
                                         <StyledSubTableCell align="right">
-                                          Alternative No.
+                                          {val.dealerAlternateContactNumber}
                                         </StyledSubTableCell>
                                         <StyledSubTableCell align="right">
-                                          Contact Person Name
+                                          {val.dealerContactPersonName}
                                         </StyledSubTableCell>
                                         <StyledSubTableCell align="right">
-                                          Contact Person Mobile
+                                          {val.contactPersonMobile}
                                         </StyledSubTableCell>
                                         <StyledSubTableCell align="right">
-                                          Activation Date
+                                          {val.dealerActivationData}
                                         </StyledSubTableCell>
                                         <StyledSubTableCell align="right">
-                                          Expiry Date
+                                          {val.dealerExpireData}
                                         </StyledSubTableCell>
                                         <StyledSubTableCell align="right">
-                                          Address
+                                          {val.addressDetails}
                                         </StyledSubTableCell>
                                         <StyledSubTableCell align="right">
-                                          State
+                                          {val.state}
                                         </StyledSubTableCell>
                                         <StyledSubTableCell align="right">
-                                          District
+                                          {val.district}
                                         </StyledSubTableCell>
+
                                         <StyledSubTableCell align="right">
-                                          Actions
+                                          <Grid
+                                            sx={{
+                                              display: "flex",
+                                              alignItems: "center",
+                                              justifyContent: "center",
+                                              ml: 5,
+                                            }}
+                                          >
+                                            <ColorIcon>
+                                              <Grid
+                                                sx={{
+                                                  display: "flex",
+                                                  flexDirection: "column",
+                                                  alignItems: "center",
+                                                }}
+                                              >
+                                                <EditIcon
+                                                  sx={{ ml: 1 }}
+                                                  onClick={() => {
+                                                    handleEditSubDealerTable(
+                                                      row
+                                                    );
+                                                    setMainDealerData(row);
+                                                  }}
+                                                />
+                                                <Typography>Edit</Typography>
+                                              </Grid>
+                                            </ColorIcon>
+                                            <EditSubDealerModal
+                                              show={openEditSubDealerModal}
+                                              close={() =>
+                                                setOpenEditSubDealerModal(false)
+                                              }
+                                              editSubDealerData={
+                                                EditSubDealerData
+                                              }
+                                              // getSubDealerDetails={
+                                              //   getSubDealerDetails
+                                              // }
+                                              paramsId={paramsId}
+                                              mainDealerData={mainDealerData}
+                                            />
+
+                                            <ColorIcon>
+                                              <Grid
+                                                sx={{
+                                                  display: "flex",
+                                                  flexDirection: "column",
+                                                  alignItems: "center",
+                                                }}
+                                              >
+                                                <AutoAwesomeMotionIcon
+                                                  size="large"
+                                                  onClick={() => {
+                                                    setOpenShowSubBranchModal(
+                                                      true
+                                                    );
+                                                    setaddSubStateId(
+                                                      val?.state
+                                                    );
+                                                    setaddSubdealerId(
+                                                      val.subDealerID
+                                                    );
+                                                    getShowBranchesInSubDealers(
+                                                      val.subDealerID
+                                                    );
+                                                    getShowBranchesInSubDealersToAdd(
+                                                      val.subDealerID
+                                                    );
+                                                  }}
+                                                />
+                                                <Typography
+                                                  sx={{
+                                                    fontSize: 13,
+                                                    fontWeight: 800,
+                                                  }}
+                                                >
+                                                  Show Branch
+                                                </Typography>
+                                              </Grid>
+                                            </ColorIcon>
+                                            <ShowBranchesForSubDealers
+                                              show={openShowSubBranchModal}
+                                              close={() =>
+                                                setOpenShowSubBranchModal(false)
+                                              }
+                                              showSubBranch={showSubBranch}
+                                              showSubBranchToAdd={
+                                                showSubBranchToAdd
+                                              }
+                                              getShowBranchesInSubDealers={
+                                                getShowBranchesInSubDealers
+                                              }
+                                              getShowBranchesInSubDealersToAdd={
+                                                getShowBranchesInSubDealersToAdd
+                                              }
+                                              filterAddSubBranch={
+                                                filterAddSubBranch
+                                              }
+                                              setfilterAddSubBranch={
+                                                setfilterAddSubBranch
+                                              }
+                                              state={addSubStateId}
+                                              subDealerID={addSubdealerId}
+                                              city={val.city}
+                                              setShowBranchToAd={
+                                                setShowBranchToAdd
+                                              }
+                                            />
+                                          </Grid>
                                         </StyledSubTableCell>
+                                        <StyledSubTableCell />
                                         <StyledSubTableCell>
-                                          Status
+                                          {val.dealerStatus}
                                         </StyledSubTableCell>
                                       </StyledSubTableRow>
-                                    </TableHead>
-                                    <TableBody>
-                                      {allSubDealers?.map((val) => (
-                                        <StyledSubTableRow key={val.dealerID}>
-                                          <StyledSubTableCell>
-                                            {val.dealerID}
-                                          </StyledSubTableCell>
-                                          <StyledSubTableCell
-                                            component="th"
-                                            scope="row"
-                                          >
-                                            {val.dealerName}
-                                          </StyledSubTableCell>
-                                          <StyledSubTableCell
-                                            align="right"
-                                            style={{ display: "none" }}
-                                          >
-                                            {val.dealerMailID}
-                                          </StyledSubTableCell>
-                                          <StyledSubTableCell align="right">
-                                            {val.dealerManufacturerName}
-                                          </StyledSubTableCell>
-                                          <StyledSubTableCell align="right">
-                                            {val.dealerContactNumber}
-                                          </StyledSubTableCell>
-                                          <StyledSubTableCell align="right">
-                                            {val.dealerAlternateContactNumber}
-                                          </StyledSubTableCell>
-                                          <StyledSubTableCell align="right">
-                                            {val.dealerContactPersonName}
-                                          </StyledSubTableCell>
-                                          <StyledSubTableCell align="right">
-                                            {val.contactPersonMobile}
-                                          </StyledSubTableCell>
-                                          <StyledSubTableCell align="right">
-                                            {val.dealerActivationData}
-                                          </StyledSubTableCell>
-                                          <StyledSubTableCell align="right">
-                                            {val.dealerExpireData}
-                                          </StyledSubTableCell>
-                                          <StyledSubTableCell align="right">
-                                            {val.addressDetails}
-                                          </StyledSubTableCell>
-                                          <StyledSubTableCell align="right">
-                                            {val.state}
-                                          </StyledSubTableCell>
-                                          <StyledSubTableCell align="right">
-                                            {val.district}
-                                          </StyledSubTableCell>
-
-                                          <StyledSubTableCell align="right">
-                                            <Grid
-                                              sx={{
-                                                display: "flex",
-                                                alignItems: "center",
-                                                justifyContent: "center",
-                                                ml: 5,
-                                              }}
-                                            >
-                                              <ColorIcon>
-                                                <Grid
-                                                  sx={{
-                                                    display: "flex",
-                                                    flexDirection: "column",
-                                                    alignItems: "center",
-                                                  }}
-                                                >
-                                                  <EditIcon
-                                                    sx={{ ml: 1 }}
-                                                    onClick={() => {
-                                                      handleEditSubDealerTable(
-                                                        row
-                                                      );
-                                                      setMainDealerData(row);
-                                                    }}
-                                                  />
-                                                  <Typography>Edit</Typography>
-                                                </Grid>
-                                              </ColorIcon>
-                                              <EditSubDealerModal
-                                                show={openEditSubDealerModal}
-                                                close={() =>
-                                                  setOpenEditSubDealerModal(
-                                                    false
-                                                  )
-                                                }
-                                                editSubDealerData={
-                                                  EditSubDealerData
-                                                }
-                                                // getSubDealerDetails={
-                                                //   getSubDealerDetails
-                                                // }
-                                                paramsId={paramsId}
-                                                mainDealerData={mainDealerData}
-                                              />
-
-                                              <ColorIcon>
-                                                <Grid
-                                                  sx={{
-                                                    display: "flex",
-                                                    flexDirection: "column",
-                                                    alignItems: "center",
-                                                  }}
-                                                >
-                                                  <AutoAwesomeMotionIcon
-                                                    size="large"
-                                                    onClick={() => {
-                                                      setOpenShowSubBranchModal(
-                                                        true
-                                                      );
-                                                      setaddSubStateId(
-                                                        val?.state
-                                                      );
-                                                      setaddSubdealerId(
-                                                        val.subDealerID
-                                                      );
-                                                      getShowBranchesInSubDealers(
-                                                        val.subDealerID
-                                                      );
-                                                      getShowBranchesInSubDealersToAdd(
-                                                        val.subDealerID
-                                                      );
-                                                    }}
-                                                  />
-                                                  <Typography
-                                                    sx={{
-                                                      fontSize: 13,
-                                                      fontWeight: 800,
-                                                    }}
-                                                  >
-                                                    Show Branch
-                                                  </Typography>
-                                                </Grid>
-                                              </ColorIcon>
-                                              <ShowBranchesForSubDealers
-                                                show={openShowSubBranchModal}
-                                                close={() =>
-                                                  setOpenShowSubBranchModal(
-                                                    false
-                                                  )
-                                                }
-                                                showSubBranch={showSubBranch}
-                                                showSubBranchToAdd={
-                                                  showSubBranchToAdd
-                                                }
-                                                getShowBranchesInSubDealers={
-                                                  getShowBranchesInSubDealers
-                                                }
-                                                getShowBranchesInSubDealersToAdd={
-                                                  getShowBranchesInSubDealersToAdd
-                                                }
-                                                filterAddSubBranch={
-                                                  filterAddSubBranch
-                                                }
-                                                setfilterAddSubBranch={
-                                                  setfilterAddSubBranch
-                                                }
-                                                state={addSubStateId}
-                                                subDealerID={addSubdealerId}
-                                                city={val.city}
-                                                setShowBranchToAd={
-                                                  setShowBranchToAdd
-                                                }
-                                              />
-                                            </Grid>
-                                          </StyledSubTableCell>
-                                          <StyledSubTableCell />
-                                          <StyledSubTableCell>
-                                            {val.dealerStatus}
-                                          </StyledSubTableCell>
-                                        </StyledSubTableRow>
-                                      ))}
-                                    </TableBody>
-                                  </Table>
-                                </Box>
-                              </Collapse>
-                            </TableCell>
-                          </TableRow>
-                        </React.Fragment>
+                                    ))}
+                                  </TableBody>
+                                </Table>
+                              </Box>
+                            </Collapse>
+                          </TableCell>
+                        </TableRow>
                       </React.Fragment>
-                    ))}
-              </TableBody>
-            </Table>
-          </TableContainer>
+                    </React.Fragment>
+                  ))}
+            </TableBody>
+          </Table>
+        </TableContainer>
+        <Grid item xs={12} md={12}>
           <TablePagination
             rowsPerPageOptions={[10, 25, 100]}
             component="div"

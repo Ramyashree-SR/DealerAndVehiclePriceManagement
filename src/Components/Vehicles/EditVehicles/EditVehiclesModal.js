@@ -76,7 +76,7 @@ function EditVehiclesModal(props) {
               id="outlined-basic"
               label="Vehicle ID"
               variant="outlined"
-              size="small"
+              // size="small"
               sx={{ m: 1 }}
               name="vehicleId"
               value={editVehicles?.vehicleId}
@@ -87,7 +87,7 @@ function EditVehiclesModal(props) {
               id="outlined-basic"
               label="Vehiclle State"
               variant="outlined"
-              size="small"
+              // size="small"
               sx={{ m: 1 }}
               name="vehicalState"
               value={editVehicles?.vehicalState}
@@ -99,7 +99,7 @@ function EditVehiclesModal(props) {
               id="outlined-basic"
               label="Vehicle OEM"
               variant="outlined"
-              size="small"
+              // size="small"
               sx={{ m: 1 }}
               name="vehicalOem"
               value={editVehicles?.vehicalOem}
@@ -110,7 +110,7 @@ function EditVehiclesModal(props) {
               id="outlined-basic"
               label="Vehicle Model"
               variant="outlined"
-              size="small"
+              // size="small"
               sx={{ m: 1 }}
               name="vehicleModel"
               value={editVehicles?.vehicleModel}
@@ -120,7 +120,7 @@ function EditVehiclesModal(props) {
               id="outlined-basic"
               label="Vehicle Variant"
               variant="outlined"
-              size="small"
+              // size="small"
               sx={{ m: 1 }}
               name="vehicleVariant"
               value={editVehicles?.vehicleVariant}
@@ -130,7 +130,7 @@ function EditVehiclesModal(props) {
               id="outlined-basic"
               label="On Road Price"
               variant="outlined"
-              size="small"
+              // size="small"
               sx={{ m: 1 }}
               name="vehicalOnRoadPrice"
               value={editVehicles?.vehicalOnRoadPrice}
@@ -141,7 +141,7 @@ function EditVehiclesModal(props) {
               id="outlined-basic"
               label="Max Loan Amount"
               variant="outlined"
-              size="small"
+              // size="small"
               sx={{ m: 1 }}
               name="vehicleMaxLoanAmount"
               value={editVehicles?.vehicleMaxLoanAmount}

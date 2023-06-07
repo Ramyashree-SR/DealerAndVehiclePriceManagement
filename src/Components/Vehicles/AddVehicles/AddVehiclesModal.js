@@ -82,7 +82,7 @@ function AddVehiclesModal(props) {
       // vehicleId:addNewVehicles?.vehicleId,
       vehicleModel: addNewVehicles?.vehicleModel,
       vehicleVariant: addNewVehicles?.vehicleVariant,
-      vehicleOem: addNewVehicles?.vehicleOem.label,
+      vehicleOem: addNewVehicles?.vehicleOem,
       vehicleState: addNewVehicles?.vehicleState,
       vehicalOnRoadPrice: addNewVehicles?.vehicalOnRoadPrice,
       vehicleMaxLoanAmount: addNewVehicles?.vehicleMaxLoanAmount,
@@ -132,10 +132,10 @@ function AddVehiclesModal(props) {
                 renderInput={(params) => (
                   <TextField {...params} label="Select State" />
                 )}
-                name="state"
-                value={addNewVehicleDetails?.state}
+                name="vehicleState"
+                value={addNewVehicles?.vehicleState}
                 onChange={(e, value) => {
-                  handleStateChange("state", e, value);
+                  handleStateChange("vehicleState", e, value);
                 }}
                 disabled={props.type === "edit" ? true : false}
               />

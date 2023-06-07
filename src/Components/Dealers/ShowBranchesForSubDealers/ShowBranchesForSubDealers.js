@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from "react";
-import { Button, Modal, ModalFooter } from "react-bootstrap";
+import { Modal, ModalFooter } from "react-bootstrap";
 import {
   Autocomplete,
   Box,
+  Button,
   Grid,
   Radio,
   TablePagination,
@@ -12,6 +13,7 @@ import {
 
 import DeleteSweepIcon from "@mui/icons-material/DeleteSweep";
 import {
+  addAllBranchesofMainDealerInSubDealer,
   addBranchesInSubDealer,
   removeBranchesInSubDealer,
 } from "../../service/subDealers";
@@ -25,31 +27,38 @@ const style = {
 };
 
 function ShowBranchesForSubDealers(props) {
-  const [selectedValue, setSelectedValue] = useState("Same as Main Dealer");
-
-  const handleChange = (event) => {
-    setSelectedValue(event.target.value);
-  };
+  const [active, setActive] = useState(false);
   const [removeRowData, setRemoveRowData] = useState([]);
   useEffect(() => {
     const tempArr = [];
     props.showSubBranch?.map((item) => {
       tempArr.push({ ...item });
     });
-    // setRemoveRowData([...props.showSubBranch]);
-    
   }, [props.showSubBranch]);
 
   const removeRowDataofBranchesFromTable = async (params, value) => {
     let payload = [value];
     const { data } = await removeBranchesInSubDealer(params, payload);
-    
+
     if (data?.data?.error === "False") {
       props.getShowBranchesInSubDealers(props.subDealerID);
       props.getShowBranchesInSubDealersToAdd(props.subDealerID);
     }
   };
 
+  const addBranchesofMainDealer = async (mainDealerID, subDealerID) => {
+    const { data } = await addAllBranchesofMainDealerInSubDealer(
+      mainDealerID,
+      subDealerID
+    );
+    if (data) {
+      if (data) {
+        let addData = data?.data;
+        props.setShowBranches(addData);
+        setActive(!active);
+      }
+    }
+  };
   return (
     <>
       <Modal
@@ -58,8 +67,7 @@ function ShowBranchesForSubDealers(props) {
         size="lg"
         aria-labelledby="contained-modal-title-vcenter"
         centered
-        // maxwidth="900px"
-        sx={{ height: 200, width: 500, ...style }}
+        className="mw-100"
       >
         <Modal.Header>
           <Modal.Title id="contained-modal-title-vcenter" sx={{ ...style }}>
@@ -78,37 +86,63 @@ function ShowBranchesForSubDealers(props) {
           <Typography sx={{ fontSize: 20, fontWeight: "bold" }}>
             Branch Mapped
           </Typography>
-
-          <Typography sx={{ fontsize: 12, fontWeight: "bold", m: 1 }}>
-            <Radio
-              checked={selectedValue === "Same as Main Dealer"}
-              onChange={handleChange}
-              value="Same as Main Dealer"
-              name="radio-button-demo"
-              inputProps={{ "aria-label": "A" }}
-            />
-            Same As MainDealer
-          </Typography>
+          <Box sx={{ m: 2 }}>
+            <Button
+              onClick={() =>
+                addBranchesofMainDealer(props.mainDealerID, props.subDealerID)
+              }
+              sx={{
+                backgroundColor: active ? "red" : "green",
+                color: "white",
+              }}
+            >
+              Same As MainDealer
+            </Button>
+          </Box>
           <table className="table table-dark table-striped">
             <thead>
               <tr>
-                <th align="right" scope="col">
+                <th
+                  align="right"
+                  scope="col"
+                  style={{ fontWeight: "bold", fontSize: "12px" }}
+                >
                   Sl NO.
                 </th>
 
-                <th align="right" scope="col">
+                <th
+                  align="right"
+                  scope="col"
+                  style={{ fontWeight: "bold", fontSize: "12px" }}
+                >
                   Branch ID
                 </th>
-                <th align="right" scope="col">
+                <th
+                  align="right"
+                  scope="col"
+                  style={{ fontWeight: "bold", fontSize: "12px" }}
+                >
                   Branch Name
                 </th>
-                <th align="right" scope="col">
+                <th
+                  align="right"
+                  scope="col"
+                  style={{ fontWeight: "bold", fontSize: "12px" }}
+                >
                   Region
                 </th>
-                <th align="right" scope="col">
+                <th
+                  align="right"
+                  scope="col"
+                  style={{ fontWeight: "bold", fontSize: "12px" }}
+                >
                   Area
                 </th>
-                <th align="right" scope="col">
+                <th
+                  align="right"
+                  scope="col"
+                  style={{ fontWeight: "bold", fontSize: "12px" }}
+                >
                   State
                 </th>
                 <th></th>
@@ -118,22 +152,46 @@ function ShowBranchesForSubDealers(props) {
             <tbody className="table table-success table-striped">
               {props.showSubBranch?.map((value, idx) => (
                 <tr key={idx}>
-                  <td align="left" colSpan={1} style={{ fontWeight: "bold" }}>
+                  <td
+                    align="left"
+                    colSpan={1}
+                    style={{ fontWeight: "bold", fontSize: "12px" }}
+                  >
                     {idx}
                   </td>
-                  <td align="left" colSpan={1} style={{ fontWeight: "bold" }}>
+                  <td
+                    align="left"
+                    colSpan={1}
+                    style={{ fontWeight: "bold", fontSize: "12px" }}
+                  >
                     {value.branchID}
                   </td>
-                  <td align="left" colSpan={1} style={{ fontWeight: "bold" }}>
+                  <td
+                    align="left"
+                    colSpan={1}
+                    style={{ fontWeight: "bold", fontSize: "12px" }}
+                  >
                     {value.branchName}
                   </td>
-                  <td align="left" colSpan={1} style={{ fontWeight: "bold" }}>
+                  <td
+                    align="left"
+                    colSpan={1}
+                    style={{ fontWeight: "bold", fontSize: "12px" }}
+                  >
                     {value.region}
                   </td>
-                  <td align="left" colSpan={1} style={{ fontWeight: "bold" }}>
+                  <td
+                    align="left"
+                    colSpan={1}
+                    style={{ fontWeight: "bold", fontSize: "12px" }}
+                  >
                     {value.area}
                   </td>
-                  <td align="left" colSpan={1} style={{ fontWeight: "bold" }}>
+                  <td
+                    align="left"
+                    colSpan={1}
+                    style={{ fontWeight: "bold", fontSize: "12px" }}
+                  >
                     {value.state}
                   </td>
 
@@ -175,7 +233,16 @@ function ShowBranchesForSubDealers(props) {
           />
         </Modal.Body>
         <ModalFooter>
-          <Button onClick={props.close}>Close</Button>
+          <Button
+            onClick={props.close}
+            sx={{
+              backgroundColor: "blue",
+              color: "white",
+              borderColor: "green",
+            }}
+          >
+            Close
+          </Button>
         </ModalFooter>
       </Modal>
     </>
@@ -186,15 +253,12 @@ const ChildModal = (props) => {
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
   const [filterAddSubBranch, setFilterAddSubBranch] = useState([]);
-  
   const [selectedDistrict, setselectedDistrict] = useState([]);
   const [addSubBranches, setAddSubBranches] = useState([]);
   const [selectedId, setselectedId] = useState([]);
   const [checked, setChecked] = useState(false);
   const [regionData, setRegionData] = useState([]);
-  
   const [areaData, setAreaData] = useState([]);
-  
   const [sendselectedBranches, setsendselectedBranches] = useState([]);
 
   const handleChangePage = (event, newPage) => {
@@ -255,7 +319,7 @@ const ChildModal = (props) => {
       }
     });
     const { data } = await addBranchesInSubDealer(mainDealerID, payload);
-    
+
     if (data?.data?.error === "FALSE") {
       props.getShowBranchesInSubDealers(props.subDealerID);
       props.getShowBranchesInSubDealersToAdd(props.subDealerID);
@@ -299,7 +363,7 @@ const ChildModal = (props) => {
 
   const getAllAreaDetailsOnSelect = async (state) => {
     const payload = selectedDistrict;
-   
+
     const { data } = await getAreaDetailsByStateandRegionInSubDealers(
       state,
       payload
@@ -319,7 +383,6 @@ const ChildModal = (props) => {
   };
 
   useEffect(() => {
-    
     if (selectedDistrict.length > 0 || filterAddSubBranch.length > 0) {
       if (selectedDistrict.length > 0) {
         const filteredDatas = props.showSubBranchToAdd.filter((item) => {
@@ -353,12 +416,8 @@ const ChildModal = (props) => {
           renderInput={(params) => (
             <TextField {...params} label="Select Region/Division" />
           )}
-          // filterOptions={[selectedDistrict?.district]}
-          // defaultValue={selectedDistrict}
-          // value={selectedDistrict?.district ?? ""}
-          // inputValue={[selectedDistrict?.district??""]}
+          // value={selectedDistrict?.district ?? "10px"}
           onChange={handleDistrictChange}
-          // showSelectAll={true}
         />
 
         <Autocomplete
@@ -391,19 +450,39 @@ const ChildModal = (props) => {
               />
             </th>
 
-            <th align="right" scope="col">
+            <th
+              align="right"
+              scope="col"
+              style={{ fontWeight: "bold", fontSize: "12px" }}
+            >
               Branch ID
             </th>
-            <th align="right" scope="col">
+            <th
+              align="right"
+              scope="col"
+              style={{ fontWeight: "bold", fontSize: "12px" }}
+            >
               Branch Name
             </th>
-            <th align="right" scope="col">
+            <th
+              align="right"
+              scope="col"
+              style={{ fontWeight: "bold", fontSize: "12px" }}
+            >
               Region
             </th>
-            <th align="right" scope="col">
+            <th
+              align="right"
+              scope="col"
+              style={{ fontWeight: "bold", fontSize: "12px" }}
+            >
               Area
             </th>
-            <th align="right" scope="col">
+            <th
+              align="right"
+              scope="col"
+              style={{ fontWeight: "bold", fontSize: "12px" }}
+            >
               State
             </th>
           </tr>
@@ -427,19 +506,34 @@ const ChildModal = (props) => {
                     />
                   </td>
 
-                  <td colSpan={1} style={{ fontWeight: "bold" }}>
+                  <td
+                    colSpan={1}
+                    style={{ fontWeight: "bold", fontSize: "12px" }}
+                  >
                     {val.branchID}
                   </td>
-                  <td colSpan={1} style={{ fontWeight: "bold" }}>
+                  <td
+                    colSpan={1}
+                    style={{ fontWeight: "bold", fontSize: "12px" }}
+                  >
                     {val.branchName}
                   </td>
-                  <td colSpan={1} style={{ fontWeight: "bold" }}>
+                  <td
+                    colSpan={1}
+                    style={{ fontWeight: "bold", fontSize: "12px" }}
+                  >
                     {val.region}
                   </td>
-                  <td colSpan={1} style={{ fontWeight: "bold" }}>
+                  <td
+                    colSpan={1}
+                    style={{ fontWeight: "bold", fontSize: "12px" }}
+                  >
                     {val.area}
                   </td>
-                  <td colSpan={1} style={{ fontWeight: "bold" }}>
+                  <td
+                    colSpan={1}
+                    style={{ fontWeight: "bold", fontSize: "12px" }}
+                  >
                     {val.state}
                   </td>
                 </tr>
@@ -463,7 +557,11 @@ const ChildModal = (props) => {
           onClick={() => {
             addBranchesInSubDealerOnSelect(props.subDealerID);
           }}
-          style={{ backgroundColor: "green", borderColor: "green" }}
+          style={{
+            backgroundColor: "green",
+            borderColor: "green",
+            color: "#ffffff",
+          }}
         >
           Submit
         </Button>

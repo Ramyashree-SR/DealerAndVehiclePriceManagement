@@ -4,9 +4,9 @@ import React from "react";
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    width: 500,
+    width: 400,
     height:300,
-    
+    zIndex:2
   },
 }));
 

@@ -17,7 +17,7 @@ function UploadDocumentsModal(props) {
   const PennyCheckfileInput = React.useRef();
   const ApproveMailsfileInput = React.useRef();
   const KYCfileInput = React.useRef();
-  const [openViewModal, setopenViewModal] = useState(false);
+  // const [openViewModal, setopenViewModal] = useState(false);
   const [agreementfile, setagreementFile] = useState({
     file: {},
     filename: "",
@@ -333,6 +333,7 @@ function UploadDocumentsModal(props) {
         size="lg"
         aria-labelledby="contained-modal-title-vcenter"
         centered
+        className="mw-100"
       >
         <Modal.Header>
           <Modal.Title

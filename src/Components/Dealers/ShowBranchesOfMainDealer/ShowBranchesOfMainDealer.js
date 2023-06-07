@@ -46,15 +46,9 @@ function ShowBranchesOfMainDealer(props) {
     setPage(newPage);
   };
 
-  
-
   const handleChangeRowsPerPage = (event) => {
     setRowsPerPage(+event.target.value);
     setPage(0);
-  };
-
-  const handleClickOpen = () => {
-    setOpen(true);
   };
 
   const handleClose = () => {
@@ -66,15 +60,11 @@ function ShowBranchesOfMainDealer(props) {
     props.showBranch?.map((item) => {
       tempArr.push({ ...item });
     });
-
-    // setRemoveRowData([...props.showBranch]);
   }, [props.showBranch]);
- 
+
   const removeRowDataofBranchesFromTable = async (params, value) => {
     let payload = [value];
-
     const { data } = await removeAllBranchesInMainDealer(params, payload);
-    // console.log("data", data);
     if (data?.data?.error === "FALSE") {
       props.getShowBranchesInMainDealers(props.mainDealerID);
       props.getShowBranchesToAddInMainDealers(props.mainDealerID);
@@ -89,8 +79,7 @@ function ShowBranchesOfMainDealer(props) {
         size="lg"
         aria-labelledby="contained-modal-title-vcenter"
         centered
-        // maxwidth="900px"
-        sx={{ height: 200, width: 500, ...style }}
+        className="mw-100"
       >
         <Modal.Header>
           <Modal.Title id="contained-modal-title-vcenter" sx={{ ...style }}>
@@ -172,9 +161,6 @@ function ShowBranchesOfMainDealer(props) {
                         aria-labelledby="alert-dialog-title"
                         aria-describedby="alert-dialog-description"
                       >
-                        {/* <DialogTitle id="alert-dialog-title">
-                        {"Use Google's location service?"}
-                      </DialogTitle> */}
                         <DialogContent>
                           <Typography>
                             Are you sure you want to delete?
@@ -228,7 +214,6 @@ function ShowBranchesOfMainDealer(props) {
               props.getShowBranchesToAddInMainDealers
             }
             filterAddBranch={props.filterAddBranch}
-            // showBranchToAddCopy={props.showBranchToAddCopy}
             state={props?.state}
             region={props.region}
             setShowBranchToAdd={props.setShowBranchToAdd}
@@ -246,15 +231,15 @@ const ChildModal = (props) => {
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
   const [regionData, setRegionData] = useState([]);
-  
+
   const [selectedDistrict, setselectedDistrict] = useState([]);
 
   const [areaData, setAreaData] = useState([]);
- 
+
   const [addMainBranches, setAddMainBranches] = useState([]);
-  
+
   const [selectedId, setselectedId] = useState([]);
-  
+
   const [checked, setChecked] = useState(false);
   const [filterAddBranch, setFilterAddBranch] = useState([]);
   const [sendselectedBranches, setsendselectedBranches] = useState([]);
@@ -262,8 +247,6 @@ const ChildModal = (props) => {
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
   };
-
-  
 
   const handleChangeRowsPerPage = (event) => {
     setRowsPerPage(+event.target.value);
@@ -383,7 +366,7 @@ const ChildModal = (props) => {
           return selectedDistrict.includes(item.region.toString());
         });
         setAddMainBranches([...filteredDatas]);
-        
+
         if (selectedDistrict.length > 0 && filterAddBranch.length > 0) {
           const getFinalData = filteredDatas.filter((item) => {
             return filterAddBranch.includes(item.area?.toString());
@@ -424,12 +407,8 @@ const ChildModal = (props) => {
           renderInput={(params) => (
             <TextField {...params} label="Select Region/Division" />
           )}
-          // filterOptions={[selectedDistrict?.district]}
-          // defaultValue={selectedDistrict}
           // value={selectedDistrict?.district ?? ""}
-          // inputValue={[selectedDistrict?.district??""]}
           onChange={handleDistrictChange}
-          // showSelectAll={true}
         />
 
         <Autocomplete

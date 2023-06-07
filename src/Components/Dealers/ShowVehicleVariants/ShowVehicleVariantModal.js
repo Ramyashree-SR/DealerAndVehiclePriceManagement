@@ -32,7 +32,7 @@ function ShowVehicleVariantModal(props) {
     ];
 
     let { data } = await removeAllVehicleVariantsInMainDealer(params, payload);
-    console.log("data", data);
+
     if (data?.data?.error === "FALSE") {
       props.getShowVariantsInMainDealers(props.mainDealerID);
       props.getAllAddVariantsDetails(props.mainDealerID);
@@ -169,7 +169,6 @@ const ChildModal = (props) => {
     }
   };
 
-  
   return (
     <>
       <Typography sx={{ fontSize: 20, fontWeight: "bold" }}>

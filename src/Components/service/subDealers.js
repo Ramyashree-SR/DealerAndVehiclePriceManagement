@@ -14,11 +14,9 @@ const getAllSubDealersDetails = (params) => {
 };
 
 const addSubDealersDetails = (params, payload) => {
-  console.log(params, "addSubdealer");
   return serviceUtil
     .post(`addsubdealer?mainDealerID=${params}`, payload)
     .then((res) => {
-      console.log(res, "response");
       const data = res;
       return { data };
     })
@@ -135,6 +133,21 @@ const removeBranchesInSubDealer = (params, payload) => {
     });
 };
 
+const addAllBranchesofMainDealerInSubDealer = (mainDealerID, subDealerID) => {
+  return serviceUtil
+    .post(
+      `addallmainbranches?mainDealerID=${mainDealerID}&subDealerID=${subDealerID}`
+    )
+    .then((res) => {
+      const data = res;
+      return { data };
+    })
+    .catch((err) => {
+      const errRes = err;
+      return { errRes };
+    });
+};
+
 export {
   getAllSubDealersDetails,
   addSubDealersDetails,
@@ -146,4 +159,5 @@ export {
   getAllBranchesInSubDealerToAdd,
   addBranchesInSubDealer,
   removeBranchesInSubDealer,
+  addAllBranchesofMainDealerInSubDealer,
 };

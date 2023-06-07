@@ -1,4 +1,4 @@
-import { Button, Grid, Typography } from "@mui/material";
+import { Box, Button, Grid, Typography } from "@mui/material";
 import { Layout, theme } from "antd";
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
@@ -37,70 +37,75 @@ function CheckerDashboard() {
     <Layout>
       <Header
         className="w-100"
-        style={{ height: "150px", background: "#ffffff" }}
+        style={{ height: "100px", background: "#ffffff" }}
       >
-        <Grid sx={{ display: "flex", width: "100%" }}>
-          <Grid sx={{ mr: 100 }}>
+        <Box
+          sx={{
+            display: "flex",
+            width: "100%",
+            justifyContent: "space-between",
+            alignItems: "center",
+          }}
+        >
+          <Box>
             <img
               src="./assets/cagllogo.png"
               alt="cagllogo"
-              width="220px"
-              height="120px"
+              width="130px"
+              height="100%"
               margin="20px"
             />
-          </Grid>
+          </Box>
 
-          <Grid sx={{ alignItems: "center", justifyContent: "center" }}>
+          <Box sx={{ alignItems: "center", justifyContent: "center" }}>
             <Typography
               sx={{
-                fontSize: 40,
+                fontSize: 18,
                 fontWeight: 800,
                 color: "#000000",
                 textAlign: "center",
-                mt: 4,
                 fontFamily: "sans-serif",
               }}
             >
               Dealer And Price Management
             </Typography>
-          </Grid>
+          </Box>
 
-          <Grid sx={{ ml: 70 }}>
+          <Box>
             <Button
               variant="contained"
-              size="large"
+              size="medium"
               onClick={naviagteToLogin}
               sx={{
-                mt: 6,
                 background: "green",
-                fontSize: 25,
-                alignItems: "center",
-                justifyContent: "center",
+                fontSize: 15,
               }}
             >
               Logout
             </Button>
-          </Grid>
-        </Grid>
+          </Box>
+        </Box>
       </Header>
       <Layout>
         <Sider
           trigger={null}
           collapsible
           collapsed={collapsed}
-          width={260}
+          width="115px"
+          height="100%"
           style={{
-            background: "#ffffff",
-            maxHeight: "100%",
+            background: "#ffffff ", //#D9EEED
+            marginLeft: "12px",
+            marginTop: "10px",
+            marginBottom: "60px",
           }}
-          className="mt-10"
         >
           {/* <Link to={"./vehicle"}> */}
           <Button
             id="Dealer"
             className="bg-success"
             onClick={navigateToMainDealerTableForChecking}
-            sx={{ margin: 2, color: "white", fontSize: 22 }}
+            sx={{ margin: 1, color: "white", mt: 5, fontSize: 10, width: 100 }}
           >
             Pending Authorisation
           </Button>
@@ -114,7 +119,7 @@ function CheckerDashboard() {
               navigateToMainDealeTable();
               setHideButtons(true);
             }}
-            sx={{ margin: 2, color: "white", fontSize: 22 }}
+            sx={{ margin: 1, color: "white", mt: 5, fontSize: 10, width: 100 }}
           >
             View ALL Dealer SubDealer Details
           </Button>
@@ -128,9 +133,9 @@ function CheckerDashboard() {
           {/* <BreadCrumb/> */}
           <Content
             style={{
-              padding: 24,
+              mt: 10,
               margin: 0,
-              minHeight: 280,
+              marginTop: "20px",
               background: colorBgContainer,
             }}
           >
