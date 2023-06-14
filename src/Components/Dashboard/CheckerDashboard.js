@@ -13,10 +13,7 @@ function CheckerDashboard() {
   const [collapsed, setCollapsed] = useState(false);
   const [showModule, setshowModule] = useState(true);
   const [hideButtons, setHideButtons] = useState(false);
-  const {
-    token: { colorBgContainer },
-  } = theme.useToken();
-
+  
   let navigate = useNavigate();
 
   let navigateToMainDealerTableForChecking = () => {
@@ -34,26 +31,29 @@ function CheckerDashboard() {
     setshowModule(false);
   };
   return (
-    <Layout>
+    <>
       <Header
-        className="w-100"
-        style={{ height: "100px", background: "#ffffff" }}
+        style={{
+          height: "75px",
+          background: "#ffffff",
+          position: "fixed",
+          zIndex: 1,
+          width: "100%",
+        }}
       >
         <Box
           sx={{
             display: "flex",
-            width: "100%",
-            justifyContent: "space-between",
+             justifyContent: "space-between",
             alignItems: "center",
           }}
         >
-          <Box>
+          <Box sx={{ p: 1 }}>
             <img
               src="./assets/cagllogo.png"
               alt="cagllogo"
               width="130px"
               height="100%"
-              margin="20px"
             />
           </Box>
 
@@ -95,9 +95,18 @@ function CheckerDashboard() {
           height="100%"
           style={{
             background: "#ffffff ", //#D9EEED
-            marginLeft: "12px",
-            marginTop: "10px",
+            marginLeft: "20px",
+            marginTop: "50px",
             marginBottom: "60px",
+            overflow: "auto",
+            height: "100vh",
+            position: "fixed",
+            left: 0,
+            top: 100,
+            bottom: 0,
+            mt: 10,
+            margin: 0,
+            zIndex: 1,
           }}
         >
           {/* <Link to={"./vehicle"}> */}
@@ -119,24 +128,29 @@ function CheckerDashboard() {
               navigateToMainDealeTable();
               setHideButtons(true);
             }}
-            sx={{ margin: 1, color: "white", mt: 5, fontSize: 10, width: 100 }}
+            sx={{ margin: 1, color: "white", mt: 2, fontSize: 10, width: 100 }}
           >
             View ALL Dealer SubDealer Details
           </Button>
           {/* </Link> */}
         </Sider>
         <Layout
-          style={{
-            padding: "0 24px 24px",
+           style={{
+            padding: "0px 0px 0px 0px",
           }}
         >
-          {/* <BreadCrumb/> */}
+          
           <Content
             style={{
-              mt: 10,
-              margin: 0,
-              marginTop: "20px",
-              background: colorBgContainer,
+              overflow: "auto",
+              position: "fixed",
+              left: 120,
+              top: 0,
+              bottom: 0,
+              zIndex: 1,
+              marginTop: "90px",
+              background: "#ffffff",
+              width: "90%",
             }}
           >
             {showModule && <CheckerDetails />}
@@ -144,7 +158,7 @@ function CheckerDashboard() {
           </Content>
         </Layout>
       </Layout>
-    </Layout>
+    </>
   );
 }
 

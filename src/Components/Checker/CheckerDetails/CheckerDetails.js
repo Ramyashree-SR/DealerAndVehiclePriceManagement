@@ -312,8 +312,12 @@ export default function CheckerDetails(props) {
         backgroundColor: "light.dark",
       }}
     >
-      <Grid container spacing={2} sx={{ mt: 2 }}>
-        <Grid item xs={12} md={12}>
+      <Box>
+        <Box
+          sx={{
+            mt: 1,
+          }}
+        >
           <Typography
             sx={{
               fontFamily: "sans-serif",
@@ -325,9 +329,9 @@ export default function CheckerDetails(props) {
           >
             Dealer and SubDealer Details
           </Typography>
-        </Grid>
+        </Box>
 
-        {/* <Grid item xs={12} md={12}> */}
+        
         <TableContainer component={Paper} sx={{ margin: "30px" }}>
           <Table aria-label="collapsible table" sx={{ minWidth: 650 }}>
             <TableHead>
@@ -844,7 +848,7 @@ export default function CheckerDetails(props) {
             sx={{ alignItems: "center", justifyContent: "center" }}
           />
         </Grid>
-      </Grid>
+      </Box>
     </Box>
   );
 }

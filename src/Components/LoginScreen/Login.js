@@ -22,12 +22,13 @@ import { useToasts } from "react-toast-notifications";
 
 function Login() {
   const { addToast } = useToasts();
-  const [showPassword, setShowPassword] = useState(true);
+  const [showPassword, setShowPassword] = useState(false);
   const [loginDetails, setLoginDetails] = useState({
     userName: "",
     password: "",
   });
   const { setDashboard } = useContext(GlobalContext);
+  const [loading, setLoading] = useState(false);
 
   const navigate = useNavigate();
   const [userNameErr, setUserNameErr] = useState("");
@@ -119,6 +120,7 @@ function Login() {
     }
     loginDetailsOfMakerChecker();
     setDashboard();
+    setLoading(true);
   };
 
   return (
@@ -220,20 +222,35 @@ function Login() {
             justifyContent: "center",
           }}
         >
-          {/* {dashboard ? ( */}
-          <Button
-            variant="contained"
-            onClick={() => Submit()}
-            sx={{
-              fontSize: 12,
-              background: "#297E09",
-              paddingX: "15px",
-              paddingY: "10px",
-            }}
-          >
-            Login
-          </Button>
-          {/* ) : null} */}
+          {loading ? (
+            <Button>
+              <i
+                class="fa fa-spinner fa-spin"
+                style={{ marginLeft: "12px", marginRight: "8px" }}
+              ></i>
+              loading....
+            </Button>
+          ) : (
+            <Button
+              variant="contained"
+              onClick={() => Submit()}
+              sx={{
+                fontSize: 12,
+                background: "#297E09",
+                paddingX: "15px",
+                paddingY: "10px",
+              }}
+            >
+              Login
+            </Button>
+          )}
+
+          {/* {loading && (
+              <i
+                class="fa fa-spinner fa-spin"
+                style={{ marginLeft: "12px", marginRight: "8px" }}
+              ></i>
+            )} */}
         </Box>
       </Paper>
     </Box>

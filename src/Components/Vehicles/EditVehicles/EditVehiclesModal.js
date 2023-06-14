@@ -11,7 +11,7 @@ function EditVehiclesModal(props) {
     vehicalOem: "",
     state: "",
     MaxLoanAmount: "",
-    onRoadPrice: "",
+    vehicalOnRoadPrice: "",
   });
 
   const updateChange = (event) => {
@@ -32,8 +32,8 @@ function EditVehiclesModal(props) {
       vehicleVariant: editVehicles?.vehicleVariant,
       vehicalOem: editVehicles?.vehicalOem,
       state: editVehicles?.vehicalState,
-      MaxLoanAmount: editVehicles?.vehicleMaxLoanAmount,
-      onRoadPrice: editVehicles?.vehicalOnRoadPrice,
+      vehicleMaxLoanAmount: editVehicles?.vehicleMaxLoanAmount,
+      vehicalOnRoadPrice: editVehicles?.vehicalOnRoadPrice,
     };
     const { data } = await editAllVehicleDetailsByRow(vehicleId, payload);
     console.log(data, "editData");
@@ -43,8 +43,8 @@ function EditVehiclesModal(props) {
         vehicleVariant: "",
         vehicalOem: "",
         state: "",
-        MaxLoanAmount: "",
-        onRoadPrice: "",
+        vehicleMaxLoanAmount: "",
+        vehicalOnRoadPrice: "",
       });
     }
     props.getVehicleVariantsDetails();

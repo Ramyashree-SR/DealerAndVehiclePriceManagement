@@ -32,6 +32,7 @@ import { DemoContainer } from "@mui/x-date-pickers/internals/demo";
 import moment from "moment/moment";
 import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
 import { useToasts } from "react-toast-notifications";
+import AddVehiclesModal from './../../Vehicles/AddVehicles/AddVehiclesModal';
 
 export default function AddDealerModal(props) {
   const { addToast } = useToasts();
@@ -40,7 +41,7 @@ export default function AddDealerModal(props) {
 
   const [vehicleOEM, setVehicleOEM] = useState([]);
 
-  let DealerSubDealer = ["MAIN ", "SUBDEALER"];
+  let DealerSubDealer = ["MAIN"];
   let activationStatus = ["Active", "InActive"];
   let pennyCheckStatus = ["Success", "Failed"];
   const [dealerType, setDealerType] = useState(DealerSubDealer[0]);
@@ -247,6 +248,9 @@ export default function AddDealerModal(props) {
       mainDealerActivationData: moment(
         new Date(addDealer?.mainDealerActivationData)
       ).format("YYYY-MM-DD"),
+      mainDealerExpireData: moment(
+        new Date(addDealer?.mainDealerExpireData)
+      ).format("YYYY-MM-DD"),
       addressDetails: addDealer?.addressDetails,
       state: addDealer?.state,
       district: addDealer?.district,
@@ -299,6 +303,13 @@ export default function AddDealerModal(props) {
     });
   };
 
+  const handleExpiryDateChange = (val) => {
+    const date = moment(val).format("YYYY-MM-DD");
+    setAddDealer({
+      ...addDealer,
+      mainDealerExpireData: date,
+    });
+  };
   const handleActivationChange = (name, event, value) => {
     setAddDealer(() => ({
       ...addDealer,
@@ -675,25 +686,32 @@ export default function AddDealerModal(props) {
                 </DemoContainer>
               </LocalizationProvider>
 
-              {/* <LocalizationProvider dateAdapter={AdapterDateFns}>
+              <LocalizationProvider dateAdapter={AdapterDateFns}>
                 <DemoContainer components={["DatePicker"]}>
                   <DatePicker
                     label="Expiry Date"
                     inputFormat="YYYY-MM-DD"
                     defaultValue="00-00-2099"
-                    disabled
+                    disabled={props.type === "edit" ? false : true}
                     value={new Date(addDealer?.mainDealerExpireData)}
                     onChange={(e) => {
                       handleExpiryDateChange(e);
                     }}
-                    sx={{ width: 225, ml: 2 }}
+                    sx={{
+                      width: 225,
+                      ml: 2,
+                      // display: props.type === "edit" ? "block" : "none",
+                    }}
                   />
                 </DemoContainer>
-              </LocalizationProvider> */}
+              </LocalizationProvider>
+            </Grid>
+
+            <Grid sx={{ display: "flex" }}>
               <Autocomplete
                 id="combo-box-demo"
                 options={activationStatus}
-                sx={{ width: 225, ml: 5, m: 1 }}
+                sx={{ width: 225, m: 1 }}
                 filterOptions={(x) => x}
                 renderInput={(params) => (
                   <TextField {...params} label="Select ActivationType" />
@@ -707,15 +725,11 @@ export default function AddDealerModal(props) {
                     newValue
                   );
                 }}
-                // disabled={props.type === "edit" ? true : false}
               />
-            </Grid>
-
-            <Grid sx={{ display: "flex", m: 1 }}>
               <Autocomplete
                 id="combo-box-demo"
                 options={pennyCheckStatus}
-                sx={{ width: 225 }}
+                sx={{ width: 225, m: 1 }}
                 // size="small"
                 // getOptionLabel={(option) => option.oemName}
                 renderInput={(params) => (
@@ -733,7 +747,7 @@ export default function AddDealerModal(props) {
                 label="Dealer EmailID"
                 variant="outlined"
                 // size="small"
-                sx={{ ml: 2 }}
+                sx={{ m: 1 }}
                 name="mainDealerMailID"
                 value={addDealer?.mainDealerMailID}
                 onChange={(e) => updateChange(e)}

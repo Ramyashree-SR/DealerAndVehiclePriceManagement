@@ -46,17 +46,19 @@ import VariantImageModal from "./VariantImage/VariantImageModal";
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.root}`]: {
-    padding: "2px",
+    padding: "5px",
   },
   [`&.${tableCellClasses.head}`]: {
-    backgroundColor: theme.palette.info.dark,
+    backgroundColor: theme.palette.secondary.dark,
     color: theme.palette.common.white,
-    fontSize: 12,
-    fontWeight: "bold",
+    fontSize: 9,
+    fontWeight: 700,
   },
   [`&.${tableCellClasses.body}`]: {
-    fontSize: 12,
+    fontSize: 9,
     fontWeight: 800,
+    backgroundColor: "#EBDEF0",
+    fontFamily: "sans-serif",
   },
 }));
 
@@ -291,11 +293,10 @@ export default function VehicleDetails(props) {
 
   const getVehicleVariantsDetails = async () => {
     const { data } = await getAllVehicleDetails();
-    // console.log(data?.data,"vehivleData");
+    console.log(data, "daata");
     if (data) {
       let vehData = data?.data;
       setAllVehicleDetails(vehData);
-      // setAllVehicleDetailsCopy(data?.data);
     }
   };
 
@@ -311,39 +312,49 @@ export default function VehicleDetails(props) {
   };
 
   return (
-    <Box sx={{ width: "100%", overflow: "hidden", mt: 2 }} xs={12} md={12}>
-      <Grid container xs={12} md={12}>
-        <Grid item xs={12} md={12}>
+    <Box
+      sx={{
+        alignSelf: "center",
+        justifyContent: "center",
+        backgroundColor: "light.dark",
+        position: "sticky",
+        zIndex: 1,
+      }}
+      xs={12}
+      md={12}
+    >
+      <Box
+        sx={{
+          mt: 1,
+        }}
+      >
+        <Box>
           <Typography
             sx={{
+              fontFamily: "sans-serif",
               fontSize: 20,
               fontWeight: "bold",
-              fontFamily: "sans-serif",
               textAlign: "center",
-              color: "#091CA4",
+              color: "#202DAF ",
             }}
           >
             Vehicle Models And Price Details
           </Typography>
-        </Grid>
+        </Box>
 
-        <Grid
-          item
+        <Box
           sx={{
-            ml: 4,
+            // ml: 0,
+            mt: 3,
             display: "flex",
             flexDirection: "row",
             alignItems: "center",
-            justifyContent: "space-between",
-            // mt: 4,
-            // ml: 1,
+            justifyContent: "space-around",
           }}
-          xs={12}
-          md={12}
         >
           <Typography
             sx={{
-              flexBasis: "5%",
+              // flexBasis: "5%",
               fontSize: 5,
             }}
           >
@@ -354,6 +365,8 @@ export default function VehicleDetails(props) {
           <Box
             sx={{
               flexBasis: "15%",
+              // ml: 2,
+              width: "200px",
             }}
           >
             <Autocomplete
@@ -375,6 +388,8 @@ export default function VehicleDetails(props) {
           <Box
             sx={{
               flexBasis: "15%",
+              // ml: 2,
+              width: "100px",
             }}
           >
             <Autocomplete
@@ -394,7 +409,9 @@ export default function VehicleDetails(props) {
 
           <Box
             sx={{
-              flexBasis: "15%",
+              flexBasis: "20%",
+              // ml: 2,
+              width: "100px",
             }}
           >
             <Autocomplete
@@ -416,7 +433,9 @@ export default function VehicleDetails(props) {
 
           <Box
             sx={{
-              flexBasis: "40%",
+              flexBasis: "35%",
+              // ml: 2,
+              width: "400px",
             }}
           >
             <TextField
@@ -437,29 +456,29 @@ export default function VehicleDetails(props) {
               }}
             />
           </Box>
-        </Grid>
+        </Box>
 
         <Box
           sx={{
-            margin: "10px 30px 0px 45px",
+            margin: "30px 30px 20px 20px",
             display: "flex",
             alignItems: "center",
             justifyContent: "space-between",
-            width: "100%",
+            width: "88%",
+            mt: 1,
+            position: "fixed",
+            zIndex: 1,
+            overflow: "auto",
+            ml: "760px",
           }}
         >
           <Box
-            sx={{
-              ml: 140,
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "space-between",
-            }}
+            sx={{ display: "flex", alignItems: "center", flexDirection: "row" }}
           >
             <ColorButton
               variant="contained"
               size="small"
-              sx={{ m: 2, background: "#2F41C6" }}
+              sx={{ background: "#2F41C6", fontSize: 10 }}
               onClick={() => {
                 setopenVariantImageModal(true);
                 getVehicleVariantsImageDetails();
@@ -467,17 +486,13 @@ export default function VehicleDetails(props) {
             >
               Variant Images
             </ColorButton>
-            {/* <VariantImage show={openVariantImageModal}
-              close={() => setopenVariantImageModal(false)}
-              allVariants={allVariants}/> */}
+
             <VariantImageModal
               show={openVariantImageModal}
               close={() => setopenVariantImageModal(false)}
               allVariants={allVariants}
             />
-          </Box>
 
-          <Box sx={{ mr: 3 }}>
             <ColorButton
               variant="contained"
               size="large"
@@ -493,106 +508,147 @@ export default function VehicleDetails(props) {
             getAllVehicleDetails={getAllVehicleDetails}
           />
         </Box>
+        <Box sx={{ position: "fixed", minWidth: "88%" }}>
+          <TableContainer
+            component={Paper}
+            sx={{
+              margin: "10px 10px 30px 20px",
+              mt: 7,
+              maxHeight: "350px",
+              position: "sticky",
+            }}
+          >
+            <Table stickyHeader aria-label="sticky table">
+              <TableHead>
+                <TableRow align="center">
+                  <StyledTableCell align="center">Vehicle ID</StyledTableCell>
+                  <StyledTableCell align="center">State</StyledTableCell>
+                  <StyledTableCell align="center">Vehicle OEM</StyledTableCell>
+                  <StyledTableCell align="center">
+                    Vehicle Model
+                  </StyledTableCell>
+                  <StyledTableCell align="center">
+                    Vehicle Variant Name
+                  </StyledTableCell>
+                  <StyledTableCell align="center">
+                    Ex ShowRoom Price
+                  </StyledTableCell>
+                  <StyledTableCell align="center">
+                    On Road Price
+                  </StyledTableCell>
+                  <StyledTableCell align="center">
+                    Max Loan Amount
+                  </StyledTableCell>
+                  <StyledTableCell align="center">
+                    Updated UserID
+                  </StyledTableCell>
+                  <StyledTableCell align="center">Updated Date</StyledTableCell>
+                  <StyledTableCell align="center">Actions</StyledTableCell>
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                {allVehicleDetails &&
+                  allVehicleDetails
+                    ?.filter((value) => {
+                      // console.log(value,"value");
+                      if (searchText === "") {
+                        return value;
+                      } else if (
+                        value.vehicleId
+                          .toLowerCase()
+                          .includes(searchText.toLowerCase())
+                      ) {
+                        // console.log(searchText,"searchText");
+                        return value;
+                      }
+                    })
+                    .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                    .map((row) => (
+                      <StyledTableRow key={row.vehicleId}>
+                        <StyledTableCell
+                          component="th"
+                          scope="row"
+                          align="center"
+                        >
+                          {row.vehicleId}
+                        </StyledTableCell>
+                        <StyledTableCell align="center">
+                          {row.vehicalState}
+                        </StyledTableCell>
+                        <StyledTableCell align="center">
+                          {row.vehicalOem}
+                        </StyledTableCell>
+                        <StyledTableCell align="center">
+                          {row.vehicleModel}
+                        </StyledTableCell>
+                        <StyledTableCell align="center">
+                          {row.vehicleVariant}
+                        </StyledTableCell>
+                        <StyledTableCell align="center">
+                          --{row.exShowRoomPrice}
+                        </StyledTableCell>
+                        <StyledTableCell align="center">
+                          {row.vehicalOnRoadPrice}
+                        </StyledTableCell>
+                        <StyledTableCell align="center">
+                          {row.vehicleMaxLoanAmount}
+                        </StyledTableCell>
+                        <StyledTableCell align="center">
+                          {row.updaterUserID}
+                        </StyledTableCell>
+                        <StyledTableCell align="center">
+                          {row.updatedDate}
+                        </StyledTableCell>
 
-        <TableContainer component={Paper}>
-          <Table sx={{ minWidth: 600 }} aria-label="customized table">
-            <TableHead>
-              <TableRow align="center">
-                <StyledTableCell>Vehicle ID</StyledTableCell>
-                <StyledTableCell>State</StyledTableCell>
-                <StyledTableCell>Vehicle OEM</StyledTableCell>
-                <StyledTableCell>Vehicle Model</StyledTableCell>
-                <StyledTableCell>Vehicle Variant Name</StyledTableCell>
-                <StyledTableCell>Ex ShowRoom Price</StyledTableCell>
-                <StyledTableCell>On Road Price</StyledTableCell>
-                <StyledTableCell>Max Loan Amount</StyledTableCell>
-                <StyledTableCell>Updated UserID</StyledTableCell>
-                <StyledTableCell>Updated Date</StyledTableCell>
-                <StyledTableCell align="center">Actions</StyledTableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {allVehicleDetails &&
-                allVehicleDetails
-                  ?.filter((value) => {
-                    // console.log(value,"value");
-                    if (searchText === "") {
-                      return value;
-                    } else if (
-                      value.vehicleId
-                        .toLowerCase()
-                        .includes(searchText.toLowerCase())
-                    ) {
-                      // console.log(searchText,"searchText");
-                      return value;
-                    }
-                  })
-                  .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                  .map((row) => (
-                    <StyledTableRow key={row.vehicleId}>
-                      <StyledTableCell component="th" scope="row">
-                        {row.vehicleId}
-                      </StyledTableCell>
-                      <StyledTableCell>{row.vehicalState}</StyledTableCell>
-                      <StyledTableCell>{row.vehicalOem}</StyledTableCell>
-                      <StyledTableCell>{row.vehicleModel}</StyledTableCell>
-                      <StyledTableCell>{row.vehicleVariant}</StyledTableCell>
-                      <StyledTableCell>--{row.exShowRoomPrice}</StyledTableCell>
-                      <StyledTableCell>
-                        {row.vehicalOnRoadPrice}
-                      </StyledTableCell>
-                      <StyledTableCell>
-                        {row.vehicleMaxLoanAmount}
-                      </StyledTableCell>
-                      <StyledTableCell>{row.updaterUserID}</StyledTableCell>
-                      <StyledTableCell>{row.updatedDate}</StyledTableCell>
-
-                      <StyledTableCell align="left">
-                        <ColorIcon>
-                          <Grid
-                            sx={{
-                              alignItems: "center",
-                              justifyContent: "center",
-                              display: "flex",
-                              flexDirection: "column",
-                            }}
-                          >
-                            <ModeEditIcon
-                              onClick={() => handleEditVehicleTable(row)}
-                              fontSize="small"
-                            />
-                            <Typography sx={{ fontWeight: "bold" ,fontSize:"small"}}>
-                              EDIT
-                            </Typography>
-                            <EditVehiclesModal
-                              show={openEditVehicleModal}
-                              close={() => setOpenEditVehicleModal(false)}
-                              editVehicleData={editVehicleData}
-                              getVehicleVariantsDetails={
-                                getVehicleVariantsDetails
-                              }
-                            />
-                          </Grid>
-                        </ColorIcon>
-                      </StyledTableCell>
-                    </StyledTableRow>
-                  ))}
-            </TableBody>
-          </Table>
-        </TableContainer>
-        <Grid item xs={12} md={12}>
-          <TablePagination
-            rowsPerPageOptions={[10, 25, 100]}
-            component="div"
-            count={allVehicleDetails.length}
-            rowsPerPage={rowsPerPage}
-            page={page}
-            onPageChange={handleChangePage}
-            onRowsPerPageChange={handleChangeRowsPerPage}
-            sx={{ alignItems: "center", justifyContent: "center" }}
-          />
-        </Grid>
-      </Grid>
+                        <StyledTableCell align="left">
+                          <ColorIcon>
+                            <Grid
+                              sx={{
+                                alignItems: "center",
+                                justifyContent: "center",
+                                display: "flex",
+                                flexDirection: "column",
+                              }}
+                            >
+                              <ModeEditIcon
+                                onClick={() => handleEditVehicleTable(row)}
+                                fontSize="small"
+                              />
+                              <Typography
+                                sx={{ fontWeight: "bold", fontSize: 10 }}
+                              >
+                                EDIT
+                              </Typography>
+                              <EditVehiclesModal
+                                show={openEditVehicleModal}
+                                close={() => setOpenEditVehicleModal(false)}
+                                editVehicleData={editVehicleData}
+                                getVehicleVariantsDetails={
+                                  getVehicleVariantsDetails
+                                }
+                              />
+                            </Grid>
+                          </ColorIcon>
+                        </StyledTableCell>
+                      </StyledTableRow>
+                    ))}
+              </TableBody>
+            </Table>
+            <Grid item xs={12} md={12} sx={{ mr: 2 }}>
+              <TablePagination
+                rowsPerPageOptions={[10, 25, 100]}
+                component="div"
+                count={allVehicleDetails.length}
+                rowsPerPage={rowsPerPage}
+                page={page}
+                onPageChange={handleChangePage}
+                onRowsPerPageChange={handleChangeRowsPerPage}
+                sx={{ fontSize: 10, m: 0 }}
+              />
+            </Grid>
+          </TableContainer>
+        </Box>
+      </Box>
     </Box>
   );
 }

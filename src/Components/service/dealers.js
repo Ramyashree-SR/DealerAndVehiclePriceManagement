@@ -55,11 +55,12 @@ const getAllVehicleOEM = () => {
     });
 };
 
-//For Addinfg the Dealer ALL oem Api's
+//For Adding the Dealer ALL oem Api's
 const getVehicleOEM = () => {
   return serviceUtil
     .get(`alloem`)
     .then((res) => {
+      // console.log(res,"res");
       const data = res;
       return { data };
     })

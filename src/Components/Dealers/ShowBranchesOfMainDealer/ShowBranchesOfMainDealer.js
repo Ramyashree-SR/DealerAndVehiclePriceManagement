@@ -40,7 +40,7 @@ function ShowBranchesOfMainDealer(props) {
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
   const [open, setOpen] = useState(false);
-  const [removeRowData, setRemoveRowData] = useState([]);
+  // const [removeRowData, setRemoveRowData] = useState([]);
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
@@ -51,8 +51,10 @@ function ShowBranchesOfMainDealer(props) {
     setPage(0);
   };
 
-  const handleClose = () => {
+  const handleClose = (event) => {
+    event.preventDefault();
     setOpen(false);
+    // window.location.reload();
   };
 
   useEffect(() => {
@@ -60,6 +62,8 @@ function ShowBranchesOfMainDealer(props) {
     props.showBranch?.map((item) => {
       tempArr.push({ ...item });
     });
+    // const lastRowIndex = props.showBranch?.length - 1;
+    // setRemoveRowData(tempArr, lastRowIndex);
   }, [props.showBranch]);
 
   const removeRowDataofBranchesFromTable = async (params, value) => {
@@ -70,6 +74,12 @@ function ShowBranchesOfMainDealer(props) {
       props.getShowBranchesToAddInMainDealers(props.mainDealerID);
     }
   };
+
+  // const removeRow = (id) => {
+  //   setRemoveRowData((prevData) =>
+  //     prevData.filter((value) => value.branchID !== id)
+  //   );
+  // };
 
   return (
     <>
@@ -169,12 +179,13 @@ function ShowBranchesOfMainDealer(props) {
                         <DialogActions>
                           <Button onClick={handleClose}>Back</Button>
                           <Button
-                            onClick={() => {
-                              handleClose();
+                            onClick={(e) => {
+                              handleClose(e);
                               removeRowDataofBranchesFromTable(
                                 props.mainDealerID,
                                 value
                               );
+                              // removeRow(value.branchID);
                             }}
                             autoFocus
                           >
@@ -208,7 +219,7 @@ function ShowBranchesOfMainDealer(props) {
           <ChildModal
             showBranchToAdd={props.showBranchToAdd}
             mainDealerID={props.mainDealerID}
-            removeRowData={removeRowData}
+            // removeRowData={removeRowData}
             getShowBranchesInMainDealers={props.getShowBranchesInMainDealers}
             getShowBranchesToAddInMainDealers={
               props.getShowBranchesToAddInMainDealers
@@ -231,15 +242,10 @@ const ChildModal = (props) => {
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
   const [regionData, setRegionData] = useState([]);
-
   const [selectedDistrict, setselectedDistrict] = useState([]);
-
   const [areaData, setAreaData] = useState([]);
-
   const [addMainBranches, setAddMainBranches] = useState([]);
-
   const [selectedId, setselectedId] = useState([]);
-
   const [checked, setChecked] = useState(false);
   const [filterAddBranch, setFilterAddBranch] = useState([]);
   const [sendselectedBranches, setsendselectedBranches] = useState([]);

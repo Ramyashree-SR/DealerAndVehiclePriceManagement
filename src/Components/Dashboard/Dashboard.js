@@ -16,9 +16,6 @@ const { Header, Content, Sider } = Layout;
 function Dashboard() {
   const [collapsed, setCollapsed] = useState(false);
   const [showModule, setshowModule] = useState(true);
-  const {
-    token: { colorBgContainer },
-  } = theme.useToken();
 
   let navigate = useNavigate();
 
@@ -38,24 +35,29 @@ function Dashboard() {
   };
 
   return (
-    // <Box sx={{position:"",width:"100%"}}>
-    <Layout>
-      <Header className="" style={{ height: "100px", background: "#ffffff" }}>
+    <>
+      <Header
+        style={{
+          height: "75px",
+          background: "#ffffff",
+          position: "fixed",
+          zIndex: 1,
+          width: "100%",
+        }}
+      >
         <Box
           sx={{
             display: "flex",
-            width: "100%",
             justifyContent: "space-between",
             alignItems: "center",
           }}
         >
-          <Box>
+          <Box sx={{ p: 1 }}>
             <img
               src="./assets/cagllogo.png"
               alt="cagllogo"
               width="130px"
               height="100%"
-              marginTop="1px"
             />
           </Box>
 
@@ -92,17 +94,23 @@ function Dashboard() {
           trigger={null}
           collapsible
           collapsed={collapsed}
-          
-          width="115px"
-          height="100%"
+          width="10%"
           style={{
             background: "#ffffff ", //#D9EEED
-            marginLeft: "12px",
-            marginTop: "10px",
+            marginLeft: "20px",
+            marginTop: "50px",
             marginBottom: "60px",
+            overflow: "auto",
+            height: "100vh",
+            position: "fixed",
+            left: 0,
+            top: 100,
+            bottom: 0,
+            mt: 10,
+            margin: 0,
+            zIndex: 1,
           }}
         >
-          {/* <Link to={"./dealers"}> */}
           <Button
             id="Dealer"
             className="bg-success"
@@ -111,9 +119,7 @@ function Dashboard() {
           >
             Dealer SubDealer Details
           </Button>
-          {/* </Link> */}
 
-          {/* <Link to={"./vehicle"}> */}
           <Button
             id="Dealer"
             className="bg-success"
@@ -128,19 +134,20 @@ function Dashboard() {
         {/* <BreadCrumb/> */}
         <Layout
           style={{
-            padding: "0 12px 12px",
+            padding: "0px 0px 0px 0px",
           }}
         >
           <Content
             style={{
-              mt: 10,
-              // padding: 24,
-              margin: 0,
-              // height: "100%",
-              // position:"relative",
-              // marginLeft: "10px",
-              marginTop: "20px",
-              background: colorBgContainer,
+              overflow: "auto",
+              position: "fixed",
+              left: 120,
+              top: 0,
+              bottom: 0,
+              zIndex: 1,
+              marginTop: "90px",
+              background: "#ffffff",
+              width: "90%",
             }}
           >
             {showModule && <DealerSubDealerTable />}
@@ -148,8 +155,7 @@ function Dashboard() {
           </Content>
         </Layout>
       </Layout>
-    </Layout>
-    // </Box>
+    </>
   );
 }
 
