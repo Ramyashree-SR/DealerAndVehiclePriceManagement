@@ -41,27 +41,30 @@ function Login() {
       let regex = /^[a-zA-Z ]{2,30}$/;
       if (regex.test(loginDetails.userName)) {
         setUserNameErr("");
+        setLoading(false);
         return true;
       } else {
         setUserNameErr("*Enter valid userName");
       }
     } else {
-      setUserNameErr("Username required");
+      setUserNameErr("*This field is required");
       return false;
     }
   };
 
   let passwordValidation = () => {
     if (loginDetails.password) {
-      let regex = /^(?=.*\d)(?=.*[a-zA-Z])[a-zA-Z0-9]{7,}$/;
+      let regex =
+        /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/;
       if (regex.test(loginDetails.password)) {
         setPasswordErr("");
+        setLoading(false);
         return true;
       } else {
         setPasswordErr("*Enter valid password");
       }
     } else {
-      setPasswordErr("password required");
+      setPasswordErr("*This field is required");
       return false;
     }
   };
@@ -79,18 +82,20 @@ function Login() {
       userPassword: loginDetails.password,
     };
     const { data, errRes } = await getLoginDetails(payload);
-    // console.log(data,"data");
     if (data) {
       if (data) {
         data.data.userROle.forEach((item) => {
           if (item === "ROLE_MAKER") {
+            // setLoading(false);
             navigate("/dashboard");
           }
           if (item === "ROLE_CHECKER") {
+            // setLoading(false);
             navigate("/checkerdashboard");
           }
         });
       }
+
       // sessionStorage.setItem("jwtData", JSON.stringify(data));
       // sessionStorage.setItem("userName", loginDetails?.userName);
       // sessionStorage.setItem("token", JSON.stringify(data?.token));
@@ -112,15 +117,19 @@ function Login() {
   const Submit = () => {
     userNameValidation();
     passwordValidation();
+
+    setTimeout(() => {
+      // Assuming login is unsuccessful
+      setLoading(false);
+    }, 1000);
     if (userNameValidation() && passwordValidation()) {
       setLoginDetails({
         userName: "",
         password: "",
       });
     }
-    loginDetailsOfMakerChecker();
-    setDashboard();
     setLoading(true);
+    loginDetailsOfMakerChecker();
   };
 
   return (
@@ -172,6 +181,9 @@ function Login() {
             }}
             size="small"
           />
+          {userNameErr && (
+            <Typography sx={{ color: "red" }}>{userNameErr}</Typography>
+          )}
         </Box>
 
         <Box
@@ -212,6 +224,9 @@ function Login() {
               ),
             }}
           />
+          {/* {passwordErr && (
+            <Typography sx={{ color: "red" }}>{passwordErr}</Typography>
+          )} */}
         </Box>
 
         <Box
@@ -222,35 +237,26 @@ function Login() {
             justifyContent: "center",
           }}
         >
-          {loading ? (
-            <Button>
+          <Button
+            variant="contained"
+            onClick={() => Submit()}
+            sx={{
+              fontSize: 12,
+              background: "#297E09",
+              paddingX: "15px",
+              paddingY: "10px",
+            }}
+          >
+            {loading ? "Loading..." : "Login"}
+            {loading ? (
+              // <Button>
               <i
                 class="fa fa-spinner fa-spin"
                 style={{ marginLeft: "12px", marginRight: "8px" }}
               ></i>
-              loading....
-            </Button>
-          ) : (
-            <Button
-              variant="contained"
-              onClick={() => Submit()}
-              sx={{
-                fontSize: 12,
-                background: "#297E09",
-                paddingX: "15px",
-                paddingY: "10px",
-              }}
-            >
-              Login
-            </Button>
-          )}
-
-          {/* {loading && (
-              <i
-                class="fa fa-spinner fa-spin"
-                style={{ marginLeft: "12px", marginRight: "8px" }}
-              ></i>
-            )} */}
+            ) : // </Button>
+            null}
+          </Button>
         </Box>
       </Paper>
     </Box>

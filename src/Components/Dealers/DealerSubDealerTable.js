@@ -272,9 +272,7 @@ export default function DealerSubDealerTable(props) {
   }, []);
 
   const getAllVehicleOemDetails = async () => {
-    // console.log(state, "state ");
     const { data } = await getAllVehicleOEM();
-    // console.log(data?.data, "OEM");
     if (data) {
       let OemData = [];
       data.data?.data?.map((val) => {
@@ -288,7 +286,6 @@ export default function DealerSubDealerTable(props) {
 
   const getStateDetails = async (oem) => {
     const { data } = await getAllStateDetails(oem);
-
     if (data) {
       let stateData = [];
       data?.data?.data?.map((val) => {
@@ -379,9 +376,7 @@ export default function DealerSubDealerTable(props) {
   };
 
   const getSubDealerDetails = async (mainDealerId) => {
-    // setOpen(!open);
     const { data } = await getAllSubDealersDetails(mainDealerId);
-
     const subdealerData = data?.data?.data;
     setallSubDealers(subdealerData);
   };
@@ -399,7 +394,6 @@ export default function DealerSubDealerTable(props) {
 
   const getAllAddVariantsDetails = async (params) => {
     const { data } = await showVehicleVariantsToAddInMainDealer(params);
-
     if (data) {
       if (data) {
         setshowAddVariants(data?.data?.data);
@@ -425,7 +419,6 @@ export default function DealerSubDealerTable(props) {
 
   const getShowBranchesToAddInMainDealers = async (mainDealerID) => {
     const { data } = await getAllBranchesToAddInMainDealer(mainDealerID);
-
     if (data) {
       if (data) {
         if (data) {
@@ -438,7 +431,6 @@ export default function DealerSubDealerTable(props) {
 
   const getShowBranchesInSubDealers = async (params) => {
     const { data } = await getAllBranchesInSubDealer(params);
-
     if (data) {
       if (data) {
         let subBranchData = data?.data?.data;
@@ -449,7 +441,6 @@ export default function DealerSubDealerTable(props) {
 
   const getShowBranchesInSubDealersToAdd = async (params) => {
     const { data } = await getAllBranchesInSubDealerToAdd(params);
-
     if (data) {
       if (data) {
         let subBranchDataToAdd = data?.data?.data;
@@ -693,7 +684,6 @@ export default function DealerSubDealerTable(props) {
               margin: "10px 10px 30px 10px",
               mt: 7,
               maxHeight: "350px",
-              position: "sticky",
             }}
           >
             <Table stickyHeader aria-label="sticky table">

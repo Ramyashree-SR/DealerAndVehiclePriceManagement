@@ -57,11 +57,7 @@ function App() {
         </GloabalProvider>
       </BrowserRouter>
 
-      {/* <DealerSubDealerTable/> */}
-      {/* <DealersTable/> */}
-      {/* <State/> */}
-      {/* <VehicleDetails/> */}
-      {/* <BreadCrumb/> */}
+ 
     </>
   );
 }
