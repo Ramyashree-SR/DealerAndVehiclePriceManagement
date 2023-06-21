@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Button, Modal, ModalFooter } from "react-bootstrap";
-import { Box, Typography } from "@mui/material";
+import { Box, TablePagination, Typography } from "@mui/material";
 import {
   addAllVehicleVariantsInMainDealer,
   removeAllVehicleVariantsInMainDealer,
@@ -13,7 +13,18 @@ const style = {
 };
 
 function ShowVehicleVariantModal(props) {
+  const [page, setPage] = useState(0);
+  const [rowsPerPage, setRowsPerPage] = useState(5);
   const [removeRowData, setRemoveRowData] = useState([]);
+
+  const handleChangePage = (event, newPage) => {
+    setPage(newPage);
+  };
+
+  const handleChangeRowsPerPage = (event) => {
+    setRowsPerPage(+event.target.value);
+    setPage(0);
+  };
 
   useEffect(() => {
     const tempArr = [];
@@ -24,30 +35,26 @@ function ShowVehicleVariantModal(props) {
   }, [props.showVariants]);
 
   const removeRowDataofVariantsFromTable = async (params, value) => {
-    let payload = [
-      {
-        variantID: value.variantID,
-        variantName: value.variantName,
-      },
-    ];
-
-    let { data } = await removeAllVehicleVariantsInMainDealer(params, payload);
-
+    let payload = [value];
+    const { data } = await removeAllVehicleVariantsInMainDealer(
+      params,
+      payload
+    );
     if (data?.data?.error === "FALSE") {
       props.getShowVariantsInMainDealers(props.mainDealerID);
       props.getAllAddVariantsDetails(props.mainDealerID);
     }
   };
+
   return (
     <>
       <Modal
         show={props.show}
         close={props.close}
-        size="medium"
+        size="md"
         aria-labelledby="contained-modal-title-vcenter"
         centered
-        width="100%"
-        sx={{ height: 200, width: 500, ...style }}
+        className="mw-100"
       >
         <Modal.Header>
           <Modal.Title id="contained-modal-title-vcenter" sx={{ ...style }}>
@@ -69,48 +76,53 @@ function ShowVehicleVariantModal(props) {
           <table className="table table-dark table-striped">
             <thead>
               <tr>
-                <th align="right" colSpan={2} scope="col">
+                <th align="center" scope="col">
                   Variant ID
                 </th>
-                <th align="right" colSpan={10} scope="col">
+                <th align="center" scope="col">
                   Variant Name
                 </th>
+                <th></th>
               </tr>
             </thead>
 
             <tbody className="table table-success table-striped">
-              {props.showVariants?.map((value, idx) => (
-                <tr key={idx}>
-                  <td
-                    colSpan={3}
-                    cellSpacing={3}
-                    style={{ fontWeight: "bold" }}
-                  >
-                    {value.variantID}
-                  </td>
-                  <td
-                    colSpan={3}
-                    cellSpacing={3}
-                    style={{ fontWeight: "bold" }}
-                  >
-                    {value.variantName}
-                  </td>
+              {props.showVariants
+                ?.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                .map((value, idx) => (
+                  <tr key={idx}>
+                    <td style={{ fontWeight: "bold" }} colSpan={1}>
+                      {value.variantID}
+                    </td>
+                    <td style={{ fontWeight: "bold" }} colSpan={1}>
+                      {value.variantName}
+                    </td>
 
-                  <td>
-                    <DeleteIcon
-                      onClick={() => {
-                        removeRowDataofVariantsFromTable(
-                          props.mainDealerID,
-                          value
-                        );
-                      }}
-                      size="large"
-                    />
-                  </td>
-                </tr>
-              ))}
+                    <td>
+                      <DeleteIcon
+                        onClick={() => {
+                          removeRowDataofVariantsFromTable(
+                            props.mainDealerID,
+                            value
+                          );
+                        }}
+                        fontSize="large"
+                      />
+                    </td>
+                  </tr>
+                ))}
             </tbody>
           </table>
+          <TablePagination
+            rowsPerPageOptions={[5, 10, 15]}
+            component="div"
+            count={props.showVariants?.length}
+            rowsPerPage={rowsPerPage}
+            page={page}
+            onPageChange={handleChangePage}
+            onRowsPerPageChange={handleChangeRowsPerPage}
+            sx={{ alignItems: "center", justifyContent: "center" }}
+          />
 
           <hr
             style={{
@@ -136,36 +148,80 @@ function ShowVehicleVariantModal(props) {
 }
 
 const ChildModal = (props) => {
+  const [page, setPage] = useState(0);
+  const [rowsPerPage, setRowsPerPage] = useState(5);
   const [addMainVariant, setAddMainVariant] = useState([]);
+  const [selectedId, setselectedId] = useState([]);
+
+  const handleChangePage = (event, newPage) => {
+    setPage(newPage);
+  };
+
+  const handleChangeRowsPerPage = (event) => {
+    setRowsPerPage(+event.target.value);
+    setPage(0);
+  };
 
   useEffect(() => {
-    const tempState = [];
-    props.showAddVariants?.map((item) => {
-      tempState.push({ ...item, checked: false });
-    });
-    console.log(tempState);
-    setAddMainVariant([...props.showAddVariants]);
+    setAddMainVariant(props.showAddVariants);
   }, [props.showAddVariants]);
 
-  function onCheckBoxClick(e, index) {
-    const tempState = [...addMainVariant];
-    console.log(tempState, "tempp");
-    tempState[index].checked = e.target.checked;
-    setAddMainVariant([...tempState]);
+  const isSelected = (id) => selectedId.indexOf(id) !== -1;
+
+  function onCheckBoxClick(e, value, id) {
+    const selectedIndex = selectedId.indexOf(id);
+    let newSelected = [];
+
+    if (selectedIndex === -1) {
+      newSelected = newSelected.concat(selectedId, id);
+    } else if (selectedIndex === 0) {
+      newSelected = newSelected.concat(selectedId.slice(1));
+    } else if (selectedIndex === selectedId.length - 1) {
+      newSelected = newSelected.concat(selectedId.slice(0, -1));
+    } else if (selectedIndex > 0) {
+      newSelected = newSelected.concat(
+        selectedId.slice(0, selectedIndex),
+        selectedId.slice(selectedIndex + 1)
+      );
+    }
+    setselectedId(newSelected);
   }
 
+  // function onCheckBoxClick(e, index) {
+  //   const tempState = [...addMainVariant];
+  //   console.log(tempState, "tempp");
+  //   tempState[index].checked = e.target.checked;
+  //   setAddMainVariant([...tempState]);
+  // }
+
+  // useEffect(() => {
+  //   const tempState = [];
+  //   props.showAddVariants?.map((item) => {
+  //     tempState.push({ ...item, checked: false });
+  //   });
+  //   console.log(tempState);
+  //   setAddMainVariant([...props.showAddVariants]);
+  // }, [props.showAddVariants]);
+
+  // function onCheckBoxClick(e, index) {
+  //   const tempState = [...addMainVariant];
+  //   console.log(tempState, "tempp");
+  //   tempState[index].checked = e.target.checked;
+  //   setAddMainVariant([...tempState]);
+  // }
+
   const addAllVehicleVariantsInMainDealerOnSelect = async (params) => {
-    const tempState = [...addMainVariant];
-    const checkedValue = tempState.filter((val) => val.checked);
-    if (checkedValue.length > 0) {
-      const { data } = await addAllVehicleVariantsInMainDealer(
-        params,
-        checkedValue
-      );
-      if (data?.data?.error === "False") {
-        props.getShowVariantsInMainDealers(props.mainDealerID);
-        props.getAllAddVariantsDetails(props.mainDealerID);
+    const payload = [];
+    props.showAddVariants.forEach((item) => {
+      if (selectedId.includes(item.variantID)) {
+        payload.push(item);
       }
+    });
+    const { data } = await addAllVehicleVariantsInMainDealer(params, payload);
+    if (data?.data?.error === "False") {
+      props.getShowVariantsInMainDealers(props.mainDealerID);
+      props.getAllAddVariantsDetails(props.mainDealerID);
+      setselectedId([]);
     }
   };
 
@@ -178,39 +234,53 @@ const ChildModal = (props) => {
         <thead>
           <tr>
             <th></th>
-            <th align="right" colSpan={2} scope="col">
+            <th align="center" scope="col">
               Variant ID
             </th>
-            <th align="right" colSpan={10} scope="col">
+            <th align="center" scope="col">
               Variant Name
             </th>
           </tr>
         </thead>
 
         <tbody className="table  ">
-          {addMainVariant?.map((val, idx) => (
-            <tr key={idx}>
-              <td>
-                <input
-                  type="checkbox"
-                  id="switch"
-                  checked={val.checked}
-                  value=""
-                  onChange={(e) => {
-                    onCheckBoxClick(e, idx);
-                  }}
-                />
-              </td>
-              <td colSpan={3} cellSpacing={3} style={{ fontWeight: "bold" }}>
-                {val.variantID}
-              </td>
-              <td colSpan={3} cellSpacing={3} style={{ fontWeight: "bold" }}>
-                {val.variantName}
-              </td>
-            </tr>
-          ))}
+          {addMainVariant
+            ?.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+            .map((val, idx) => {
+              const isItemSelected = isSelected(val.variantID);
+              return (
+                <tr key={idx}>
+                  <td>
+                    <input
+                      type="checkbox"
+                      id="switch"
+                      checked={isItemSelected}
+                      onChange={(e) => {
+                        onCheckBoxClick(e, val, val.variantID);
+                      }}
+                    />
+                  </td>
+                  <td colSpan={1} style={{ fontWeight: "bold" }}>
+                    {val.variantID}
+                  </td>
+                  <td colSpan={1} style={{ fontWeight: "bold" }}>
+                    {val.variantName}
+                  </td>
+                </tr>
+              );
+            })}
         </tbody>
       </table>
+      <TablePagination
+        rowsPerPageOptions={[5, 10, 15]}
+        component="div"
+        count={addMainVariant?.length}
+        rowsPerPage={rowsPerPage}
+        page={page}
+        onPageChange={handleChangePage}
+        onRowsPerPageChange={handleChangeRowsPerPage}
+        sx={{ alignItems: "center", justifyContent: "center" }}
+      />
       <Box className="d-flex align-Items-center justify-content-center">
         <Button
           onClick={() => {

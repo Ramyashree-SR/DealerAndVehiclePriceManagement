@@ -13,6 +13,9 @@ import { DemoContainer } from "@mui/x-date-pickers/internals/demo";
 
 export default function AddSubDealerModal(props) {
   let activationStatus = ["Active", "InActive"];
+  let SubDealer = ["SUB"];
+  const [dealerType, setDealerType] = useState(SubDealer[0]);
+  const [dealerTypeStatus, setDealerTypeStatus] = useState("");
   const [addSubDealer, setAddSubDealer] = useState({
     mainDealerID: "",
     subDealerName: "",
@@ -95,7 +98,7 @@ export default function AddSubDealerModal(props) {
       subDealerActivationStatus: addSubDealer?.subDealerActivationStatus,
     };
     const { data } = await addSubDealersDetails(params, payload);
-     if (data) {
+    if (data) {
       if (data) {
         setAddSubDealer({
           mainDealerID: "",
@@ -289,7 +292,7 @@ export default function AddSubDealerModal(props) {
               value={addSubDealer?.district ?? ""}
               onChange={(e) => updateChange(e)}
             />
-            <Grid>
+            <Grid sx={{display:"flex"}}>
               <TextField
                 id="outlined-basic"
                 label="MainDealer ID"
@@ -312,7 +315,26 @@ export default function AddSubDealerModal(props) {
                 value={addSubDealer?.subDealerName}
                 onChange={(e) => updateChange(e)}
               />
-              <TextField
+
+              <Autocomplete
+                id="combo-box-demo"
+                options={SubDealer}
+                sx={{ width: 225, ml: 1, m: 1 }}
+                filterOptions={(x) => x}
+                renderInput={(params) => (
+                  <TextField {...params} label="Select DealerType" />
+                )}
+                name="state"
+                value={dealerType}
+                onChange={(event, newValue) => {
+                  setDealerTypeStatus(newValue);
+                }}
+                disabled
+              />
+              </Grid>
+
+            <Grid sx={{ display: "flex" }}>
+            <TextField
                 id="outlined-basic"
                 label="Email ID"
                 variant="outlined"
@@ -322,8 +344,6 @@ export default function AddSubDealerModal(props) {
                 value={addSubDealer?.subDealerMailID}
                 onChange={(e) => updateChange(e)}
               />
-            </Grid>
-            <Grid sx={{ display: "flex" }}>
               <Grid>
                 <TextField
                   id="outlined-basic"
@@ -350,7 +370,10 @@ export default function AddSubDealerModal(props) {
                 onChange={(e) => updateChange(e)}
               />
 
-              <TextField
+             
+            </Grid>
+            <Grid sx={{ display: "flex" }}>
+            <TextField
                 id="outlined-basic"
                 label="Contact Person Name"
                 variant="outlined"
@@ -360,8 +383,7 @@ export default function AddSubDealerModal(props) {
                 value={addSubDealer?.subDealerContactPersonName}
                 onChange={(e) => updateChange(e)}
               />
-            </Grid>
-            <Grid sx={{ display: "flex" }}>
+
               <TextField
                 id="outlined-basic"
                 label="ContactPersonMobile"
@@ -383,7 +405,10 @@ export default function AddSubDealerModal(props) {
                 value={props.mainDealerData.mainDealerPanNumber}
                 onChange={(e) => updateChange(e)}
               />
-              <TextField
+             
+            </Grid>
+            <Grid sx={{ display: "flex" }}>
+            <TextField
                 disabled
                 id="outlined-basic"
                 label="GST Number"
@@ -394,8 +419,6 @@ export default function AddSubDealerModal(props) {
                 value={props.mainDealerData.mainDealerGstNumber}
                 onChange={(e) => updateChange(e)}
               />
-            </Grid>
-            <Grid sx={{ display: "flex" }}>
               <TextField
                 disabled
                 id="outlined-basic"
@@ -419,7 +442,10 @@ export default function AddSubDealerModal(props) {
                 value={props.mainDealerData.mainDealerBankBranchName}
                 onChange={(e) => updateChange(e)}
               />
-              <TextField
+              
+            </Grid>
+            <Grid sx={{ display: "flex" }}>
+            <TextField
                 disabled
                 id="outlined-basic"
                 label="Account Number"
@@ -430,8 +456,6 @@ export default function AddSubDealerModal(props) {
                 value={props.mainDealerData.mainDealerBankAccNumber}
                 onChange={(e) => updateChange(e)}
               />
-            </Grid>
-            <Grid sx={{ display: "flex" }}>
               <TextField
                 disabled
                 id="outlined-basic"
@@ -455,7 +479,10 @@ export default function AddSubDealerModal(props) {
                 value={props.mainDealerData.mainDealerAccountHolderName}
                 onChange={(e) => updateChange(e)}
               />
-              <TextField
+              
+            </Grid>
+            <Grid sx={{ display: "flex" }}>
+            <TextField
                 id="outlined-basic"
                 label="Address"
                 variant="outlined"
@@ -465,8 +492,6 @@ export default function AddSubDealerModal(props) {
                 value={addSubDealer?.addressDetails}
                 onChange={(e) => updateChange(e)}
               />
-            </Grid>
-            <Grid sx={{ display: "flex" }}>
               <TextField
                 id="outlined-basic"
                 label="City"
@@ -487,7 +512,9 @@ export default function AddSubDealerModal(props) {
                 value={addSubDealer?.pinCode}
                 onChange={(e) => updateChange(e)}
               />
-              <LocalizationProvider dateAdapter={AdapterDateFns}>
+              
+            </Grid>
+            <LocalizationProvider dateAdapter={AdapterDateFns}>
                 <DemoContainer components={["DatePicker"]}>
                   <DatePicker
                     label="Activation Date"
@@ -500,7 +527,6 @@ export default function AddSubDealerModal(props) {
                   />
                 </DemoContainer>
               </LocalizationProvider>
-            </Grid>
             <Autocomplete
               id="combo-box-demo"
               options={activationStatus}

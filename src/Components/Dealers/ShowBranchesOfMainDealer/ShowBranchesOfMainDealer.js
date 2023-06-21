@@ -28,9 +28,7 @@ import {
   getAreaDetailsByStateandRegion,
   getDistrictDetailsByState,
 } from "../../service/districtapi/Districtapi";
-import CheckBoxOutlineBlankIcon from "@mui/icons-material/CheckBoxOutlineBlank";
 import CheckBoxIcon from "@mui/icons-material/CheckBox";
-
 const style = {
   bgcolor: "#581845",
   width: 500,
@@ -166,7 +164,7 @@ function ShowBranchesOfMainDealer(props) {
                         fontSize="large"
                       />
                       <Dialog
-                        open={open}
+                      open={open}
                         onClose={handleClose}
                         aria-labelledby="alert-dialog-title"
                         aria-describedby="alert-dialog-description"
@@ -187,7 +185,6 @@ function ShowBranchesOfMainDealer(props) {
                               );
                               // removeRow(value.branchID);
                             }}
-                            autoFocus
                           >
                             Delete
                           </Button>
@@ -385,7 +382,7 @@ const ChildModal = (props) => {
     }
   }, [selectedDistrict, filterAddBranch]);
 
-  const icon = <CheckBoxOutlineBlankIcon fontSize="small" />;
+  // const icon = <CheckBoxOutlineIcon fontSize="small" />;
   const checkedIcon = <CheckBoxIcon fontSize="small" />;
   return (
     <>
@@ -396,13 +393,13 @@ const ChildModal = (props) => {
           disableCloseOnSelect
           options={regionData}
           filterSelectedOptions
-          sx={{ m: 1, width: 200, ml: 1 }}
+          sx={{ width: 300, ml: 1 }}
           size="small"
           getOptionLabel={(option) => option}
           renderOption={(props, option, { selected }) => (
             <li {...props}>
               <Checkbox
-                icon={icon}
+                // icon={icon}
                 checkedIcon={checkedIcon}
                 style={{ marginRight: 8 }}
                 checked={selected}
@@ -423,13 +420,13 @@ const ChildModal = (props) => {
           multiple
           options={areaData}
           filterSelectedOptions
-          sx={{ m: 1, width: 200, ml: 1 }}
+          sx={{ width: 300, ml: 1 }}
           size="small"
           getOptionLabel={(option) => option}
           renderOption={(props, option, { selected }) => (
             <li {...props}>
               <Checkbox
-                icon={icon}
+                // icon={icon}
                 checkedIcon={checkedIcon}
                 style={{ marginRight: 8 }}
                 checked={selected}

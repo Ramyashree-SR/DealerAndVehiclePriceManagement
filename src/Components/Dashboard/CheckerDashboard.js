@@ -6,30 +6,44 @@ import { useNavigate } from "react-router-dom";
 import CheckerDetails from "../Checker/CheckerDetails/CheckerDetails";
 import DealerSubDealerTable from "./../Dealers/DealerSubDealerTable";
 import AddDealerModal from "../Dealers/AddDealerModal/AddDealerModal";
+import VehicleChecker from "../Checker/VehicleDetails/VehicleChecker";
+import VehicleDetails from "../Vehicles/VehicleDetails";
 
 const { Header, Content, Sider } = Layout;
 
 function CheckerDashboard() {
   const [collapsed, setCollapsed] = useState(false);
-  const [showModule, setshowModule] = useState(true);
+  // const [showModule, setshowModule] = useState(true);
   const [hideButtons, setHideButtons] = useState(false);
-  
+  const [selectedComponent, setSelectedComponent] = useState("CheckerDetails");
+  const [btnhide, setBtnhide] = useState(false)
+
   let navigate = useNavigate();
 
   let navigateToMainDealerTableForChecking = () => {
-    // navigate("dealers");
-    setshowModule(true);
+    setSelectedComponent("CheckerDetails");
+    // setshowModule(true);
   };
 
+  let navigateToVehiclePriceTableForChecking = () => {
+    // setshowModule(true);
+    setSelectedComponent("VehicleChecker");
+  };
+
+  let navigateToMainDealeTable = () => {
+    setSelectedComponent("DealerSubDealerTable");
+    // setshowModule(false);
+  };
+
+  let navigateToVehiclePriceTable = () => {
+    setSelectedComponent("VehicleDetails");
+    // setshowModule(false);
+  };
   let naviagteToLogin = () => {
     navigate("/");
     // setshowModule(true);
   };
 
-  let navigateToMainDealeTable = () => {
-    // navigate("dealers");
-    setshowModule(false);
-  };
   return (
     <>
       <Header
@@ -44,7 +58,7 @@ function CheckerDashboard() {
         <Box
           sx={{
             display: "flex",
-             justifyContent: "space-between",
+            justifyContent: "space-between",
             alignItems: "center",
           }}
         >
@@ -112,18 +126,27 @@ function CheckerDashboard() {
           {/* <Link to={"./vehicle"}> */}
           <Button
             id="Dealer"
-            className="bg-success"
+            className="bg-dark"
             onClick={navigateToMainDealerTableForChecking}
             sx={{ margin: 1, color: "white", mt: 5, fontSize: 10, width: 100 }}
           >
-            Pending Authorisation
+            Dealer SubDealer Pending Authorisation
           </Button>
           {/* </Link> */}
+
+          <Button
+            id="Dealer"
+            className="bg-dark"
+            onClick={navigateToVehiclePriceTableForChecking}
+            sx={{ margin: 1, color: "white", mt: 2, fontSize: 10, width: 100 }}
+          >
+            Vehicle Price Pending Authorisation
+          </Button>
 
           {/* <Link to={"./Checker"}> */}
           <Button
             id="Dealer"
-            className="bg-success"
+            className="bg-dark"
             onClick={() => {
               navigateToMainDealeTable();
               setHideButtons(true);
@@ -133,13 +156,24 @@ function CheckerDashboard() {
             View ALL Dealer SubDealer Details
           </Button>
           {/* </Link> */}
+
+          <Button
+            id="Dealer"
+            className="bg-dark"
+            onClick={() => {
+              navigateToVehiclePriceTable();
+              setBtnhide(true)
+            }}
+            sx={{ margin: 1, color: "white", mt: 2, fontSize: 10, width: 100 }}
+          >
+            View ALL Vehicle Price Details
+          </Button>
         </Sider>
         <Layout
-           style={{
+          style={{
             padding: "0px 0px 0px 0px",
           }}
         >
-          
           <Content
             style={{
               overflow: "auto",
@@ -153,8 +187,16 @@ function CheckerDashboard() {
               width: "90%",
             }}
           >
-            {showModule && <CheckerDetails />}
-            {!showModule && <DealerSubDealerTable hideButtons={hideButtons} />}
+            {/* {showModule && <CheckerDetails />}
+            {!showModule && <VehicleChecker />}
+            {!showModule && <DealerSubDealerTable hideButtons={hideButtons} />} */}
+
+            {selectedComponent === "CheckerDetails" && <CheckerDetails />}
+            {selectedComponent === "VehicleChecker" && <VehicleChecker />}
+            {selectedComponent === "DealerSubDealerTable" && (
+              <DealerSubDealerTable hideButtons={hideButtons} />
+            )}
+            {selectedComponent === "VehicleDetails" && <VehicleDetails btnhide={btnhide}/>}
           </Content>
         </Layout>
       </Layout>

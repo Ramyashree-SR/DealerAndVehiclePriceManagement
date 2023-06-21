@@ -1,11 +1,9 @@
-import { Autocomplete, Grid, TextField } from "@mui/material";
+import { Grid, TextField } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import { Button, Modal } from "react-bootstrap";
 import { editAllVehicleDetailsByRow } from "../../service/VehicleApi/VehicleApi";
-import { getVehiclePriceStatus } from "../../service/checker";
 
-function EditVehiclesModal(props) {
-  const StatusOptions = ["APPROVED", "SEND BACK"];
+function ViewVehiclesModal(props) {
   const [editVehicles, seteditVehicles] = useState({
     vehicleId: "",
     vehicleModel: "",
@@ -24,8 +22,8 @@ function EditVehiclesModal(props) {
   };
 
   useEffect(() => {
-    seteditVehicles({ ...props.editVehicleData });
-  }, [props.editVehicleData]);
+    seteditVehicles({ ...props.viewVehicleData });
+  }, [props.viewVehicleData]);
 
   const editVehicleDetails = async (vehicleId) => {
     let payload = {
@@ -52,28 +50,6 @@ function EditVehiclesModal(props) {
     props.getVehicleVariantsDetails();
     props.close();
   };
-
-  const handleCheckerStatus = (name, event, value) => {
-    seteditVehicles(() => ({
-      ...editVehicles,
-      [name]: value,
-    }));
-  };
-
-  const getStatusOfVehiclesByChecker = async ()=>{
-    const {data}=await getVehiclePriceStatus()
-if(data){
-  seteditVehicles({
-    vehicleModel: editVehicles?.vehicleModel,
-    vehicleVariant: editVehicles?.vehicleVariant,
-    vehicalOem: editVehicles?.vehicalOem,
-    state: editVehicles?.vehicalState,
-    vehicleMaxLoanAmount: editVehicles?.vehicleMaxLoanAmount,
-    vehicalOnRoadPrice: editVehicles?.vehicalOnRoadPrice,
-  })
-}
-  }
-
   return (
     <>
       <Modal
@@ -88,7 +64,7 @@ if(data){
             id="contained-modal-title-vcenter"
             className="text-align-center"
           >
-            Edit Vehicle
+            View Vehicle And Price Details
           </Modal.Title>
         </Modal.Header>
         <Modal.Body sx={{ backgroundColor: "#00000" }}>
@@ -139,6 +115,7 @@ if(data){
               name="vehicleModel"
               value={editVehicles?.vehicleModel}
               onChange={(e) => updateChange(e)}
+              disabled
             />
             <TextField
               id="outlined-basic"
@@ -149,6 +126,7 @@ if(data){
               name="vehicleVariant"
               value={editVehicles?.vehicleVariant}
               onChange={(e) => updateChange(e)}
+              disabled
             />
             <TextField
               id="outlined-basic"
@@ -159,6 +137,7 @@ if(data){
               name="vehicalOnRoadPrice"
               value={editVehicles?.vehicalOnRoadPrice}
               onChange={(e) => updateChange(e)}
+              disabled
             />
 
             <TextField
@@ -175,32 +154,6 @@ if(data){
           </Grid>
         </Modal.Body>
         <Modal.Footer>
-          {props.checkerEdit ? null : (
-            <>
-              <Autocomplete
-                disablePortal
-                id="combo-box-demo"
-                options={StatusOptions}
-                sx={{ m: 1, width: 200, ml: 1 }}
-                size="small"
-                renderInput={(params) => (
-                  <TextField {...params} label="Checker Status" />
-                )}
-                name="dealerStatus"
-                value={editVehicles?.dealerStatus}
-                // inputValue={approveStatus}
-                onChange={(e, val) => {
-                  handleCheckerStatus("dealerStatus", e, val);
-                }}
-              />
-              <Button onClick={() => getVehiclePriceStatus()}>Submit</Button>
-            </>
-          )}
-          <Button
-            onClick={() => editVehicleDetails(props.editVehicleData.vehicleId)}
-          >
-            Edit
-          </Button>
           <Button onClick={props.close}>Cancel</Button>
         </Modal.Footer>
       </Modal>
@@ -208,4 +161,4 @@ if(data){
   );
 }
 
-export default EditVehiclesModal;
+export default ViewVehiclesModal;

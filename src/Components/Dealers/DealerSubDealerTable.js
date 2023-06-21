@@ -56,6 +56,7 @@ import {
   getAllBranchesInSubDealerToAdd,
   getAllSubDealersDetails,
   showVehicleVariantsInSubDealer,
+  showVehicleVariantsInSubDealerToAdd,
 } from "../service/subDealers";
 import AddSubDealerModal from "./SubDealersAddModal/AddSubDealersModal";
 import EditSubDealerModal from "./SubDealerEditModal/EditSubDealerModal";
@@ -73,7 +74,10 @@ import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import axios, { AxiosRequestConfig } from "axios";
 import UploadDocumentsModal from "./UploadDocumentsModal/UploadDocumentsModal";
 import UploadFileIcon from "@mui/icons-material/UploadFile";
-
+import ViewDealerModal from "./ViewDealerModal/ViewDealerModal";
+import ViewModuleIcon from "@mui/icons-material/ViewModule";
+import ViewSubDealerModal from "./SubDealerEditModal/ViewSubDealerModal";
+import ShowSubVehicleVariantModal from "./ShowSubVehicleVariants/ShowSubVehicleVariantModal";
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.root}`]: {
     padding: "6px",
@@ -150,25 +154,18 @@ export default function DealerSubDealerTable(props) {
   const [allDealersCopy, setAllDealersCopy] = useState([]);
   const [searchText, setsearchText] = useState("");
   const [state, setState] = useState([]);
-
   const [district, setDistrict] = useState([]);
   const [filterAllDealer, setFilterAllDealer] = useState({});
   const [filterAllDealer1, setFilterAllDealer1] = useState({});
-
   const [vehicleOEM, setVehicleOEM] = useState([]);
-  console.log(vehicleOEM, "vehicleOEM");
-
   const [filterAllDealers, setFilterAllDealers] = useState({});
-
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [mainDealerData, setMainDealerData] = useState({});
-
   const [showVariants, setShowVariants] = useState([]);
-
   const [openAddDealerModal, setOpenAddDealerModal] = useState(false);
   const [openEditDealerModal, setOpenEditDealerModal] = useState(false);
-  // const [openShowVariants, setOpenShowVariants] = useState(false);
+  const [openShowVariants, setOpenShowVariants] = useState(false);
   const [EditDealerData, setEditDealerData] = useState({});
   const ref0 = useRef();
   const [open, setOpen] = useState(false);
@@ -176,27 +173,18 @@ export default function DealerSubDealerTable(props) {
   const [openAddSubDealerModal, setopenAddSubDealerModal] = useState(false);
   const [openEditSubDealerModal, setOpenEditSubDealerModal] = useState(false);
   const [EditSubDealerData, setEditSubDealerData] = useState({});
-
   const [rowData, setRowData] = useState("");
-
   const [paramsId, setParamsId] = useState("");
-
   const [showAddVariants, setshowAddVariants] = useState([]);
-
   const [OpenShowBranchModal, setOpenShowBranchModal] = useState(false);
   const [showBranch, setShowBranch] = useState([]);
-  // console.log(showBranch,"showBranch");
-
   const [showBranchToAdd, setShowBranchToAdd] = useState([]);
-
   const [filterAddBranch, setFilterAddBranch] = useState({});
   const [openShowSubBranchModal, setOpenShowSubBranchModal] = useState(false);
   const [showSubBranch, setShowSubBranch] = useState([]);
-
   const [showSubBranchToAdd, setshowSubBranchToAdd] = useState([]);
   const [disableStateOption, setdisableStateOption] = useState(true);
   const [disableDistrictOption, setdisableDistrictOption] = useState(true);
-
   const [openAddDocumentModal, setOpenAddDocumentModal] = useState(false);
   const [filemainDealerId, setfileMaindealerId] = useState(null);
   const [addStateId, setaddStateId] = useState(null);
@@ -205,7 +193,12 @@ export default function DealerSubDealerTable(props) {
   const [addSubdealerId, setaddSubdealerId] = useState(null);
   const [filterAddSubBranch, setfilterAddSubBranch] = useState({});
   const [addSubStateId, setaddSubStateId] = useState(null);
-  // const [roles, setRolea] = useState(false);
+  const [openViewDealerModal, setopenViewDealerModal] = useState(false);
+  const [viewDealerData, setViewDealerData] = useState({});
+  const [openViewSubDealerModal, setopenViewSubDealerModal] = useState(false);
+  const [viewSubDealerData, setViewSubDealerData] = useState({});
+  const [showSubVariants, setShowSubVariants] = useState([]);
+  const [showSubVariantsToAdd, setShowSubVariantsToAdd] = useState([]);
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
@@ -224,7 +217,6 @@ export default function DealerSubDealerTable(props) {
   };
 
   const handleVehicleOEMChange = (value) => {
-    // console.log(value, "value");
     if (value) {
       setFilterAllDealers({
         ...filterAllDealers,
@@ -239,7 +231,6 @@ export default function DealerSubDealerTable(props) {
   };
 
   const handleStateChange = (value) => {
-    // console.log(value.target.outerText, "value");
     setFilterAllDealer({ ...filterAllDealer, state: value.target.outerText });
     setdisableDistrictOption(false);
     if (typeof value.target.outerText == "undefined") {
@@ -254,6 +245,16 @@ export default function DealerSubDealerTable(props) {
     setEditDealerData(record);
   };
 
+  const handleViewTable = (records) => {
+    setopenViewDealerModal(true);
+    setViewDealerData(records);
+  };
+
+  const handleSubViewTable = (record) => {
+    setopenViewSubDealerModal(true);
+    setViewSubDealerData(record);
+  };
+
   const handleEditSubDealerTable = (record) => {
     setopenAddSubDealerModal(true);
     setOpenEditSubDealerModal(true);
@@ -262,7 +263,6 @@ export default function DealerSubDealerTable(props) {
 
   const handelAddSubDealerTable = (valData) => {
     setopenAddSubDealerModal(true);
-    // setAddSubDealerData(valData)
   };
 
   useEffect(() => {
@@ -363,7 +363,6 @@ export default function DealerSubDealerTable(props) {
 
   const getDealersDetails = async (id) => {
     let paramsData = id ? id : "All";
-
     const { data } = await getAllMainDealersDetails(paramsData);
     if (data) {
       if (data) {
@@ -381,29 +380,46 @@ export default function DealerSubDealerTable(props) {
     setallSubDealers(subdealerData);
   };
 
-  // const getShowVariantsInMainDealers = async (mainDealerID) => {
-  //   const { data } = await showVehicleVariantsInMainDealer(mainDealerID);
-  //   // console.log(data?.data?.data,"showData");
-  //   if (data) {
-  //     if (data) {
-  //       let vehicleData = data?.data?.data;
-  //       setShowVariants(vehicleData);
-  //     }
-  //   }
-  // };
+  const getShowVariantsInMainDealers = async (mainDealerID) => {
+    const { data } = await showVehicleVariantsInMainDealer(mainDealerID);
+    console.log(data, "showVariants");
+    if (data) {
+      if (data?.data?.error === "FALSE") {
+        const vehicleData = data?.data?.data;
+        setShowVariants(vehicleData);
+      }
+    }
+  };
 
   const getAllAddVariantsDetails = async (params) => {
     const { data } = await showVehicleVariantsToAddInMainDealer(params);
     if (data) {
       if (data) {
-        setshowAddVariants(data?.data?.data);
+        if (data) {
+          let addData = data?.data?.data;
+          setshowAddVariants([...addData]);
+        }
       }
     }
   };
 
-  useEffect(() => {
-    getAllAddVariantsDetails();
-  }, []);
+  const getShowVariantsInSubDealers = async (subDealerID) => {
+    const { data } = await showVehicleVariantsInSubDealer(subDealerID);
+    if (data) {
+      let subData = data?.data?.data;
+      setShowSubVariants(subData);
+    }
+  };
+
+  const getShowVariantsInSubDealersToAdd = async (subDealerID) => {
+    const { data } = await showVehicleVariantsInSubDealerToAdd(subDealerID);
+    if (data) {
+      // if (data) {
+      let showData = data?.data?.data;
+      showSubVariantsToAdd([...showData]);
+      // }
+    }
+  };
 
   const getShowBranchesInMainDealers = async (mainDealerID) => {
     const { data } = await getAllBranchesInMainDealer(mainDealerID);
@@ -456,6 +472,7 @@ export default function DealerSubDealerTable(props) {
         method: "GET",
         responseType: "blob", // important
       })
+
       .then((response) => {
         const url = window.URL.createObjectURL(new Blob([response.data]));
         const link = document.createElement("a");
@@ -659,6 +676,7 @@ export default function DealerSubDealerTable(props) {
                   justifyContent: "space-between",
                   ml: 1,
                 }}
+                // onSubmit={(e) => e.preventDefault()}
                 onClick={() => setOpenAddDealerModal(true)}
                 // size="lg"
               >
@@ -692,20 +710,20 @@ export default function DealerSubDealerTable(props) {
                   <StyledTableCell align="center">Vehicle OEM</StyledTableCell>
                   <StyledTableCell align="center">State</StyledTableCell>
                   <StyledTableCell align="center">District</StyledTableCell>
-                  <StyledTableCell align="center">Address</StyledTableCell>
+                  {/* <StyledTableCell align="center">Address</StyledTableCell> */}
                   <StyledTableCell align="center">Dealers ID</StyledTableCell>
                   <StyledTableCell align="center">Dealers Name</StyledTableCell>
                   <StyledTableCell align="center">Dealers Type</StyledTableCell>
                   <StyledTableCell align="center">Contact No.</StyledTableCell>
-                  <StyledTableCell align="center">
+                  {/* <StyledTableCell align="center">
                     Alternative No.
-                  </StyledTableCell>
+                  </StyledTableCell> */}
                   <StyledTableCell align="center">
                     Contact Person Name
                   </StyledTableCell>
-                  <StyledTableCell align="center">
+                  {/* <StyledTableCell align="center">
                     Contact Person Mobile
-                  </StyledTableCell>
+                  </StyledTableCell> */}
                   <StyledTableCell align="center" style={{ display: "none" }}>
                     EmailId
                   </StyledTableCell>
@@ -747,11 +765,15 @@ export default function DealerSubDealerTable(props) {
                           <StyledTableCell align="center">
                             {row.state}
                           </StyledTableCell>
+
+                          {/* {row.split(",").map((value, i) => (
+                            <StyledTableCell align="center" key={i}>
+                              {value}
+                            </StyledTableCell>
+                          ))} */}
+
                           <StyledTableCell align="center">
-                            {row.district}
-                          </StyledTableCell>
-                          <StyledTableCell align="center">
-                            {row.addressDetails}
+                            {row.district.join(", ")}
                           </StyledTableCell>
                           <StyledTableCell
                             component="th"
@@ -777,15 +799,15 @@ export default function DealerSubDealerTable(props) {
                           <StyledTableCell align="center">
                             {row.mainDealerContactNumber}
                           </StyledTableCell>
-                          <StyledTableCell align="center">
+                          {/* <StyledTableCell align="center">
                             {row.mainDealerAlternateContactNumber}
-                          </StyledTableCell>
+                          </StyledTableCell> */}
                           <StyledTableCell align="center">
                             {row.mainDealerContactPersonName}
                           </StyledTableCell>
-                          <StyledTableCell align="center">
+                          {/* <StyledTableCell align="center">
                             {row.contactPersonMobile}
-                          </StyledTableCell>
+                          </StyledTableCell> */}
                           <StyledTableCell
                             align="center"
                             style={{ display: "none" }}
@@ -807,6 +829,35 @@ export default function DealerSubDealerTable(props) {
                                 // ml: 5,
                               }}
                             >
+                              <ColorIcon>
+                                <Grid
+                                  sx={{
+                                    display: "flex",
+                                    flexDirection: "column",
+                                    alignItems: "center",
+                                  }}
+                                >
+                                  <ViewModuleIcon
+                                    fontSize="small"
+                                    onClick={() => handleViewTable(row)}
+                                  />
+                                  <Typography
+                                    sx={{ fontSize: 8, fontWeight: 800 }}
+                                  >
+                                    View Details
+                                  </Typography>
+                                </Grid>
+                              </ColorIcon>
+
+                              <ViewDealerModal
+                                show={openViewDealerModal}
+                                close={() => {
+                                  setopenViewDealerModal(false);
+                                }}
+                                getDealersDetails={getDealersDetails}
+                                viewDealerData={viewDealerData}
+                                setViewDealerData={setViewDealerData}
+                              />
                               {props.hideButtons ? null : (
                                 <ColorIcon>
                                   <Grid
@@ -823,7 +874,7 @@ export default function DealerSubDealerTable(props) {
                                     <Typography
                                       sx={{ fontSize: 8, fontWeight: 800 }}
                                     >
-                                      View & Edit
+                                      Edit Details
                                     </Typography>
                                   </Grid>
                                 </ColorIcon>
@@ -864,52 +915,48 @@ export default function DealerSubDealerTable(props) {
                                 />
                               )}
 
-                              {/* <ColorIcon>
-                                <Grid>
-                                  <Grid
-                                    sx={
-                                      display: "flex",
-                                      flexDirection: "column",
-                                      alignItems: "center",
+                              <ColorIcon>
+                                <Grid
+                                  sx={{
+                                    display: "flex",
+                                    flexDirection: "column",
+                                    alignItems: "center",
+                                  }}
+                                >
+                                  <SourceIcon
+                                    size="lg"
+                                    onClick={() => {
+                                      setOpenShowVariants(true);
+                                      getShowVariantsInMainDealers(
+                                        row.mainDealerID
+                                      );
+                                      getAllAddVariantsDetails(
+                                        row.mainDealerID
+                                      );
+                                      setaddMaindealerId(row.mainDealerID);
                                     }}
-                                  >
-                                    <SourceIcon
-                                      size="lg"
-                                      onClick={() => {
-                                        setOpenShowVariants(true);
-                                        getShowVariantsInMainDealers(
-                                          row.mainDealerID
-                                        );
-                                        getAllAddVariantsDetails(
-                                          row.mainDealerID
-                                        );
-                                      }}
-                                    />
-                                  </Grid>
+                                  />
                                   <Typography
-                                    sx={{
-                                      fontWeight: 800,
-                                      fontSize: 12,
-                                    }}
+                                    sx={{ fontSize: 8, fontWeight: 800 }}
                                   >
                                     Link Vehicles
                                   </Typography>
                                 </Grid>
-                              </ColorIcon> */}
+                              </ColorIcon>
 
-                              {/* <ShowVehicleVariantModal
+                              <ShowVehicleVariantModal
                                 show={openShowVariants}
                                 close={() => setOpenShowVariants(false)}
                                 getShowVariantsInMainDealers={
                                   getShowVariantsInMainDealers
                                 }
                                 showVariants={showVariants}
-                                mainDealerID={row.mainDealerID}
+                                mainDealerID={addMaindealerId}
                                 showAddVariants={showAddVariants}
                                 getAllAddVariantsDetails={
                                   getAllAddVariantsDetails
                                 }
-                              /> */}
+                              />
 
                               <ColorIcon>
                                 <Grid
@@ -1089,39 +1136,39 @@ export default function DealerSubDealerTable(props) {
                                           Dealers Type
                                         </StyledSubTableCell>
                                         <StyledSubTableCell
-                                          align="right"
+                                          align="center"
                                           style={{ display: "none" }}
                                         >
                                           EmailId
                                         </StyledSubTableCell>
-                                        <StyledSubTableCell align="right">
+                                        <StyledSubTableCell align="center">
                                           Vehicle OEM
                                         </StyledSubTableCell>
-                                        <StyledSubTableCell align="right">
+                                        <StyledSubTableCell align="center">
                                           Contact No.
                                         </StyledSubTableCell>
-                                        <StyledSubTableCell align="right">
+                                        <StyledSubTableCell align="center">
                                           Alternative No.
                                         </StyledSubTableCell>
-                                        <StyledSubTableCell align="right">
+                                        <StyledSubTableCell align="center">
                                           Contact Person Name
                                         </StyledSubTableCell>
-                                        <StyledSubTableCell align="right">
+                                        <StyledSubTableCell align="center">
                                           Contact Person Mobile
                                         </StyledSubTableCell>
-                                        <StyledSubTableCell align="right">
+                                        <StyledSubTableCell align="center">
                                           Activation Date
                                         </StyledSubTableCell>
-                                        <StyledSubTableCell align="right">
+                                        <StyledSubTableCell align="center">
                                           Address
                                         </StyledSubTableCell>
-                                        <StyledSubTableCell align="right">
+                                        <StyledSubTableCell align="center">
                                           State
                                         </StyledSubTableCell>
-                                        <StyledSubTableCell align="right">
+                                        <StyledSubTableCell align="center">
                                           Actions
                                         </StyledSubTableCell>
-                                        <StyledSubTableCell align="right">
+                                        <StyledSubTableCell align="center">
                                           Checker Status
                                         </StyledSubTableCell>
                                       </StyledSubTableRow>
@@ -1144,38 +1191,38 @@ export default function DealerSubDealerTable(props) {
                                             {val.dealerType}
                                           </StyledSubTableCell>
                                           <StyledSubTableCell
-                                            align="right"
+                                            align="center"
                                             style={{ display: "none" }}
                                           >
                                             {val.subDealerMailID}
                                           </StyledSubTableCell>
-                                          <StyledSubTableCell align="right">
+                                          <StyledSubTableCell align="center">
                                             {val.subDealerManufacturerName}
                                           </StyledSubTableCell>
-                                          <StyledSubTableCell align="right">
+                                          <StyledSubTableCell align="center">
                                             {val.subDealerContactNumber}
                                           </StyledSubTableCell>
-                                          <StyledSubTableCell align="right">
+                                          <StyledSubTableCell align="center">
                                             {
                                               val.subDealerAlternateContactNumber
                                             }
                                           </StyledSubTableCell>
-                                          <StyledSubTableCell align="right">
+                                          <StyledSubTableCell align="center">
                                             {val.subDealerContactPersonName}
                                           </StyledSubTableCell>
-                                          <StyledSubTableCell align="right">
+                                          <StyledSubTableCell align="center">
                                             {val.contactPersonMobile}
                                           </StyledSubTableCell>
-                                          <StyledSubTableCell align="right">
+                                          <StyledSubTableCell align="center">
                                             {val.subDealerActivationData}
                                           </StyledSubTableCell>
-                                          <StyledSubTableCell align="right">
+                                          <StyledSubTableCell align="center">
                                             {val.addressDetails}
                                           </StyledSubTableCell>
-                                          <StyledSubTableCell align="right">
+                                          <StyledSubTableCell align="center">
                                             {val.state}
                                           </StyledSubTableCell>
-                                          <StyledSubTableCell align="right">
+                                          <StyledSubTableCell align="center">
                                             <Grid
                                               sx={{
                                                 display: "flex",
@@ -1184,6 +1231,47 @@ export default function DealerSubDealerTable(props) {
                                                 ml: 5,
                                               }}
                                             >
+                                              <ColorIcon>
+                                                <Grid
+                                                  sx={{
+                                                    display: "flex",
+                                                    flexDirection: "column",
+                                                    alignItems: "center",
+                                                  }}
+                                                >
+                                                  <ViewModuleIcon
+                                                    fontSize="small"
+                                                    onClick={() =>
+                                                      handleSubViewTable(val)
+                                                    }
+                                                  />
+                                                  <Typography
+                                                    sx={{
+                                                      fontSize: 8,
+                                                      fontWeight: 800,
+                                                    }}
+                                                  >
+                                                    View Details
+                                                  </Typography>
+                                                </Grid>
+                                              </ColorIcon>
+                                              <ViewSubDealerModal
+                                                show={openViewSubDealerModal}
+                                                close={() =>
+                                                  setopenViewSubDealerModal(
+                                                    false
+                                                  )
+                                                }
+                                                viewSubDealerData={
+                                                  viewSubDealerData
+                                                }
+                                                getSubDealerDetails={
+                                                  getSubDealerDetails
+                                                }
+                                                paramsId={paramsId}
+                                                mainDealerData={mainDealerData}
+                                              />
+
                                               {props.hideButtons ? null : (
                                                 <ColorIcon>
                                                   <Grid
@@ -1214,22 +1302,6 @@ export default function DealerSubDealerTable(props) {
                                                   </Grid>
                                                 </ColorIcon>
                                               )}
-                                              {/* <EditSubDealerModal
-                                                show={openEditSubDealerModal}
-                                                close={() =>
-                                                  setOpenEditSubDealerModal(
-                                                    false
-                                                  )
-                                                }
-                                                editSubDealerData={
-                                                  EditSubDealerData
-                                                }
-                                                getSubDealerDetails={
-                                                  getSubDealerDetails
-                                                }
-                                                paramsId={paramsId}
-                                                mainDealerData={mainDealerData}
-                                              /> */}
 
                                               <ColorIcon>
                                                 <Grid
@@ -1300,53 +1372,60 @@ export default function DealerSubDealerTable(props) {
                                                 }
                                                 mainDealerID={row.mainDealerID}
                                               />
-                                              {/* <ColorIcon>
-                                                <Grid>
-                                                  <Grid
-                                                    sx={{
-                                                      display: "flex",
-                                                      flexDirection: "column",
-                                                      alignItems: "center",
-                                                    }}
-                                                  >
-                                                    <SourceIcon
-                                                      size="lg"
-                                                      onClick={() => {
-                                                        setOpenShowVariants(
-                                                          true
-                                                        );
-                                                        getShowVariantsInSubDealers(
-                                                          val.subDealerID
-                                                        );
-                                                      }}
-                                                    />
-                                                  </Grid>
 
+                                              <ColorIcon>
+                                                <Grid
+                                                  sx={{
+                                                    display: "flex",
+                                                    flexDirection: "column",
+                                                    alignItems: "center",
+                                                  }}
+                                                >
+                                                  <SourceIcon
+                                                    fontSize="small"
+                                                    onClick={() => {
+                                                      setOpenShowVariants(true);
+                                                      getShowVariantsInSubDealers(
+                                                        val.subDealerID
+                                                      );
+                                                      getShowVariantsInSubDealersToAdd(
+                                                        val.subDealerID
+                                                      );
+                                                    }}
+                                                  />
                                                   <Typography
                                                     sx={{
-                                                      fontWeight: "bold",
-                                                      fontSize: 12,
+                                                      fontSize: 8,
+                                                      fontWeight: 800,
                                                     }}
                                                   >
                                                     Link Vehicles
-                                                  </Typography> */}
-                                              {/* <ShowSubVehicleVariantModal
-                                                    show={openShowVariants}
-                                                    close={() =>
-                                                      setOpenShowVariants(false)
-                                                    }
-                                                    showSubVariants={
-                                                      showSubVariants
-                                                    }
-                                                    subDealerID={
-                                                      val.subDealerID
-                                                    }
-                                                    setShowSubVariants={
-                                                      setShowSubVariants
-                                                    }
-                                                  /> */}
-                                              {/* </Grid>
-                                              </ColorIcon> */}
+                                                  </Typography>
+                                                </Grid>
+                                              </ColorIcon>
+
+                                              <ShowSubVehicleVariantModal
+                                                show={openShowVariants}
+                                                close={() =>
+                                                  setOpenShowVariants(false)
+                                                }
+                                                showSubVariants={
+                                                  showSubVariants
+                                                }
+                                                subDealerID={val.subDealerID}
+                                                setShowSubVariants={
+                                                  setShowSubVariants
+                                                }
+                                                showSubVariantsToAdd={
+                                                  showSubVariantsToAdd
+                                                }
+                                                getShowVariantsInSubDealer={
+                                                  getShowVariantsInSubDealers
+                                                }
+                                                getShowVariantsInSubDealersToAdd={
+                                                  getShowVariantsInSubDealersToAdd
+                                                }
+                                              />
                                             </Grid>
                                           </StyledSubTableCell>
                                           <StyledSubTableCell align="right">

@@ -95,7 +95,6 @@ function Login() {
           }
         });
       }
-
       // sessionStorage.setItem("jwtData", JSON.stringify(data));
       // sessionStorage.setItem("userName", loginDetails?.userName);
       // sessionStorage.setItem("token", JSON.stringify(data?.token));
@@ -106,7 +105,6 @@ function Login() {
       // } else {
       //   navigate("/dashboard");
       // }
-
       // window.location.reload();
       addToast(data.message, { appearance: "success" });
     } else if (errRes) {
@@ -117,7 +115,6 @@ function Login() {
   const Submit = () => {
     userNameValidation();
     passwordValidation();
-
     setTimeout(() => {
       // Assuming login is unsuccessful
       setLoading(false);
@@ -181,9 +178,9 @@ function Login() {
             }}
             size="small"
           />
-          {userNameErr && (
+          {/* {userNameErr && (
             <Typography sx={{ color: "red" }}>{userNameErr}</Typography>
-          )}
+          )} */}
         </Box>
 
         <Box
@@ -249,13 +246,11 @@ function Login() {
           >
             {loading ? "Loading..." : "Login"}
             {loading ? (
-              // <Button>
               <i
                 class="fa fa-spinner fa-spin"
                 style={{ marginLeft: "12px", marginRight: "8px" }}
               ></i>
-            ) : // </Button>
-            null}
+            ) : null}
           </Button>
         </Box>
       </Paper>

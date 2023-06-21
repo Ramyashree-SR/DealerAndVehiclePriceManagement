@@ -16,21 +16,23 @@ const { Header, Content, Sider } = Layout;
 function Dashboard() {
   const [collapsed, setCollapsed] = useState(false);
   const [showModule, setshowModule] = useState(true);
+  const [active, setActive] = useState(false);
 
   let navigate = useNavigate();
 
   let navigateToDealersTable = () => {
     // navigate("dealers");
+    setActive(true);
     setshowModule(true);
   };
 
   let navigateToVehicleTable = () => {
-    // navigate("vehicle");
+    // navigate("vehicle");\
+    setActive(true);
     setshowModule(false);
   };
 
   let navigateToLogin = () => {
-    
     navigate("/");
     // setshowModule(false);
   };
@@ -71,7 +73,7 @@ function Dashboard() {
                 fontFamily: "sans-serif",
               }}
             >
-              Dealer And Vehicle Price Management
+              Two-Wheeler Dealer & Vehicle Price Management
             </Typography>
           </Box>
 
@@ -87,7 +89,6 @@ function Dashboard() {
             >
               Logout
             </Button>
-            
           </Box>
         </Box>
       </Header>
@@ -116,17 +117,25 @@ function Dashboard() {
           <Button
             id="Dealer"
             className="bg-success"
+            variant={active ? "primary" : "secondary"}
             onClick={navigateToDealersTable}
             sx={{ margin: 1, color: "white", mt: 5, fontSize: 10, width: 100 }}
           >
-            Dealer SubDealer Details
+            Dealer SubDealer Management
           </Button>
 
           <Button
             id="Dealer"
             className="bg-success"
             onClick={navigateToVehicleTable}
-            sx={{ margin: 1, color: "white", mt: 2, fontSize: 10, width: 100 }}
+            sx={{
+              margin: 1,
+              color: "white",
+              mt: 2,
+              fontSize: 10,
+              width: 100,
+              background: active ? "primary" : "secondary",
+            }}
           >
             Vehicle Price Management
           </Button>

@@ -356,7 +356,7 @@ function UploadDocumentsModal(props) {
             <Typography
               sx={{ fontSize: 18, fontWeight: "bold", flexBasis: "30%" }}
             >
-              Agreement Document
+              Agreement 
             </Typography>
             <form
               action="/action_page.php"
@@ -476,7 +476,7 @@ function UploadDocumentsModal(props) {
             <Typography
               sx={{ fontSize: 18, fontWeight: "bold", flexBasis: "30%" }}
             >
-              Pan Card Details
+              Pan Card 
             </Typography>
 
             <form
@@ -594,7 +594,7 @@ function UploadDocumentsModal(props) {
             <Typography
               sx={{ fontSize: 18, fontWeight: "bold", flexBasis: "30%" }}
             >
-              Dealer KYC Details
+              Dealer KYC
             </Typography>
 
             <form
@@ -828,7 +828,7 @@ function UploadDocumentsModal(props) {
             <Typography
               sx={{ fontSize: 18, fontWeight: "bold", flexBasis: "30%" }}
             >
-              Bank Statement or Cancelled Cheuque{" "}
+              Bank Statement or Cancelled Cheque{" "}
             </Typography>
             <form
               action="/action_page.php"

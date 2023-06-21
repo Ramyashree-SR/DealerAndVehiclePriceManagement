@@ -43,8 +43,37 @@ const getStatusDetails = (dealerID, payload) => {
 //     });
 // };
 
+//vehicle Api
+const getVehiclePricePendingDetails = () => {
+  return serviceUtil
+    .get(`getCheckerVehicleData`)
+    .then((res) => {
+      const data = res.data;
+      return { data };
+    })
+    .catch((err) => {
+      const errRes = err;
+      return { errRes };
+    });
+};
+
+const getVehiclePriceStatus = () => {
+  return serviceUtil
+    .get(`editOrApproveCheckerData`)
+    .then((res) => {
+      const data = res.data;
+      return { data };
+    })
+    .catch((err) => {
+      const errRes = err;
+      return { errRes };
+    });
+};
+
 export {
   getDealersAndSubDealersDetailsPendingDetails,
   getStatusDetails,
   // getSubDealersDetailsPendingDetails,
+  getVehiclePriceStatus,
+  getVehiclePricePendingDetails,
 };

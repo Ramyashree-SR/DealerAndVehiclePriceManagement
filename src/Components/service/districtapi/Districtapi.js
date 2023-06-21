@@ -13,6 +13,19 @@ const getAllDistrictDetails = (state) => {
     });
 };
 
+const getAllDistrictDetailsForAddingMainDealer = () => {
+  return serviceUtil
+    .get(`alldistrictdropdown`)
+    .then((res) => {
+      const data = res;
+      return { data };
+    })
+    .catch((err) => {
+      const errRes = err;
+      return { errRes };
+    });
+};
+
 const getDistrictDetailsByState = (params) => {
   return serviceUtil
     .get(`regiondropdown?state=${params}`)
@@ -71,4 +84,5 @@ export {
   getAreaDetailsByStateandRegion,
   getDistrictDetailsByStateInSubDealers,
   getAreaDetailsByStateandRegionInSubDealers,
+  getAllDistrictDetailsForAddingMainDealer,
 };

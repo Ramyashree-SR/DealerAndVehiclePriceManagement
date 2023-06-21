@@ -309,15 +309,10 @@ export default function CheckerDetails(props) {
       sx={{
         alignSelf: "center",
         justifyContent: "center",
-        backgroundColor: "light.dark",
       }}
     >
-      <Box>
-        <Box
-          sx={{
-            mt: 1,
-          }}
-        >
+      <Box sx={{ position: "fixed", maxWidth: "89%" }}>
+        <Box>
           <Typography
             sx={{
               fontFamily: "sans-serif",
@@ -331,32 +326,41 @@ export default function CheckerDetails(props) {
           </Typography>
         </Box>
 
-        
-        <TableContainer component={Paper} sx={{ margin: "30px" }}>
-          <Table aria-label="collapsible table" sx={{ minWidth: 650 }}>
+        <TableContainer
+          sx={{
+            margin: "10px 10px 30px 10px",
+            mt: 7,
+            maxHeight: "350px",
+          }}
+        >
+          <Table stickyHeader aria-label="sticky table">
             <TableHead>
               <TableRow>
-                <StyledTableCell align="right">Vehicle OEM</StyledTableCell>
-                <StyledTableCell align="right">State</StyledTableCell>
-                <StyledTableCell align="right">District</StyledTableCell>
-                <StyledTableCell align="right">Address</StyledTableCell>
+                <StyledTableCell align="center">Vehicle OEM</StyledTableCell>
+                <StyledTableCell align="center">State</StyledTableCell>
+                <StyledTableCell align="center">District</StyledTableCell>
+                <StyledTableCell align="center">Address</StyledTableCell>
                 <StyledTableCell>Dealers ID</StyledTableCell>
                 <StyledTableCell>Dealers Name</StyledTableCell>
                 <StyledTableCell>Dealers Type</StyledTableCell>
-                <StyledTableCell align="right">Contact No.</StyledTableCell>
-                <StyledTableCell align="right">Alternative No.</StyledTableCell>
-                <StyledTableCell align="right">
+                <StyledTableCell align="center">Contact No.</StyledTableCell>
+                <StyledTableCell align="center">
+                  Alternative No.
+                </StyledTableCell>
+                <StyledTableCell align="center">
                   Contact Person Name
                 </StyledTableCell>
-                <StyledTableCell align="right">
+                <StyledTableCell align="center">
                   Contact Person Mobile
                 </StyledTableCell>
-                <StyledTableCell align="right" style={{ display: "none" }}>
+                <StyledTableCell align="center" style={{ display: "none" }}>
                   EmailId
                 </StyledTableCell>
-                <StyledTableCell align="right">Activation Date</StyledTableCell>
-                <StyledTableCell align="right">Expiry Date</StyledTableCell>
-                <StyledTableCell align="right">Actions</StyledTableCell>
+                <StyledTableCell align="center">
+                  Activation Date
+                </StyledTableCell>
+                <StyledTableCell align="center">Expiry Date</StyledTableCell>
+                <StyledTableCell align="center">Actions</StyledTableCell>
                 <StyledTableCell />
                 <StyledTableCell>Checker Status</StyledTableCell>
               </TableRow>
@@ -382,16 +386,16 @@ export default function CheckerDetails(props) {
                         sx={{ "& > *": { borderBottom: "unset" } }}
                         key={row.dealerID}
                       >
-                        <StyledTableCell align="right">
+                        <StyledTableCell align="center">
                           {row.dealerManufacturerName}
                         </StyledTableCell>
-                        <StyledTableCell align="right">
+                        <StyledTableCell align="center">
                           {row.state}
                         </StyledTableCell>
-                        <StyledTableCell align="right">
+                        <StyledTableCell align="center">
                           {row.district}
                         </StyledTableCell>
-                        <StyledTableCell align="right">
+                        <StyledTableCell align="center">
                           {row.addressDetails}
                         </StyledTableCell>
                         <StyledTableCell component="th" scope="row">
@@ -403,31 +407,31 @@ export default function CheckerDetails(props) {
                         <StyledTableCell component="th" scope="row">
                           {row.dealerType}
                         </StyledTableCell>
-                        <StyledTableCell align="right">
+                        <StyledTableCell align="center">
                           {row.dealerContactNumber}
                         </StyledTableCell>
-                        <StyledTableCell align="right">
+                        <StyledTableCell align="center">
                           {row.dealerAlternateContactNumber}
                         </StyledTableCell>
-                        <StyledTableCell align="right">
+                        <StyledTableCell align="center">
                           {row.dealerContactPersonName}
                         </StyledTableCell>
-                        <StyledTableCell align="right">
+                        <StyledTableCell align="center">
                           {row.contactPersonMobile}
                         </StyledTableCell>
                         <StyledTableCell
-                          align="right"
+                          align="center"
                           style={{ display: "none" }}
                         >
                           {row.dealerMailID}
                         </StyledTableCell>
-                        <StyledTableCell align="right">
+                        <StyledTableCell align="center">
                           {row.dealerActivationData}
                         </StyledTableCell>
-                        <StyledTableCell align="right">
+                        <StyledTableCell align="center">
                           {row.dealerExpireData}
                         </StyledTableCell>
-                        <StyledTableCell align="right">
+                        <StyledTableCell align="center">
                           <Grid
                             sx={{
                               display: "flex",
@@ -436,7 +440,7 @@ export default function CheckerDetails(props) {
                               // ml: 5,
                             }}
                           >
-                            <StyledTableCell align="right">
+                            <StyledTableCell align="center">
                               <Grid
                                 sx={{
                                   display: "flex",
@@ -614,42 +618,42 @@ export default function CheckerDetails(props) {
                                         Dealers Name
                                       </StyledSubTableCell>
                                       <StyledSubTableCell
-                                        align="right"
+                                        align="center"
                                         style={{ display: "none" }}
                                       >
                                         EmailId
                                       </StyledSubTableCell>
-                                      <StyledSubTableCell align="right">
+                                      <StyledSubTableCell align="center">
                                         Manufacturer Name
                                       </StyledSubTableCell>
-                                      <StyledSubTableCell align="right">
+                                      <StyledSubTableCell align="center">
                                         Contact No.
                                       </StyledSubTableCell>
-                                      <StyledSubTableCell align="right">
+                                      <StyledSubTableCell align="center">
                                         Alternative No.
                                       </StyledSubTableCell>
-                                      <StyledSubTableCell align="right">
+                                      <StyledSubTableCell align="center">
                                         Contact Person Name
                                       </StyledSubTableCell>
-                                      <StyledSubTableCell align="right">
+                                      <StyledSubTableCell align="center">
                                         Contact Person Mobile
                                       </StyledSubTableCell>
-                                      <StyledSubTableCell align="right">
+                                      <StyledSubTableCell align="center">
                                         Activation Date
                                       </StyledSubTableCell>
-                                      <StyledSubTableCell align="right">
+                                      <StyledSubTableCell align="center">
                                         Expiry Date
                                       </StyledSubTableCell>
-                                      <StyledSubTableCell align="right">
+                                      <StyledSubTableCell align="center">
                                         Address
                                       </StyledSubTableCell>
-                                      <StyledSubTableCell align="right">
+                                      <StyledSubTableCell align="center">
                                         State
                                       </StyledSubTableCell>
-                                      <StyledSubTableCell align="right">
+                                      <StyledSubTableCell align="center">
                                         District
                                       </StyledSubTableCell>
-                                      <StyledSubTableCell align="right">
+                                      <StyledSubTableCell align="center">
                                         Actions
                                       </StyledSubTableCell>
                                       <StyledSubTableCell>
@@ -670,43 +674,43 @@ export default function CheckerDetails(props) {
                                           {val.dealerName}
                                         </StyledSubTableCell>
                                         <StyledSubTableCell
-                                          align="right"
+                                          align="center"
                                           style={{ display: "none" }}
                                         >
                                           {val.dealerMailID}
                                         </StyledSubTableCell>
-                                        <StyledSubTableCell align="right">
+                                        <StyledSubTableCell align="center">
                                           {val.dealerManufacturerName}
                                         </StyledSubTableCell>
-                                        <StyledSubTableCell align="right">
+                                        <StyledSubTableCell align="center">
                                           {val.dealerContactNumber}
                                         </StyledSubTableCell>
-                                        <StyledSubTableCell align="right">
+                                        <StyledSubTableCell align="center">
                                           {val.dealerAlternateContactNumber}
                                         </StyledSubTableCell>
-                                        <StyledSubTableCell align="right">
+                                        <StyledSubTableCell align="center">
                                           {val.dealerContactPersonName}
                                         </StyledSubTableCell>
-                                        <StyledSubTableCell align="right">
+                                        <StyledSubTableCell align="center">
                                           {val.contactPersonMobile}
                                         </StyledSubTableCell>
-                                        <StyledSubTableCell align="right">
+                                        <StyledSubTableCell align="center">
                                           {val.dealerActivationData}
                                         </StyledSubTableCell>
-                                        <StyledSubTableCell align="right">
+                                        <StyledSubTableCell align="center">
                                           {val.dealerExpireData}
                                         </StyledSubTableCell>
-                                        <StyledSubTableCell align="right">
+                                        <StyledSubTableCell align="center">
                                           {val.addressDetails}
                                         </StyledSubTableCell>
-                                        <StyledSubTableCell align="right">
+                                        <StyledSubTableCell align="center">
                                           {val.state}
                                         </StyledSubTableCell>
-                                        <StyledSubTableCell align="right">
+                                        <StyledSubTableCell align="center">
                                           {val.district}
                                         </StyledSubTableCell>
 
-                                        <StyledSubTableCell align="right">
+                                        <StyledSubTableCell align="center">
                                           <Grid
                                             sx={{
                                               display: "flex",
@@ -835,19 +839,19 @@ export default function CheckerDetails(props) {
                   ))}
             </TableBody>
           </Table>
+          <Grid item xs={12} md={12}>
+            <TablePagination
+              rowsPerPageOptions={[10, 25, 100]}
+              component="div"
+              count={allDealers.length}
+              rowsPerPage={rowsPerPage}
+              page={page}
+              onPageChange={handleChangePage}
+              onRowsPerPageChange={handleChangeRowsPerPage}
+              sx={{ alignItems: "center", justifyContent: "center" }}
+            />
+          </Grid>
         </TableContainer>
-        <Grid item xs={12} md={12}>
-          <TablePagination
-            rowsPerPageOptions={[10, 25, 100]}
-            component="div"
-            count={allDealers.length}
-            rowsPerPage={rowsPerPage}
-            page={page}
-            onPageChange={handleChangePage}
-            onRowsPerPageChange={handleChangeRowsPerPage}
-            sx={{ alignItems: "center", justifyContent: "center" }}
-          />
-        </Grid>
       </Box>
     </Box>
   );

@@ -128,15 +128,17 @@ function VariantImageModal(props) {
                         <td rowspan={1} scope="col">
                           <div>
                             <div style={{ flexBasis: "50%" }}>
-                              <input
-                                type="file"
-                                title=" "
-                                onChange={(e) => {
-                                  handleFileChange(e, item.variantID);
-                                }}
-                                style={{ color: "rgba(0, 0, 0, 0)" }}
-                                accept="image/png, image/jpeg"
-                              />
+                              {props.btnhide ? null : (
+                                <input
+                                  type="file"
+                                  title=" "
+                                  onChange={(e) => {
+                                    handleFileChange(e, item.variantID);
+                                  }}
+                                  style={{ color: "rgba(0, 0, 0, 0)" }}
+                                  accept="image/png, image/jpeg"
+                                />
+                              )}
                             </div>
 
                             <div style={{ flexBasis: "50%" }}>
@@ -147,20 +149,22 @@ function VariantImageModal(props) {
                           </div>
                           <div className="d-flex">
                             <div style={{ flexBasis: "50%" }}>
-                              <Button
-                                onClick={() => {
-                                  handleVariantsFileUpload(
-                                    item.filePath,
-                                    item.variantID
-                                  );
-                                }}
-                                style={{
-                                  backgroundColor: "green",
-                                  borderColor: "green",
-                                }}
-                              >
-                                Upload
-                              </Button>
+                              {props.btnhide ? null : (
+                                <Button
+                                  onClick={() => {
+                                    handleVariantsFileUpload(
+                                      item.filePath,
+                                      item.variantID
+                                    );
+                                  }}
+                                  style={{
+                                    backgroundColor: "green",
+                                    borderColor: "green",
+                                  }}
+                                >
+                                  Upload
+                                </Button>
+                              )}
                             </div>
                             <div style={{ flexBasis: "50%" }}>
                               <a

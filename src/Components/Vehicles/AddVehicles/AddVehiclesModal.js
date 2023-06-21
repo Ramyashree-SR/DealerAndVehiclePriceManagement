@@ -17,6 +17,7 @@ function AddVehiclesModal(props) {
     vehicleState: "",
     vehicleMaxLoanAmount: "",
     vehicalOnRoadPrice: "",
+    exShowRoomPric: "",
   });
 
   // console.log(vehicleOEM,"fghj");
@@ -85,7 +86,7 @@ function AddVehiclesModal(props) {
       vehicleOem: addNewVehicles?.vehicleOem,
       vehicleState: addNewVehicles?.vehicleState,
       vehicalOnRoadPrice: addNewVehicles?.vehicalOnRoadPrice,
-      vehicleMaxLoanAmount: addNewVehicles?.vehicleMaxLoanAmount,
+      vehicleMaxLoan: addNewVehicles?.exShowRoomPric,
     };
     const { data } = await addAllNewVehicleDetails(payload);
     // console.log(data,"dataadd");
@@ -97,6 +98,7 @@ function AddVehiclesModal(props) {
         vehicleState: "",
         vehicalOnRoadPrice: "",
         vehicleMaxLoanAmount: "",
+        exShowRoomPric: "",
       });
     }
     // props.getVehicleVariantsDetails(data?.data.data)
@@ -130,7 +132,7 @@ function AddVehiclesModal(props) {
                 sx={{ width: 225, ml: 1, m: 1 }}
                 filterOptions={(x) => x}
                 renderInput={(params) => (
-                  <TextField {...params} label="Select State" />
+                  <TextField {...params} label="Select State*" />
                 )}
                 name="vehicleState"
                 value={addNewVehicles?.vehicleState}
@@ -147,7 +149,7 @@ function AddVehiclesModal(props) {
                 // size="small"
                 // getOptionLabel={(option) => option.oemName}
                 renderInput={(params) => (
-                  <TextField {...params} label="Select OEM" />
+                  <TextField {...params} label="Select OEM*" />
                 )}
                 name="vehicleOem"
                 value={addNewVehicles?.vehicleOem}
@@ -158,7 +160,7 @@ function AddVehiclesModal(props) {
 
               <TextField
                 id="outlined-basic"
-                label="Vehicle Model"
+                label="Vehicle Model*"
                 variant="outlined"
                 // size="small"
                 sx={{ m: 1 }}
@@ -170,7 +172,7 @@ function AddVehiclesModal(props) {
 
             <TextField
               id="outlined-basic"
-              label="Vehicle Variant"
+              label="Vehicle Variant*"
               variant="outlined"
               // size="small"
               sx={{ m: 1 }}
@@ -181,7 +183,18 @@ function AddVehiclesModal(props) {
 
             <TextField
               id="outlined-basic"
-              label="On Road Price"
+              label="Ex-Showroom Price"
+              variant="outlined"
+              // size="small"
+              sx={{ m: 1 }}
+              name="exShowRoomPrice"
+              // value={addNewVehicles?.exShowRoomPrice}
+              onChange={(e) => updateChange(e)}
+            />
+
+            <TextField
+              id="outlined-basic"
+              label="On Road Price*"
               variant="outlined"
               // size="small"
               sx={{ m: 1 }}
@@ -192,7 +205,7 @@ function AddVehiclesModal(props) {
 
             <TextField
               id="outlined-basic"
-              label="Max Loan Amount"
+              label="Max Loan Amount *"
               variant="outlined"
               // size="small"
               sx={{ m: 1 }}

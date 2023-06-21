@@ -14,45 +14,33 @@ import {
   Box,
   Button,
   Grid,
-  Icon,
-  IconButton,
   InputAdornment,
   TablePagination,
   TextField,
   Typography,
 } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
-import {
-  blue,
-  blueGrey,
-  deepOrange,
-  green,
-  lightBlue,
-  pink,
-} from "@mui/material/colors";
-import {
-  getAllStateInVehicleDetails,
-  getAllVehicleDetails,
-  getAllVehicleModelDetails,
-  getAllVehicleOEMDetails,
-  getAllVehicleVariantsToUplodImage,
-} from "../service/VehicleApi/VehicleApi";
-import AddVehiclesModal from "./AddVehicles/AddVehiclesModal";
-import EditVehiclesModal from "./EditVehicles/EditVehiclesModal";
+import { deepOrange, green, pink } from "@mui/material/colors";
 import SearchIcon from "@mui/icons-material/Search";
 // import { AddCircleOutlineIcon } from "@mui/icons-material/AddCircleOutline";
 import TuneIcon from "@mui/icons-material/Tune";
-import VariantImageModal from "./VariantImage/VariantImageModal";
-// import VariantImage from "./VariantImage/VariantImages";
-import ViewModuleIcon from "@mui/icons-material/ViewModule";
-import ViewVehiclesModal from "./ViewVehicles/ViewVehiclesModal";
+import { getVehiclePricePendingDetails } from "../../service/checker";
+import {
+  getAllStateInVehicleDetails,
+  getAllVehicleModelDetails,
+  getAllVehicleOEMDetails,
+  getAllVehicleVariantsToUplodImage,
+} from "../../service/VehicleApi/VehicleApi";
+import AddVehiclesModal from "../../Vehicles/AddVehicles/AddVehiclesModal";
+import EditVehiclesModal from "../../Vehicles/EditVehicles/EditVehiclesModal";
+import VariantImageModal from "../../Vehicles/VariantImage/VariantImageModal";
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.root}`]: {
     padding: "5px",
   },
   [`&.${tableCellClasses.head}`]: {
-    backgroundColor: theme.palette.success.dark,
+    backgroundColor: pink[900],
     color: theme.palette.common.white,
     fontSize: 9,
     fontWeight: 700,
@@ -60,7 +48,7 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.body}`]: {
     fontSize: 9,
     fontWeight: 800,
-    backgroundColor: "#CDFCE3",
+    backgroundColor: pink[100],
     fontFamily: "sans-serif",
   },
 }));
@@ -76,7 +64,7 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
 }));
 
 const ColorButton = styled(Button)(({ theme }) => ({
-  // backgroundColor: theme.palette.getContrastText(green[500]),
+  backgroundColor: theme.palette.getContrastText(green[500]),
   backgroundColor: green[900],
   color: theme.palette.common.white,
   "&:hover": {
@@ -85,22 +73,20 @@ const ColorButton = styled(Button)(({ theme }) => ({
 }));
 
 const ColorIcon = styled(Button)(({ theme }) => ({
-  color: theme.palette.getContrastText(pink[500]),
-  color: pink[900],
+  color: theme.palette.getContrastText(green[500]),
+  color: green[900],
   // color: theme.palette.common.white,
   "&:hover": {
     color: deepOrange[700],
   },
 }));
 
-export default function VehicleDetails(props) {
+export default function VehicleChecker(props) {
   const [allVehicleDetails, setAllVehicleDetails] = useState([]);
   // console.log(allVehicleDetailsCopy,"allVehicleDetailsCopy");
   const [openAddVehicleModal, setOpenAddVehicleModal] = useState(false);
   const [openEditVehicleModal, setOpenEditVehicleModal] = useState(false);
-  const [openViewVehicleModal, setOpenViewVehicleModal] = useState(false);
   const [editVehicleData, seteditVehicleData] = useState({});
-  const [viewVehicleData, setviewVehicleData] = useState({});
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [searchText, setsearchText] = useState("");
@@ -116,8 +102,7 @@ export default function VehicleDetails(props) {
   const [disableModelOptions, setdisableModelOptions] = useState(true);
   const [openVariantImageModal, setopenVariantImageModal] = useState(false);
   const [allVariants, setallVariants] = useState([]);
-  // const [vehState, setvehState] = useState([]);
-  // const [filterState, setfilterState] = useState({});
+  const [checkerEdit, setCheckerEdit] = useState(false);
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
@@ -131,11 +116,6 @@ export default function VehicleDetails(props) {
   const handleEditVehicleTable = (record) => {
     setOpenEditVehicleModal(true);
     seteditVehicleData(record);
-  };
-
-  const handleViewVehicleTable = (record) => {
-    setOpenViewVehicleModal(true);
-    setviewVehicleData(record);
   };
 
   const handleStateChange = (value) => {
@@ -298,19 +278,17 @@ export default function VehicleDetails(props) {
   ]);
 
   useEffect(() => {
-    getVehicleVariantsDetails();
+    getVehiclePriceDetails();
   }, []);
 
-  const getVehicleVariantsDetails = async () => {
-    const { data } = await getAllVehicleDetails();
-    console.log(data, "daata");
+  const getVehiclePriceDetails = async () => {
+    const { data } = await getVehiclePricePendingDetails();
+    // console.log(data, "daata");
     if (data) {
       let vehData = data?.data;
       setAllVehicleDetails(vehData);
     }
   };
-
-  useEffect(() => {}, []);
 
   const getVehicleVariantsImageDetails = async () => {
     const { data } = await getAllVehicleVariantsToUplodImage();
@@ -338,7 +316,7 @@ export default function VehicleDetails(props) {
           mt: 1,
         }}
       >
-        <Box>
+        {/* <Box>
           <Typography
             sx={{
               fontFamily: "sans-serif",
@@ -466,9 +444,9 @@ export default function VehicleDetails(props) {
               }}
             />
           </Box>
-        </Box>
+        </Box> */}
 
-        <Box
+        {/* <Box
           sx={{
             margin: "30px 30px 20px 20px",
             display: "flex",
@@ -483,7 +461,7 @@ export default function VehicleDetails(props) {
           }}
         >
           <Box
-            sx={{ display: "flex", alignItems: "center", flexDirection: "row" ,marginLeft:30}}
+            sx={{ display: "flex", alignItems: "center", flexDirection: "row" }}
           >
             <ColorButton
               variant="contained"
@@ -501,28 +479,23 @@ export default function VehicleDetails(props) {
               show={openVariantImageModal}
               close={() => setopenVariantImageModal(false)}
               allVariants={allVariants}
-              btnhide={props.btnhide}
             />
-            </Box>
 
-            {props.btnhide ? null : (
-              <ColorButton
-                variant="contained"
-                size="large"
-                sx={{ ml: 2, background: "green", fontSize: 10 }}
-                onClick={() => setOpenAddVehicleModal(true)}
-              >
-                <AddIcon /> Add and Update Vehicle/Price
-              </ColorButton>
-            )}
-            
-          
+            <ColorButton
+              variant="contained"
+              size="large"
+              sx={{ ml: 2, background: "green", fontSize: 10 }}
+              onClick={() => setOpenAddVehicleModal(true)}
+            >
+              <AddIcon /> Add and Update Vehicle/Price
+            </ColorButton>
+          </Box>
           <AddVehiclesModal
             show={openAddVehicleModal}
             close={() => setOpenAddVehicleModal(false)}
-            getAllVehicleDetails={getAllVehicleDetails}
+            // getAllVehicleDetails={getAllVehicleDetails}
           />
-        </Box>
+        </Box> */}
         <Box sx={{ position: "fixed", minWidth: "88%" }}>
           <TableContainer
             component={Paper}
@@ -630,56 +603,27 @@ export default function VehicleDetails(props) {
                                 flexDirection: "column",
                               }}
                             >
-                              <ViewModuleIcon
-                                onClick={() => handleViewVehicleTable(row)}
+                              <ModeEditIcon
+                                onClick={() => {
+                                  handleEditVehicleTable(row);
+                                  setCheckerEdit(true);
+                                }}
                                 fontSize="small"
                               />
                               <Typography
                                 sx={{ fontWeight: "bold", fontSize: 10 }}
                               >
-                                View
+                                EDIT
                               </Typography>
-                              <ViewVehiclesModal
-                                show={openViewVehicleModal}
-                                close={() => setOpenViewVehicleModal(false)}
-                                viewVehicleData={viewVehicleData}
-                                getVehicleVariantsDetails={
-                                  getVehicleVariantsDetails
-                                }
+                              <EditVehiclesModal
+                                show={openEditVehicleModal}
+                                close={() => setOpenEditVehicleModal(false)}
+                                editVehicleData={editVehicleData}
+                                getVehiclePriceDetails={getVehiclePriceDetails}
+                                checkerEdit={checkerEdit}
                               />
                             </Grid>
                           </ColorIcon>
-                          {props. btnhide ? null : (
-                            <ColorIcon>
-                              <Grid
-                                sx={{
-                                  alignItems: "center",
-                                  justifyContent: "center",
-                                  display: "flex",
-                                  flexDirection: "column",
-                                }}
-                              >
-                                <ModeEditIcon
-                                  onClick={() => handleEditVehicleTable(row)}
-                                  fontSize="small"
-                                />
-                                <Typography
-                                  sx={{ fontWeight: "bold", fontSize: 10 }}
-                                >
-                                  EDIT
-                                </Typography>
-
-                                <EditVehiclesModal
-                                  show={openEditVehicleModal}
-                                  close={() => setOpenEditVehicleModal(false)}
-                                  editVehicleData={editVehicleData}
-                                  getVehicleVariantsDetails={
-                                    getVehicleVariantsDetails
-                                  }
-                                />
-                              </Grid>
-                            </ColorIcon>
-                          )}
                         </StyledTableCell>
                         <StyledTableCell align="center">
                           {row.status}

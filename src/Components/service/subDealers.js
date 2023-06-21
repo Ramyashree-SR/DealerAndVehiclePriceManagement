@@ -29,7 +29,9 @@ const addSubDealersDetails = (params, payload) => {
 const editSubDealersDetails = (params, payload) => {
   return serviceUtil
     .put(`editsubdealer?subDealerID=${params}`, payload)
+
     .then((res) => {
+      console.log(params, "params");
       const data = res;
       return { data };
     })
@@ -57,6 +59,7 @@ const showVehicleVariantsInSubDealerToAdd = (params) => {
   return serviceUtil
     .get(`subvariants?subDealerID=${params}`)
     .then((res) => {
+      console.log(res,"response");
       const data = res;
       return { data };
     })
@@ -69,6 +72,19 @@ const showVehicleVariantsInSubDealerToAdd = (params) => {
 const addVehicleVariantsInSubDealer = (params, payload) => {
   return serviceUtil
     .post(`addsubvariant?subDealerID=${params}`, payload)
+    .then((res) => {
+      const data = res;
+      return { data };
+    })
+    .catch((err) => {
+      const errRes = err;
+      return { errRes };
+    });
+};
+
+const removeAllVehicleVariantsInSubDealer = (params, payload) => {
+  return serviceUtil
+    .deleteById(`removesubvariant?subDealerID=${params}`, payload)
     .then((res) => {
       const data = res;
       return { data };
@@ -155,6 +171,7 @@ export {
   showVehicleVariantsInSubDealer,
   showVehicleVariantsInSubDealerToAdd,
   addVehicleVariantsInSubDealer,
+  removeAllVehicleVariantsInSubDealer,
   getAllBranchesInSubDealer,
   getAllBranchesInSubDealerToAdd,
   addBranchesInSubDealer,

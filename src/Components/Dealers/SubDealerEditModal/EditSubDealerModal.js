@@ -26,7 +26,7 @@ export default function EditSubDealerModal(props) {
     addressDetails: "",
     district: "",
     city: "",
-    pinCode: "",
+    pinCode: "",  
   });
 
   let updateChange = (event) => {
@@ -37,7 +37,7 @@ export default function EditSubDealerModal(props) {
   };
 
   useEffect(() => {
-    setEditingSubDealer({ ...props.editSubDealerData });
+    setEditingSubDealer({...props.editSubDealerData});
   }, [props.editSubDealerData]);
 
   const editSubDealerRowDetails = async (subDealerID) => {
@@ -68,30 +68,7 @@ export default function EditSubDealerModal(props) {
     };
     const { data } = await editSubDealersDetails(subDealerID, payload);
     if (data) {
-      setEditingSubDealer({
-        mainDealerID: "",
-        subDealerName: "",
-        subDealerManufacturerName: "",
-        subDealerMailID: "",
-        subDealerContactNumber: "",
-        subDealerAlternateContactNumber: "",
-        subDealerContactPersonName: "",
-        contactPersonMobile: "",
-        mainDealerPanNumber: "",
-        mainDealerGstNumber: "",
-        mainDealerBankName: "",
-        mainDealerBankBranchName: "",
-        mainDealerBankAccNumber: "",
-        mainDealerIfsc: "",
-        mainDealerAccountHolderName: "",
-        mainDealerPaymentEligible: "",
-        subDealerActivationData: "",
-        state: "",
-        addressDetails: "",
-        district: "",
-        city: "",
-        pinCode: "",
-      });
+      setEditingSubDealer(data);
       props.getSubDealerDetails();
       props.close();
     }
@@ -172,16 +149,7 @@ export default function EditSubDealerModal(props) {
               value={editingSubDealer?.subDealerContactNumber}
               onChange={(e) => updateChange(e)}
             />
-            <TextField
-              id="outlined-basic"
-              label="Alternate No."
-              variant="outlined"
-              size="small"
-              sx={{ m: 1 }}
-              name="mainDealerAlternateContactNumber"
-              value={editingSubDealer?.subDealerAlternateContactNumber}
-              onChange={(e) => updateChange(e)}
-            />
+
             <TextField
               id="outlined-basic"
               label="Contact Person Name"
@@ -192,6 +160,17 @@ export default function EditSubDealerModal(props) {
               value={editingSubDealer?.subDealerContactPersonName}
               onChange={(e) => updateChange(e)}
             />
+            <TextField
+              id="outlined-basic"
+              label="Alternate No."
+              variant="outlined"
+              size="small"
+              sx={{ m: 1 }}
+              name="subDealerAlternateContactNumber"
+              value={editingSubDealer?.subDealerAlternateContactNumber}
+              onChange={(e) => updateChange(e)}
+            />
+
             <TextField
               id="outlined-basic"
               label="ContactPersonMobile"

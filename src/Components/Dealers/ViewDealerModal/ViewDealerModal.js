@@ -21,40 +21,39 @@ import { getStatusDetails } from "../../service/checker";
 import moment from "moment";
 import { useToasts } from "react-toast-notifications";
 
-function EditDealerModal(props) {
+function ViewDealerModal(props) {
   const [vehicleOEM, setVehicleOEM] = useState([]);
   const [dealerState, setDealerState] = useState([]);
   const { addToast } = useToasts();
-  const StatusOptions = ["APPROVED", "SEND BACK"];
+  const StatusOptions = ["APPROVED", "REJECTED"];
   const activationStatus = ["Active", "InActive"];
   const pennyCheckStatus = ["Success", "Failed"];
 
   const [editingDealer, setEditingDealer] = useState({
-    dealerID: "",
-    dealerActivationStatus: "",
-    dealerAlternateContactNumber: "",
-    dealerActivationData: "",
-    dealerAccountHolderName: "",
-    dealerStatus: "",
-    dealerName: "",
-    dealerBankName: "",
-    dealerGstNumber: "",
-    dealerPaniniCheck: "",
-    dealerBankAccNumber: "",
-    dealerBankBranchName: "",
-    dealerManufacturerName: "",
-    dealerContactNumber: "",
-    dealerContactPersonName: "",
+    mainDealerName: "",
+    mainDealerManufacturerName: "",
+    mainDealerMailID: "",
+    mainDealerContactNumber: "",
+    mainDealerAlternateContactNumber: "",
+    mainDealerContactPersonName: "",
     contactPersonMobile: "",
-    dealerIfsc: "",
-    dealerMailID: "",
-    dealerPanNumber: "",
-    addressDetails: "",
-    pinCode: "",
-    city: "",
-    district: "",
+    mainDealerPaymentEligible: "",
+    mainDealerActivationData: "",
     state: "",
-    dealerType: "",
+    district: "",
+    city: "",
+    pinCode: "",
+    addressDetails: "",
+    mainDealerPanNumber: "",
+    mainDealerGstNumber: "",
+    mainDealerBankName: "",
+    mainDealerBankBranchName: "",
+    mainDealerBankAccNumber: "",
+    mainDealerIfsc: "",
+    mainDealerAccountHolderName: "",
+    mainDealerExpireData: "",
+    mainDealerPaniniCheck: "",
+    mainDealerActivationStatus: "",
   });
 
   useEffect(() => {
@@ -83,7 +82,6 @@ function EditDealerModal(props) {
 
   const getStateDetails = async () => {
     const { data } = await getAllStateDetails();
-
     if (data) {
       let stateData = [];
       data?.data?.data?.map((val) => {
@@ -94,73 +92,49 @@ function EditDealerModal(props) {
       setDealerState([]);
     }
   };
+  useEffect(() => {
+    editDealerDetails();
+  }, []);
 
-  const editDealerDetails = async (dealerID) => {
+  const editDealerDetails = async (mainDealerID) => {
     let payload = {
-      dealerName: editingDealer?.dealerName,
+      mainDealerName: editingDealer?.mainDealerName,
       dealerType: editingDealer?.dealerType,
-      dealerMailID: editingDealer?.dealerMailID,
-      dealerManufacturerName: editingDealer?.dealerManufacturerName,
-      dealerContactNumber: editingDealer?.dealerContactNumber,
-      dealerAlternateContactNumber: editingDealer?.dealerAlternateContactNumber,
+      mainDealerMailID: editingDealer?.mainDealerMailID,
+      mainDealerManufacturerName: editingDealer?.mainDealerManufacturerName,
+      mainDealerContactNumber: editingDealer?.mainDealerContactNumber,
+      mainDealerAlternateContactNumber:
+        editingDealer?.mainDealerAlternateContactNumber,
       contactPersonMobile: editingDealer?.contactPersonMobile,
-      dealerContactPersonName: editingDealer?.dealerContactPersonName,
-      dealerActivationData: moment(
-        new Date(editingDealer?.dealerActivationData)
+      mainDealerContactPersonName: editingDealer?.mainDealerContactPersonName,
+      mainDealerPaymentEligible: editingDealer?.mainDealerPaymentEligible,
+      mainDealerActivationData: moment(
+        new Date(editingDealer?.mainDealerActivationData)
+      ).format("YYYY-MM-DD"),
+      mainDealerExpireData: moment(
+        new Date(editingDealer?.mainDealerExpireData)
       ).format("YYYY-MM-DD"),
       addressDetails: editingDealer?.addressDetails,
       state: editingDealer?.state,
       district: editingDealer?.district,
       city: editingDealer?.city,
       pinCode: editingDealer.pinCode,
-      dealerPanNumber: editingDealer?.dealerPanNumber,
-      dealerGstNumber: editingDealer?.dealerGstNumber,
-      dealerBankName: editingDealer?.dealerBankName,
-      dealerBankBranchName: editingDealer?.dealerBankBranchName,
-      dealerBankAccNumber: editingDealer?.dealerBankAccNumber,
-      dealerIfsc: editingDealer?.dealerIfsc,
-      dealerAccountHolderName: editingDealer?.dealerAccountHolderName,
-      dealerStatus: editingDealer?.dealerStatus,
-      dealerActivationStatus: editingDealer?.dealerActivationStatus,
-      dealerPaniniCheck: editingDealer?.dealerPaniniCheck,
+      mainDealerPanNumber: editingDealer?.mainDealerPanNumber,
+      mainDealerGstNumber: editingDealer?.mainDealerGstNumber,
+      mainDealerBankName: editingDealer?.mainDealerBankName,
+      mainDealerBankBranchName: editingDealer?.mainDealerBankBranchName,
+      mainDealerBankAccNumber: editingDealer?.mainDealerBankAccNumber,
+      mainDealerIfsc: editingDealer?.mainDealerIfsc,
+      mainDealerAccountHolderName: editingDealer?.mainDealerAccountHolderName,
+      mainDealerPaniniCheck: editingDealer?.mainDealerPaniniCheck,
+      mainDealerActivationStatus: editingDealer?.mainDealerActivationStatus,
     };
-    const { data, errRes } = await editMainDealersDetails(dealerID, payload);
+    const { data } = await editMainDealersDetails(mainDealerID, payload);
     if (data) {
-      if (data) {
-        setEditingDealer({
-          dealerID: "",
-          dealerActivationStatus: "",
-          dealerAlternateContactNumber: "",
-          dealerActivationData: "",
-          dealerAccountHolderName: "",
-          dealerStatus: "",
-          dealerName: "",
-          dealerBankName: "",
-          dealerGstNumber: "",
-          dealerPaniniCheck: "",
-          dealerBankAccNumber: "",
-          dealerBankBranchName: "",
-          dealerManufacturerName: "",
-          dealerContactNumber: "",
-          dealerContactPersonName: "",
-          contactPersonMobile: "",
-          dealerIfsc: "",
-          dealerMailID: "",
-          dealerPanNumber: "",
-          addressDetails: "",
-          pinCode: "",
-          city: "",
-          district: "",
-          state: "",
-          dealerType: "",
-        });
-        props.getDealersDetails();
-        addToast(data?.message, { appearance: "success" });
-      } else if (errRes) {
-        addToast(errRes, { appearance: "error" });
-      }
+      props.getDealersDetails();
+      props.close();
+      window.location.reload();
     }
-    props.close();
   };
 
   const updateChange = (event) => {
@@ -171,8 +145,8 @@ function EditDealerModal(props) {
   };
 
   useEffect(() => {
-    setEditingDealer({ ...props.editDealerData });
-  }, [props.editDealerData]);
+    setEditingDealer(props.viewDealerData);
+  }, [props.viewDealerData]);
 
   const onStateChange = (name, e, value) => {
     setEditingDealer({
@@ -194,51 +168,61 @@ function EditDealerModal(props) {
     console.log(date, "val1");
     setEditingDealer({
       ...editingDealer,
-      dealerActivationData: date,
+      mainDealerActivationData: date,
     });
   };
 
-  const getStatusOfDealerByChecker = async (dealerID) => {
-    let payload = {
-      dealerName: editingDealer?.dealerName,
-      dealerType: editingDealer?.dealerType,
-      dealerMailID: editingDealer?.dealerMailID,
-      dealerManufacturerName: editingDealer?.dealerManufacturerName,
-      dealerContactNumber: editingDealer?.dealerContactNumber,
-      dealerAlternateContactNumber: editingDealer?.dealerAlternateContactNumber,
-      contactPersonMobile: editingDealer?.contactPersonMobile,
-      dealerContactPersonName: editingDealer?.dealerContactPersonName,
-      dealerActivationData: moment(
-        new Date(editingDealer?.dealerActivationData)
-      ).format("YYYY-MM-DD"),
-      addressDetails: editingDealer?.addressDetails,
-      state: editingDealer?.state,
-      district: editingDealer?.district,
-      city: editingDealer?.city,
-      pinCode: editingDealer.pinCode,
-      dealerPanNumber: editingDealer?.dealerPanNumber,
-      dealerGstNumber: editingDealer?.dealerGstNumber,
-      dealerBankName: editingDealer?.dealerBankName,
-      dealerBankBranchName: editingDealer?.dealerBankBranchName,
-      dealerBankAccNumber: editingDealer?.dealerBankAccNumber,
-      dealerIfsc: editingDealer?.dealerIfsc,
-      dealerAccountHolderName: editingDealer?.dealerAccountHolderName,
-      dealerStatus: editingDealer?.dealerStatus,
-      dealerActivationStatus: editingDealer?.dealerActivationStatus,
-      dealerPaniniCheck: editingDealer?.dealerPaniniCheck,
-    };
-    const { data, errRes } = await getStatusDetails(dealerID, payload);
-
-    if (data) {
-      if (data.error === "FALSE") {
-        props.getDealersDetails();
-        props.close();
-        addToast(data?.message, { appearance: "success" });
-      } else if (errRes) {
-        addToast(errRes, { appearance: "error" });
-      }
-    }
+  const handleExpiryDateChange = (val) => {
+    console.log(val, "val12");
+    const date = moment(val).format("YYYY-MM-DD");
+    console.log(date, "val1");
+    setEditingDealer({
+      ...editingDealer,
+      mainDealerExpireData: date,
+    });
   };
+
+  //   const getStatusOfDealerByChecker = async (dealerID) => {
+  //     let payload = {
+  //       dealerName: editingDealer?.dealerName,
+  //       dealerType: editingDealer?.dealerType,
+  //       dealerMailID: editingDealer?.dealerMailID,
+  //       dealerManufacturerName: editingDealer?.dealerManufacturerName,
+  //       dealerContactNumber: editingDealer?.dealerContactNumber,
+  //       dealerAlternateContactNumber: editingDealer?.dealerAlternateContactNumber,
+  //       contactPersonMobile: editingDealer?.contactPersonMobile,
+  //       dealerContactPersonName: editingDealer?.dealerContactPersonName,
+  //       dealerActivationData: moment(
+  //         new Date(editingDealer?.dealerActivationData)
+  //       ).format("YYYY-MM-DD"),
+  //       addressDetails: editingDealer?.addressDetails,
+  //       state: editingDealer?.state,
+  //       district: editingDealer?.district,
+  //       city: editingDealer?.city,
+  //       pinCode: editingDealer.pinCode,
+  //       dealerPanNumber: editingDealer?.dealerPanNumber,
+  //       dealerGstNumber: editingDealer?.dealerGstNumber,
+  //       dealerBankName: editingDealer?.dealerBankName,
+  //       dealerBankBranchName: editingDealer?.dealerBankBranchName,
+  //       dealerBankAccNumber: editingDealer?.dealerBankAccNumber,
+  //       dealerIfsc: editingDealer?.dealerIfsc,
+  //       dealerAccountHolderName: editingDealer?.dealerAccountHolderName,
+  //       dealerStatus: editingDealer?.dealerStatus,
+  //       dealerActivationStatus: editingDealer?.dealerActivationStatus,
+  //       dealerPaniniCheck: editingDealer?.dealerPaniniCheck,
+  //     };
+  //     const { data, errRes } = await getStatusDetails(dealerID, payload);
+
+  //     if (data) {
+  //       if (data.error === "FALSE") {
+  //         props.getDealersDetails();
+  //         props.close();
+  //         addToast(data?.message, { appearance: "success" });
+  //       } else if (errRes) {
+  //         addToast(errRes, { appearance: "error" });
+  //       }
+  //     }
+  //   };
 
   const handleActivationChange = (name, event, value) => {
     setEditingDealer(() => ({
@@ -253,12 +237,12 @@ function EditDealerModal(props) {
     }));
   };
 
-  const handleCheckerStatus = (name, event, value) => {
-    setEditingDealer(() => ({
-      ...editingDealer,
-      [name]: value,
-    }));
-  };
+  //   const handleCheckerStatus = (name, event, value) => {
+  //     setEditingDealer(() => ({
+  //       ...editingDealer,
+  //       [name]: value,
+  //     }));
+  //   };
 
   return (
     <>
@@ -275,7 +259,7 @@ function EditDealerModal(props) {
             id="contained-modal-title-vcenter"
             className="text-align-center"
           >
-            Check Dealer Details
+            View Dealer Details
           </Modal.Title>
         </Modal.Header>
         <Modal.Body>
@@ -292,10 +276,10 @@ function EditDealerModal(props) {
                 renderInput={(params) => (
                   <TextField {...params} label="Select ManuFacturerName" />
                 )}
-                name="dealerManufacturerName"
-                value={editingDealer?.dealerManufacturerName}
+                name="mainDealerManufacturerName"
+                value={editingDealer?.mainDealerManufacturerName}
                 onChange={(e, val) =>
-                  handleVehicleOEMChange("dealerManufacturerName", e, val)
+                  handleVehicleOEMChange("mainDealerManufacturerName", e, val)
                 }
                 disabled
               />
@@ -322,9 +306,10 @@ function EditDealerModal(props) {
                 variant="outlined"
                 // size="small"
                 sx={{ m: 1 }}
-                name="dealerName"
-                value={editingDealer?.dealerName}
+                name="mainDealerName"
+                value={editingDealer?.mainDealerName}
                 onChange={(e) => updateChange(e)}
+                disabled
               />
             </Grid>
 
@@ -334,9 +319,10 @@ function EditDealerModal(props) {
               variant="outlined"
               // size="small"
               sx={{ m: 1 }}
-              name="dealerMailID"
-              value={editingDealer?.dealerMailID}
+              name="mainDealerMailID"
+              value={editingDealer?.mainDealerMailID}
               onChange={(e) => updateChange(e)}
+              disabled
             />
 
             <TextField
@@ -345,9 +331,10 @@ function EditDealerModal(props) {
               variant="outlined"
               // size="small"
               sx={{ m: 1 }}
-              name="dealerContactNumber"
-              value={editingDealer?.dealerContactNumber}
+              name="mainDealerContactNumber"
+              value={editingDealer?.mainDealerContactNumber}
               onChange={(e) => updateChange(e)}
+              disabled
             />
 
             <TextField
@@ -356,9 +343,10 @@ function EditDealerModal(props) {
               variant="outlined"
               // size="small"
               sx={{ m: 1 }}
-              name="dealerAlternateContactNumber"
-              value={editingDealer?.dealerAlternateContactNumber}
+              name="mainDealerAlternateContactNumber"
+              value={editingDealer?.mainDealerAlternateContactNumber}
               onChange={(e) => updateChange(e)}
+              disabled
             />
 
             <TextField
@@ -367,9 +355,10 @@ function EditDealerModal(props) {
               variant="outlined"
               // size="small"
               sx={{ m: 1 }}
-              name="dealerContactPersonName"
-              value={editingDealer?.dealerContactPersonName}
+              name="mainDealerContactPersonName"
+              value={editingDealer?.mainDealerContactPersonName}
               onChange={(e) => updateChange(e)}
+              disabled
             />
             <TextField
               id="outlined-basic"
@@ -380,6 +369,7 @@ function EditDealerModal(props) {
               name="contactPersonMobile"
               value={editingDealer?.contactPersonMobile}
               onChange={(e) => updateChange(e)}
+              disabled
             />
             <TextField
               id="outlined-basic"
@@ -387,9 +377,10 @@ function EditDealerModal(props) {
               variant="outlined"
               // size="small"
               sx={{ m: 1 }}
-              name="dealerPanNumber"
-              value={editingDealer?.dealerPanNumber}
+              name="mainDealerPanNumber"
+              value={editingDealer?.mainDealerPanNumber}
               onChange={(e) => updateChange(e)}
+              disabled
             />
             <TextField
               id="outlined-basic"
@@ -397,9 +388,10 @@ function EditDealerModal(props) {
               variant="outlined"
               // size="small"
               sx={{ m: 1 }}
-              name="dealerGstNumber"
-              value={editingDealer?.dealerGstNumber}
+              name="mainDealerGstNumber"
+              value={editingDealer?.mainDealerGstNumber}
               onChange={(e) => updateChange(e)}
+              disabled
             />
             <TextField
               id="outlined-basic"
@@ -407,9 +399,10 @@ function EditDealerModal(props) {
               variant="outlined"
               // size="small"
               sx={{ m: 1 }}
-              name="dealerBankName"
-              value={editingDealer?.dealerBankName}
+              name="mainDealerBankName"
+              value={editingDealer?.mainDealerBankName}
               onChange={(e) => updateChange(e)}
+              disabled
             />
             <TextField
               id="outlined-basic"
@@ -417,9 +410,10 @@ function EditDealerModal(props) {
               variant="outlined"
               // size="small"
               sx={{ m: 1 }}
-              name="dealerBankBranchName"
-              value={editingDealer?.dealerBankBranchName}
+              name="mainDealerBankBranchName"
+              value={editingDealer?.mainDealerBankBranchName}
               onChange={(e) => updateChange(e)}
+              disabled
             />
             <TextField
               id="outlined-basic"
@@ -427,9 +421,10 @@ function EditDealerModal(props) {
               variant="outlined"
               // size="small"
               sx={{ m: 1 }}
-              name="dealerBankAccNumber"
-              value={editingDealer?.dealerBankAccNumber}
+              name="mainDealerBankAccNumber"
+              value={editingDealer?.mainDealerBankAccNumber}
               onChange={(e) => updateChange(e)}
+              disabled
             />
             <TextField
               id="outlined-basic"
@@ -438,8 +433,9 @@ function EditDealerModal(props) {
               // size="small"
               sx={{ m: 1 }}
               name="mainDealerIfsc"
-              value={editingDealer?.dealerIfsc}
+              value={editingDealer?.mainDealerIfsc}
               onChange={(e) => updateChange(e)}
+              disabled
             />
 
             <TextField
@@ -448,9 +444,10 @@ function EditDealerModal(props) {
               variant="outlined"
               // size="small"
               sx={{ m: 1 }}
-              name="dealerAccountHolderName"
-              value={editingDealer?.dealerAccountHolderName}
+              name="mainDealerAccountHolderName"
+              value={editingDealer?.mainDealerAccountHolderName}
               onChange={(e) => updateChange(e)}
+              disabled
             />
             <TextField
               id="outlined-basic"
@@ -461,6 +458,7 @@ function EditDealerModal(props) {
               name="addressDetails"
               value={editingDealer?.addressDetails}
               onChange={(e) => updateChange(e)}
+              disabled
             />
             <TextField
               id="outlined-basic"
@@ -471,6 +469,7 @@ function EditDealerModal(props) {
               name="city"
               value={editingDealer.city}
               onChange={(e) => updateChange(e)}
+              disabled
             />
             <TextField
               id="outlined-basic"
@@ -481,6 +480,7 @@ function EditDealerModal(props) {
               name="district"
               value={editingDealer?.district}
               onChange={(e) => updateChange(e)}
+              disabled
             />
             <Grid sx={{ display: "flex" }}>
               <TextField
@@ -492,76 +492,86 @@ function EditDealerModal(props) {
                 name="pinCode"
                 value={editingDealer?.pinCode}
                 onChange={(e) => updateChange(e)}
+                disabled
               />
               <LocalizationProvider dateAdapter={AdapterDateFns}>
                 <DemoContainer components={["DatePicker"]}>
                   <DatePicker
                     label="Activation Date"
                     inputFormat="YYYY-MM-DD"
-                    value={new Date(editingDealer?.dealerActivationData)}
+                    value={new Date(editingDealer?.mainDealerActivationData)}
                     onChange={(e) => {
                       handleActivationDateChange(e);
                     }}
                     sx={{ width: 225, ml: 1 }}
+                    disabled
                   />
                 </DemoContainer>
               </LocalizationProvider>
 
+              <LocalizationProvider dateAdapter={AdapterDateFns}>
+                <DemoContainer components={["DatePicker"]}>
+                  <DatePicker
+                    label="Expiry Date"
+                    inputFormat="YYYY-MM-DD"
+                    defaultValue="00-00-2099"
+                    disabled
+                    value={new Date(editingDealer?.mainDealerExpireData)}
+                    onChange={(e) => {
+                      handleExpiryDateChange(e);
+                    }}
+                    sx={{
+                      width: 225,
+                      ml: 2,
+                      // display: props.type === "edit" ? "block" : "none",
+                    }}
+                  />
+                </DemoContainer>
+              </LocalizationProvider>
+            </Grid>
+
+            <Grid sx={{ display: "flex" }}>
               <Autocomplete
                 id="combo-box-demo"
                 options={activationStatus}
                 sx={{ width: 225, ml: 1, m: 1 }}
                 filterOptions={(x) => x}
                 renderInput={(params) => (
-                  <TextField {...params} label="Dealer Status" />
+                  <TextField {...params} label="Select ActivationType" />
                 )}
-                name="dealerActivationStatus"
-                value={editingDealer?.dealerActivationStatus}
+                name="mainDealerActivationStatus"
+                value={editingDealer?.mainDealerActivationStatus}
                 // inputValue={dealerTypeStatus}
-                onChange={(e, val) => {
-                  handleActivationChange("dealerActivationStatus", e, val);
+                onChange={(event, newValue) => {
+                  handleActivationChange(
+                    "mainDealerActivationStatus",
+                    event,
+                    newValue
+                  );
                 }}
                 disabled
               />
+
+              <Autocomplete
+                id="combo-box-demo"
+                options={pennyCheckStatus}
+                sx={{ width: 225, ml: 1, m: 1 }}
+                // size="small"
+                // getOptionLabel={(option) => option.oemName}
+                renderInput={(params) => (
+                  <TextField {...params} label="Select PennyCheck Status" />
+                )}
+                name="mainDealerPaniniCheck"
+                value={editingDealer?.mainDealerPaniniCheck}
+                onChange={(e, val) =>
+                  handlePennyCheckStatusChange("mainDealerPaniniCheck", e, val)
+                }
+                disabled
+              />
             </Grid>
-            <Autocomplete
-              id="combo-box-demo"
-              options={pennyCheckStatus}
-              sx={{ width: 225, ml: 1, m: 1 }}
-              // size="small"
-              // getOptionLabel={(option) => option.oemName}
-              renderInput={(params) => (
-                <TextField {...params} label="Select PennyCheck Status" />
-              )}
-              name="dealerPaniniCheck"
-              value={editingDealer?.dealerPaniniCheck}
-              onChange={(e, val) =>
-                handlePennyCheckStatusChange("dealerPaniniCheck", e, val)
-              }
-              disabled
-            />
           </Grid>
         </Modal.Body>
         <Modal.Footer>
-          <Autocomplete
-            disablePortal
-            id="combo-box-demo"
-            options={StatusOptions}
-            sx={{ m: 1, width: 200, ml: 1 }}
-            size="small"
-            renderInput={(params) => (
-              <TextField {...params} label="Checker Status" />
-            )}
-            name="dealerStatus"
-            value={editingDealer?.dealerStatus}
-            // inputValue={approveStatus}
-            onChange={(e, val) => {
-              handleCheckerStatus("dealerStatus", e, val);
-            }}
-          />
-          <Button onClick={() => getStatusOfDealerByChecker(props.dealerID)}>
-            Submit
-          </Button>
           <Button onClick={props.close}>Close</Button>
         </Modal.Footer>
       </Modal>
@@ -569,4 +579,4 @@ function EditDealerModal(props) {
   );
 }
 
-export default EditDealerModal;
+export default ViewDealerModal;
