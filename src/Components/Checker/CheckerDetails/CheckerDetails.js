@@ -336,7 +336,7 @@ export default function CheckerDetails(props) {
           <Table stickyHeader aria-label="sticky table">
             <TableHead>
               <TableRow>
-                <StyledTableCell align="center">Vehicle OEM</StyledTableCell>
+                <StyledTableCell align="center" >Vehicle OEM</StyledTableCell>
                 <StyledTableCell align="center">State</StyledTableCell>
                 <StyledTableCell align="center">District</StyledTableCell>
                 <StyledTableCell align="center">Address</StyledTableCell>

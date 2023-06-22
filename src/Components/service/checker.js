@@ -27,22 +27,6 @@ const getStatusDetails = (dealerID, payload) => {
     });
 };
 
-///subDealer Checker Apis
-
-// const getSubDealersDetailsPendingDetails = () => {
-//   return serviceUtil
-//     .get(`checker/allcheckerdealers`)
-//     .then((res) => {
-//       //   console.log(res, "res");
-//       const data = res.data;
-//       return { data };
-//     })
-//     .catch((err) => {
-//       const errRes = err;
-//       return { errRes };
-//     });
-// };
-
 //vehicle Api
 const getVehiclePricePendingDetails = () => {
   return serviceUtil
@@ -57,15 +41,16 @@ const getVehiclePricePendingDetails = () => {
     });
 };
 
-const getVehiclePriceStatus = () => {
+const getVehiclePriceStatus = (variantID, payload) => {
   return serviceUtil
-    .get(`editOrApproveCheckerData`)
+    .post(`editOrApproveCheckerData?id=${variantID}`, payload)
     .then((res) => {
+      console.log(res, "response");
       const data = res.data;
       return { data };
     })
     .catch((err) => {
-      const errRes = err;
+      const errRes = err && err.response && err.response.data;
       return { errRes };
     });
 };
@@ -73,7 +58,6 @@ const getVehiclePriceStatus = () => {
 export {
   getDealersAndSubDealersDetailsPendingDetails,
   getStatusDetails,
-  // getSubDealersDetailsPendingDetails,
   getVehiclePriceStatus,
   getVehiclePricePendingDetails,
 };

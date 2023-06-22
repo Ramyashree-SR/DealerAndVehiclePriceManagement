@@ -30,6 +30,7 @@ import {
   deepOrange,
   deepPurple,
   green,
+  lightGreen,
   pink,
   yellow,
 } from "@mui/material/colors";
@@ -467,11 +468,14 @@ export default function DealerSubDealerTable(props) {
 
   const downloadXLSFile = async () => {
     await axios
-      .get("http://localhost:9666/downloadexcel", {
-        // http://caglcampaignleads.grameenkoota.in:8080/downloadexcel
-        method: "GET",
-        responseType: "blob", // important
-      })
+      .get(
+        "http://caglcampaignleads.grameenkoota.in:8080/TwoWheelerLone/downloadexcel",
+        {
+          // http://localhost:9666/downloadexcel
+          method: "GET",
+          responseType: "blob", // important
+        }
+      )
 
       .then((response) => {
         const url = window.URL.createObjectURL(new Blob([response.data]));
@@ -644,26 +648,29 @@ export default function DealerSubDealerTable(props) {
             sx={{ display: "flex", alignItems: "center", flexDirection: "row" }}
           >
             {props.hideButtons ? null : (
-              <Typography
-                style={{
-                  color: "green",
-                  display: "flex",
-                  flexDirection: "column",
-                  alignItems: "center",
-                  justifyContent: "space-between",
-                  fontSize: 10,
-                  fontWeight: 800,
-                }}
-                onClick={downloadXLSFile}
-              >
-                <FileDownloadIcon
-                  fontSize="small"
-                  sx={{ color: "green" }}
+              <ColorIcon>
+                <Typography
+                  style={{
+                    color: lightGreen[900],
+                    display: "flex",
+                    flexDirection: "column",
+                    alignItems: "center",
+                    justifyContent: "space-between",
+                    fontSize: 10,
+                    fontWeight: 800,
+                  }}
                   onClick={downloadXLSFile}
-                />
-                Download
-              </Typography>
+                >
+                  <FileDownloadIcon
+                    fontSize="small"
+                    sx={{ color: lightGreen[900] }}
+                    onClick={downloadXLSFile}
+                  />
+                  Download
+                </Typography>
+              </ColorIcon>
             )}
+
             {props.hideButtons ? null : (
               <ColorButton
                 variant="contained"
@@ -745,7 +752,8 @@ export default function DealerSubDealerTable(props) {
                       if (searchText === "") {
                         return value;
                       } else if (
-                        value.mainDealerName
+                        Object.values(value)
+                          .join("")
                           .toLowerCase()
                           .includes(searchText.toLowerCase())
                       ) {

@@ -7,8 +7,9 @@ const config = {
 
 const getAllVehicleDetails = () => {
   return serviceUtil
-    .get(`api/cag1/twowheelerlone/vehicaldata`)
+    .get(`vehicaldata`)
     .then((res) => {
+      console.log(res, "response");
       const data = res.data;
       return { data };
     })
@@ -20,7 +21,7 @@ const getAllVehicleDetails = () => {
 
 const addAllNewVehicleDetails = (payload) => {
   return serviceUtil
-    .post(`api/cag1/twowheelerlone/insertvehicle`, payload)
+    .post(`insertvehicle`, payload)
     .then((res) => {
       const data = res.data;
       return { data };
@@ -33,7 +34,7 @@ const addAllNewVehicleDetails = (payload) => {
 
 const editAllVehicleDetailsByRow = (params, payload) => {
   return serviceUtil
-    .put(`api/cag1/twowheelerlone/editdata?variantID=${params}`, payload)
+    .put(`editdata?variantID=${params}`, payload)
     .then((res) => {
       console.log(params, "dfghjk");
       console.log(res, "res");
@@ -48,7 +49,7 @@ const editAllVehicleDetailsByRow = (params, payload) => {
 
 const getAllStateInVehicleDetails = () => {
   return serviceUtil
-    .get(`api/cag1/twowheelerlone/vehicleallstate`)
+    .get(`vehicleallstate`)
     .then((res) => {
       const data = res.data;
       return { data };
@@ -61,7 +62,7 @@ const getAllStateInVehicleDetails = () => {
 
 const getAllVehicleOEMDetails = (params) => {
   return serviceUtil
-    .get(`api/cag1/twowheelerlone/vehiclealloem?state=${params}`)
+    .get(`vehiclealloem?state=${params}`)
     .then((res) => {
       const data = res.data;
       return { data };
@@ -74,7 +75,21 @@ const getAllVehicleOEMDetails = (params) => {
 
 const getAllVehicleModelDetails = (oem) => {
   return serviceUtil
-    .get(`api/cag1/twowheelerlone/vehicleModels?oem=${oem}`)
+    .get(`vehicleModels?oem=${oem}`)
+    .then((res) => {
+      console.log(res, "res");
+      const data = res.data;
+      return { data };
+    })
+    .catch((err) => {
+      const errRes = err;
+      return { errRes };
+    });
+};
+
+const getAllVehicleVariantDetails = (vehicleModel) => {
+  return serviceUtil
+    .get(`vehiclevariantdropdown?vehicleModel=${vehicleModel}`)
     .then((res) => {
       console.log(res, "res");
       const data = res.data;
@@ -103,7 +118,7 @@ const getVehicleOEM = () => {
 ///VehicleImage Uplod Api's
 const getAllVehicleVariantsToUplodImage = () => {
   return serviceUtil
-    .get(`checker/allvariants`)
+    .get(`allvariants`)
     .then((res) => {
       console.log(res, "res");
       const data = res.data;
@@ -117,9 +132,8 @@ const getAllVehicleVariantsToUplodImage = () => {
 
 const postAllVariantImageOnSelect = (payload) => {
   return serviceUtil
-    .post(`checker/uploadVariantimage`, payload)
+    .post(`uploadVariantimage`, payload)
     .then((res) => {
-      
       const data = res.data;
       return { data };
     })
@@ -131,7 +145,7 @@ const postAllVariantImageOnSelect = (payload) => {
 
 const getAllVariantImageView = (variantId) => {
   return serviceUtil
-    .get(`checker/viewvariantimage?variantID=${variantId}`)
+    .get(`viewvariantimage?variantID=${variantId}`)
     .then((res) => {
       const data = res.data;
       return { data };
@@ -149,6 +163,7 @@ export {
   getAllStateInVehicleDetails,
   getAllVehicleOEMDetails,
   getAllVehicleModelDetails,
+  getAllVehicleVariantDetails,
   getVehicleOEM,
   getAllVehicleVariantsToUplodImage,
   postAllVariantImageOnSelect,

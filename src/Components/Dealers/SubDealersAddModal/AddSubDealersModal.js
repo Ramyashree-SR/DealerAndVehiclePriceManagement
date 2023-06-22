@@ -292,7 +292,7 @@ export default function AddSubDealerModal(props) {
               value={addSubDealer?.district ?? ""}
               onChange={(e) => updateChange(e)}
             />
-            <Grid sx={{display:"flex"}}>
+            <Grid sx={{ display: "flex" }}>
               <TextField
                 id="outlined-basic"
                 label="MainDealer ID"
@@ -331,10 +331,10 @@ export default function AddSubDealerModal(props) {
                 }}
                 disabled
               />
-              </Grid>
+            </Grid>
 
             <Grid sx={{ display: "flex" }}>
-            <TextField
+              <TextField
                 id="outlined-basic"
                 label="Email ID"
                 variant="outlined"
@@ -369,11 +369,9 @@ export default function AddSubDealerModal(props) {
                 value={addSubDealer?.subDealerAlternateContactNumber}
                 onChange={(e) => updateChange(e)}
               />
-
-             
             </Grid>
             <Grid sx={{ display: "flex" }}>
-            <TextField
+              <TextField
                 id="outlined-basic"
                 label="Contact Person Name"
                 variant="outlined"
@@ -405,10 +403,9 @@ export default function AddSubDealerModal(props) {
                 value={props.mainDealerData.mainDealerPanNumber}
                 onChange={(e) => updateChange(e)}
               />
-             
             </Grid>
             <Grid sx={{ display: "flex" }}>
-            <TextField
+              <TextField
                 disabled
                 id="outlined-basic"
                 label="GST Number"
@@ -442,10 +439,9 @@ export default function AddSubDealerModal(props) {
                 value={props.mainDealerData.mainDealerBankBranchName}
                 onChange={(e) => updateChange(e)}
               />
-              
             </Grid>
             <Grid sx={{ display: "flex" }}>
-            <TextField
+              <TextField
                 disabled
                 id="outlined-basic"
                 label="Account Number"
@@ -479,10 +475,9 @@ export default function AddSubDealerModal(props) {
                 value={props.mainDealerData.mainDealerAccountHolderName}
                 onChange={(e) => updateChange(e)}
               />
-              
             </Grid>
             <Grid sx={{ display: "flex" }}>
-            <TextField
+              <TextField
                 id="outlined-basic"
                 label="Address"
                 variant="outlined"
@@ -512,9 +507,9 @@ export default function AddSubDealerModal(props) {
                 value={addSubDealer?.pinCode}
                 onChange={(e) => updateChange(e)}
               />
-              
             </Grid>
-            <LocalizationProvider dateAdapter={AdapterDateFns}>
+            <Grid sx={{ display: "flex" }}>
+              <LocalizationProvider dateAdapter={AdapterDateFns}>
                 <DemoContainer components={["DatePicker"]}>
                   <DatePicker
                     label="Activation Date"
@@ -527,22 +522,23 @@ export default function AddSubDealerModal(props) {
                   />
                 </DemoContainer>
               </LocalizationProvider>
-            <Autocomplete
-              id="combo-box-demo"
-              options={activationStatus}
-              sx={{ width: 224, ml: 2, m: 1 }}
-              filterOptions={(x) => x}
-              renderInput={(params) => (
-                <TextField {...params} label="Select ActivationType" />
-              )}
-              name="subDealerActivationStatus"
-              value={addSubDealer?.subDealerActivationStatus}
-              // inputValue={dealerTypeStatus}
-              onChange={(e, value) => {
-                handleActivationChange("subDealerActivationStatus", e, value);
-              }}
-              disabled={props.type === "edit" ? true : false}
-            />
+              <Autocomplete
+                id="combo-box-demo"
+                options={activationStatus}
+                sx={{ width: 224, m: 1 }}
+                filterOptions={(x) => x}
+                renderInput={(params) => (
+                  <TextField {...params} label="Select ActivationType" />
+                )}
+                name="subDealerActivationStatus"
+                value={addSubDealer?.subDealerActivationStatus}
+                // inputValue={dealerTypeStatus}
+                onChange={(e, value) => {
+                  handleActivationChange("subDealerActivationStatus", e, value);
+                }}
+                disabled={props.type === "edit" ? true : false}
+              />
+            </Grid>
           </Grid>
         </Modal.Body>
         <Modal.Footer>

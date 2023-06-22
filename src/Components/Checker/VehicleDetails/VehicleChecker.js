@@ -316,7 +316,7 @@ export default function VehicleChecker(props) {
           mt: 1,
         }}
       >
-        {/* <Box>
+        <Box>
           <Typography
             sx={{
               fontFamily: "sans-serif",
@@ -330,7 +330,7 @@ export default function VehicleChecker(props) {
           </Typography>
         </Box>
 
-        <Box
+        {/* <Box
           sx={{
             // ml: 0,
             mt: 3,
@@ -545,11 +545,10 @@ export default function VehicleChecker(props) {
                       if (searchText === "") {
                         return value;
                       } else if (
-                        (value.vehicleId,
-                        value.vehicleModel,
-                        value.vehicleVariant
+                        Object.values(value)
+                          .join("")
                           .toLowerCase()
-                          .includes(searchText.toLowerCase()))
+                          .includes(searchText.toLowerCase())
                       ) {
                         // console.log(searchText,"searchText");
                         return value;

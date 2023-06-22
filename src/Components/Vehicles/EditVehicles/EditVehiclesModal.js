@@ -3,9 +3,11 @@ import React, { useEffect, useState } from "react";
 import { Button, Modal } from "react-bootstrap";
 import { editAllVehicleDetailsByRow } from "../../service/VehicleApi/VehicleApi";
 import { getVehiclePriceStatus } from "../../service/checker";
+import { useToasts } from "react-toast-notifications";
 
 function EditVehiclesModal(props) {
   const StatusOptions = ["APPROVED", "SEND BACK"];
+  const { addToast } = useToasts();
   const [editVehicles, seteditVehicles] = useState({
     vehicleId: "",
     vehicleModel: "",
@@ -14,6 +16,7 @@ function EditVehiclesModal(props) {
     state: "",
     MaxLoanAmount: "",
     vehicalOnRoadPrice: "",
+    status: "",
   });
 
   const updateChange = (event) => {
@@ -29,24 +32,26 @@ function EditVehiclesModal(props) {
 
   const editVehicleDetails = async (vehicleId) => {
     let payload = {
-      // vehicleId:editVehicles?.vehicleId,
+      vehicleId: editVehicles?.vehicleId,
       vehicleModel: editVehicles?.vehicleModel,
       vehicleVariant: editVehicles?.vehicleVariant,
       vehicalOem: editVehicles?.vehicalOem,
       state: editVehicles?.vehicalState,
       vehicleMaxLoanAmount: editVehicles?.vehicleMaxLoanAmount,
       vehicalOnRoadPrice: editVehicles?.vehicalOnRoadPrice,
+      status: editVehicles?.status,
     };
     const { data } = await editAllVehicleDetailsByRow(vehicleId, payload);
-    console.log(data, "editData");
     if (data) {
       seteditVehicles({
+        vehicleId: "",
         vehicleModel: "",
         vehicleVariant: "",
         vehicalOem: "",
         state: "",
         vehicleMaxLoanAmount: "",
         vehicalOnRoadPrice: "",
+        status: "",
       });
     }
     props.getVehicleVariantsDetails();
@@ -60,20 +65,28 @@ function EditVehiclesModal(props) {
     }));
   };
 
-  const getStatusOfVehiclesByChecker = async ()=>{
-    const {data}=await getVehiclePriceStatus()
-if(data){
-  seteditVehicles({
-    vehicleModel: editVehicles?.vehicleModel,
-    vehicleVariant: editVehicles?.vehicleVariant,
-    vehicalOem: editVehicles?.vehicalOem,
-    state: editVehicles?.vehicalState,
-    vehicleMaxLoanAmount: editVehicles?.vehicleMaxLoanAmount,
-    vehicalOnRoadPrice: editVehicles?.vehicalOnRoadPrice,
-  })
-}
-  }
-
+  const getStatusOfVehiclesByChecker = async (vehicleId) => {
+    let payload = {
+      vehicleId: editVehicles?.vehicleId,
+      vehicleModel: editVehicles?.vehicleModel,
+      vehicleVariant: editVehicles?.vehicleVariant,
+      vehicalOem: editVehicles?.vehicalOem,
+      state: editVehicles?.vehicalState,
+      vehicleMaxLoanAmount: editVehicles?.vehicleMaxLoanAmount,
+      vehicalOnRoadPrice: editVehicles?.vehicalOnRoadPrice,
+      status: editVehicles?.status,
+    };
+    const { data, errRes } = await getVehiclePriceStatus(vehicleId, payload);
+    if (data) {
+      if (data.error === "False") {
+        props.getVehicleVariantsDetails();
+        props.close();
+        addToast(data?.message, { appearance: "success" });
+      } else if (errRes) {
+        addToast(errRes, { appearance: "error" });
+      }
+    }
+  };
   return (
     <>
       <Modal
@@ -175,7 +188,7 @@ if(data){
           </Grid>
         </Modal.Body>
         <Modal.Footer>
-          {props.checkerEdit ? null : (
+          {props.checkerEdit ? (
             <>
               <Autocomplete
                 disablePortal
@@ -186,21 +199,30 @@ if(data){
                 renderInput={(params) => (
                   <TextField {...params} label="Checker Status" />
                 )}
-                name="dealerStatus"
-                value={editVehicles?.dealerStatus}
+                name="status"
+                value={editVehicles?.status}
                 // inputValue={approveStatus}
                 onChange={(e, val) => {
-                  handleCheckerStatus("dealerStatus", e, val);
+                  handleCheckerStatus("status", e, val);
                 }}
               />
-              <Button onClick={() => getVehiclePriceStatus()}>Submit</Button>
+              <Button
+                onClick={() =>
+                  getStatusOfVehiclesByChecker(props.editVehicleData.vehicleId)
+                }
+              >
+                Submit
+              </Button>
             </>
+          ) : (
+            <Button
+              onClick={() =>
+                editVehicleDetails(props.editVehicleData.vehicleId)
+              }
+            >
+              Edit
+            </Button>
           )}
-          <Button
-            onClick={() => editVehicleDetails(props.editVehicleData.vehicleId)}
-          >
-            Edit
-          </Button>
           <Button onClick={props.close}>Cancel</Button>
         </Modal.Footer>
       </Modal>

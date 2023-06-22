@@ -26,8 +26,10 @@ import {
   blue,
   blueGrey,
   deepOrange,
+  deepPurple,
   green,
   lightBlue,
+  lightGreen,
   pink,
 } from "@mui/material/colors";
 import {
@@ -46,6 +48,8 @@ import VariantImageModal from "./VariantImage/VariantImageModal";
 // import VariantImage from "./VariantImage/VariantImages";
 import ViewModuleIcon from "@mui/icons-material/ViewModule";
 import ViewVehiclesModal from "./ViewVehicles/ViewVehiclesModal";
+import FileDownloadIcon from "@mui/icons-material/FileDownload";
+import axios from "axios";
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.root}`]: {
@@ -76,8 +80,8 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
 }));
 
 const ColorButton = styled(Button)(({ theme }) => ({
-  // backgroundColor: theme.palette.getContrastText(green[500]),
-  backgroundColor: green[900],
+  backgroundColor: theme.palette.getContrastText(blue[500]),
+  backgroundColor: blue[800],
   color: theme.palette.common.white,
   "&:hover": {
     backgroundColor: deepOrange[700],
@@ -321,6 +325,27 @@ export default function VehicleDetails(props) {
     }
   };
 
+  const downloadXLSFile = async () => {
+    await axios
+      .get(
+        "http://caglcampaignleads.grameenkoota.in:8080/TwoWheelerLone/downloadvariantsexcel?base=seq",
+        {
+          // http://localhost:9666/downloadvariantsexcel
+          method: "GET",
+          responseType: "blob", // important
+        }
+      )
+
+      .then((response) => {
+        const url = window.URL.createObjectURL(new Blob([response.data]));
+        const link = document.createElement("a");
+        link.href = url;
+        link.setAttribute("download", `${Date.now()}.xlsx`);
+        document.body.appendChild(link);
+        link.click();
+      });
+  };
+
   return (
     <Box
       sx={{
@@ -345,7 +370,7 @@ export default function VehicleDetails(props) {
               fontSize: 20,
               fontWeight: "bold",
               textAlign: "center",
-              color: "#202DAF ",
+              color: lightGreen[900],
             }}
           >
             Vehicle Models And Price Details
@@ -470,7 +495,7 @@ export default function VehicleDetails(props) {
 
         <Box
           sx={{
-            margin: "30px 30px 20px 20px",
+            margin: "30px 10px 20px 10px",
             display: "flex",
             alignItems: "center",
             justifyContent: "space-between",
@@ -479,16 +504,46 @@ export default function VehicleDetails(props) {
             position: "fixed",
             zIndex: 1,
             overflow: "auto",
-            ml: "760px",
+            ml: "690px",
           }}
         >
           <Box
-            sx={{ display: "flex", alignItems: "center", flexDirection: "row" ,marginLeft:30}}
+            sx={{
+              display: "flex",
+              alignItems: "center",
+              flexDirection: "row",
+              marginLeft: props.btnhide ? 40 : null,
+            }}
           >
+            {props.btnhide ? null : (
+              <ColorIcon>
+                <Typography
+                  style={{
+                    color: lightBlue[900],
+                    display: "flex",
+                    flexDirection: "column",
+                    alignItems: "center",
+                    justifyContent: "space-around",
+                    fontSize: 10,
+                    fontWeight: 800,
+                    marginRight: 10,
+                  }}
+                  onClick={downloadXLSFile}
+                >
+                  <FileDownloadIcon
+                    fontSize="small"
+                    sx={{ color: lightBlue[900] }}
+                    onClick={downloadXLSFile}
+                  />
+                  Download
+                </Typography>
+              </ColorIcon>
+            )}
+
             <ColorButton
               variant="contained"
               size="small"
-              sx={{ background: "#2F41C6", fontSize: 10 }}
+              sx={{ background: lightBlue[900], fontSize: 10 }}
               onClick={() => {
                 setopenVariantImageModal(true);
                 getVehicleVariantsImageDetails();
@@ -503,31 +558,29 @@ export default function VehicleDetails(props) {
               allVariants={allVariants}
               btnhide={props.btnhide}
             />
-            </Box>
 
             {props.btnhide ? null : (
               <ColorButton
                 variant="contained"
                 size="large"
-                sx={{ ml: 2, background: "green", fontSize: 10 }}
+                sx={{ ml: 2, background: lightBlue[900], fontSize: 10 }}
                 onClick={() => setOpenAddVehicleModal(true)}
               >
                 <AddIcon /> Add and Update Vehicle/Price
               </ColorButton>
             )}
-            
-          
-          <AddVehiclesModal
-            show={openAddVehicleModal}
-            close={() => setOpenAddVehicleModal(false)}
-            getAllVehicleDetails={getAllVehicleDetails}
-          />
+            <AddVehiclesModal
+              show={openAddVehicleModal}
+              close={() => setOpenAddVehicleModal(false)}
+              getAllVehicleDetails={getAllVehicleDetails}
+            />
+          </Box>
         </Box>
         <Box sx={{ position: "fixed", minWidth: "88%" }}>
           <TableContainer
             component={Paper}
             sx={{
-              margin: "10px 10px 30px 20px",
+              margin: "20px 20px 30px 10px",
               mt: 7,
               maxHeight: "350px",
               position: "sticky",
@@ -568,17 +621,14 @@ export default function VehicleDetails(props) {
                 {allVehicleDetails &&
                   allVehicleDetails
                     ?.filter((value) => {
-                      // console.log(value,"value");
                       if (searchText === "") {
                         return value;
                       } else if (
-                        (value.vehicleId,
-                        value.vehicleModel,
-                        value.vehicleVariant
+                        Object.values(value)
+                          .join("")
                           .toLowerCase()
-                          .includes(searchText.toLowerCase()))
+                          .includes(searchText.toLowerCase())
                       ) {
-                        // console.log(searchText,"searchText");
                         return value;
                       }
                     })
@@ -649,7 +699,7 @@ export default function VehicleDetails(props) {
                               />
                             </Grid>
                           </ColorIcon>
-                          {props. btnhide ? null : (
+                          {props.btnhide ? null : (
                             <ColorIcon>
                               <Grid
                                 sx={{
