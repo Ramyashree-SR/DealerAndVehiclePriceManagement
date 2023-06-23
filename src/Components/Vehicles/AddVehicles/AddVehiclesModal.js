@@ -20,9 +20,11 @@ function AddVehiclesModal(props) {
   const [showVariant, setshowVariant] = useState(false);
   // const showVariant = false;
   const [showInputComponent, setShowInputComponent] = useState(false);
+  const [onRoadPrice, setOnRoadPrice] = useState("");
+  const [maxLoanAmt, setMaxLoanAmt] = useState("");
   const [vehcileState, setVehcileState] = useState([]);
   const [VehicleModels, setVehicleModels] = useState([]);
-  const [vehicleVariant, setvehicleVariant] = useState([]);
+  const [VehicleVariant, setVehicleVariant] = useState([]);
   const [addNewVehicles, setaddNewVehicles] = useState({
     vehicleModel: "",
     vehicleVariant: "",
@@ -30,7 +32,7 @@ function AddVehiclesModal(props) {
     vehicleState: "",
     vehicleMaxLoanAmount: "",
     vehicalOnRoadPrice: "",
-    exShowRoomPric: "",
+    exShowRoomPrice: "",
   });
 
   const handleStateChange = (name, e, value) => {
@@ -42,11 +44,28 @@ function AddVehiclesModal(props) {
   };
 
   const updateChange = (event) => {
-    setaddNewVehicles({
-      ...addNewVehicles,
-      [event.target.name]: event.target.value,
-    });
+    if (event.target.name === "onRoadPrice") {
+      setOnRoadPrice(event.target.value);
+    } else if (event.target.name === "addNewVehicles") {
+      setaddNewVehicles({
+        ...addNewVehicles,
+        [event.target.name]: event.target.value,
+      });
+    }
+    const calculated = calculateValue(parseFloat(onRoadPrice));
+    setMaxLoanAmt(calculated);
   };
+
+  const calculateValue = (price) => {
+    if (isNaN(price)) {
+      return "";
+    }
+    return (9 * price).toFixed(2);
+  };
+  // const inputvalue = event.target.vehicalOnRoadPrice;
+  // setOnRoadPrice(inputvalue);
+  // const calculated = (parseFloat(inputvalue) * 0.9).toFixed(2);
+  // setMaxLoanAmt(calculated);
 
   useEffect(() => {
     // getStateDetails();
@@ -92,17 +111,17 @@ function AddVehiclesModal(props) {
       ...addNewVehicles,
       [name]: value,
     });
+
     getModelDetails(value);
   };
 
   const handleVehicleModelChange = (name, event, value) => {
-    // console.log("value", value);
-
     setaddNewVehicles({
       ...addNewVehicles,
       [name]: value,
     });
     setShowModel(true);
+    setshowVariant(true);
     getVariantDetails(value);
   };
 
@@ -138,10 +157,10 @@ function AddVehiclesModal(props) {
       data?.data.map((val) => {
         modelData?.push(val);
       });
-      setvehicleVariant(modelData);
+      setVehicleVariant(modelData);
     } else {
       setshowVariant(true);
-      setvehicleVariant([]);
+      setVehicleVariant([]);
     }
   };
   const addNewVehicleDetails = async () => {
@@ -151,8 +170,8 @@ function AddVehiclesModal(props) {
       vehicleVariant: addNewVehicles?.vehicleVariant,
       vehicleOem: addNewVehicles?.vehicleOem,
       vehicleState: addNewVehicles?.vehicleState,
-      vehicalOnRoadPrice: addNewVehicles?.vehicalOnRoadPrice,
-      vehicleMaxLoan: addNewVehicles?.exShowRoomPric,
+      vehicalOnRoadPrice: onRoadPrice,
+      vehicleMaxLoanAmount: maxLoanAmt,
     };
     const { data } = await addAllNewVehicleDetails(payload);
     // console.log(data,"dataadd");
@@ -164,7 +183,7 @@ function AddVehiclesModal(props) {
         vehicleState: "",
         vehicalOnRoadPrice: "",
         vehicleMaxLoanAmount: "",
-        exShowRoomPric: "",
+        exShowRoomPrice: "",
       });
     }
     // props.getVehicleVariantsDetails(data?.data.data)
@@ -253,7 +272,12 @@ function AddVehiclesModal(props) {
                     sx={{ m: 1 }}
                     name="vehicleModel"
                     value={addNewVehicles?.vehicleModel}
-                    onChange={(e) => updateChange(e)}
+                    onChange={(e) =>
+                      setaddNewVehicles({
+                        ...addNewVehicles,
+                        vehicleModel: e.target.value,
+                      })
+                    }
                   />
                 </Box>
               ) : (
@@ -306,56 +330,41 @@ function AddVehiclesModal(props) {
                 <Box>
                   <TextField
                     id="outlined-basic"
-                    label="Vehicle Model*"
+                    label="Vehicle Variant*"
                     variant="outlined"
                     // size="small"
                     sx={{ m: 1 }}
                     name="vehicleVariant"
                     value={addNewVehicles?.vehicleVariant}
-                    onChange={(e) => updateChange(e)}
+                    onChange={(e) => {
+                      setaddNewVehicles({
+                        ...addNewVehicles,
+                        vehicleVariant: e.target.value,
+                      });
+                    }}
                   />
                 </Box>
               ) : (
                 <Autocomplete
                   disablePortal
                   id="combo-box-demo"
-                  options={vehicleVariant}
+                  options={VehicleVariant}
                   sx={{ m: 1, width: 224, ml: 1 }}
                   size="large"
                   renderInput={(params) => (
-                    <TextField
-                      {...params}
-                      label="Select Vehicle Variants"
-                      onBlur={() => {
-                        if (
-                          addNewVehicles.vehicleVariant &&
-                          addNewVehicles.vehicleVariant.id === 0
-                        ) {
-                          setaddNewVehicles({
-                            ...addNewVehicles,
-                            vehicleVariant: { id: "", label: "" },
-                          });
-                        }
-                      }}
-                    />
+                    <TextField {...params} label="Select Vehicle Variants" />
                   )}
                   name="vehicleVariant"
                   value={addNewVehicles?.vehicleVariant}
                   onChange={(e, val) => {
                     handleVehicleVariantChange("vehicleVariant", e, val);
                   }}
-                  onInputChange={(name, value) => {
-                    setaddNewVehicles({
-                      ...addNewVehicles,
-                      vehicleVariant: { id: 0, label: value },
-                    });
-                  }}
                   noOptionsText={
                     showVariant ? (
                       <Box>
                         <Box
                           onClick={() => addBtnClick()}
-                          className="d-flex border rounded p-1 border-primary justify-content-around align-items-center cursor-pointer bg-info"
+                          className="d-flex border rounded p-1 border-secondary justify-content-around align-items-center cursor-pointer bg-secondary text-white"
                         >
                           <AddIcon className="color-blue" />
                           <Typography className="fs-14">Add Variant</Typography>
@@ -369,6 +378,7 @@ function AddVehiclesModal(props) {
               )}
 
               <TextField
+                type="number"
                 id="outlined-basic"
                 label="Ex-Showroom Price"
                 variant="outlined"
@@ -380,24 +390,26 @@ function AddVehiclesModal(props) {
               />
 
               <TextField
+                type="number"
                 id="outlined-basic"
                 label="On Road Price*"
                 variant="outlined"
                 // size="small"
                 sx={{ m: 1 }}
-                name="vehicalOnRoadPrice"
-                value={addNewVehicles?.vehicalOnRoadPrice}
+                name="onRoadPrice"
+                value={onRoadPrice}
                 onChange={(e) => updateChange(e)}
               />
             </Grid>
             <TextField
+              type="number"
               id="outlined-basic"
               label="Max Loan Amount *"
               variant="outlined"
               // size="small"
               sx={{ m: 1 }}
-              name="vehicleMaxLoanAmount"
-              value={addNewVehicles?.vehicleMaxLoanAmount}
+              name="maxLoanAmt"
+              value={maxLoanAmt}
               onChange={(e) => updateChange(e)}
             />
           </Grid>

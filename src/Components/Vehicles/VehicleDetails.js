@@ -580,7 +580,7 @@ export default function VehicleDetails(props) {
           <TableContainer
             component={Paper}
             sx={{
-              margin: "20px 20px 30px 10px",
+              margin: "20px 10px 30px 10px",
               mt: 7,
               maxHeight: "350px",
               position: "sticky",
@@ -670,7 +670,7 @@ export default function VehicleDetails(props) {
                           {row.updatedDate}
                         </StyledTableCell>
 
-                        <StyledTableCell align="left">
+                        <StyledTableCell align="center">
                           <ColorIcon>
                             <Grid
                               sx={{

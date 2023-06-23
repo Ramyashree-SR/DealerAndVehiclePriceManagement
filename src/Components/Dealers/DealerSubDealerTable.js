@@ -240,7 +240,8 @@ export default function DealerSubDealerTable(props) {
     getDistrictDetails(value.target.outerText);
   };
 
-  const handleEditTable = (record) => {
+  const handleEditTable = (event, record) => {
+    event.preventDefault();
     setOpenAddDealerModal(true);
     setOpenEditDealerModal(true);
     setEditDealerData(record);
@@ -684,7 +685,7 @@ export default function DealerSubDealerTable(props) {
                   ml: 1,
                 }}
                 // onSubmit={(e) => e.preventDefault()}
-                onClick={() => setOpenAddDealerModal(true)}
+                onClick={(e) => setOpenAddDealerModal(true)}
                 // size="lg"
               >
                 {<AddIcon sx={{ color: "#ffffff" }} />}
@@ -695,7 +696,7 @@ export default function DealerSubDealerTable(props) {
 
           <AddDealerModal
             show={openAddDealerModal}
-            close={() => setOpenAddDealerModal(false)}
+            close={() => setOpenAddDealerModal(window.location.reload(true))}
             getDealersDetails={getDealersDetails}
             type={openEditDealerModal ? "edit" : "add"}
             disabled={openEditDealerModal ? "edit" : "add"}
@@ -877,7 +878,7 @@ export default function DealerSubDealerTable(props) {
                                   >
                                     <EditIcon
                                       fontSize="small"
-                                      onClick={() => handleEditTable(row)}
+                                      onClick={(e) => handleEditTable(e, row)}
                                     />
                                     <Typography
                                       sx={{ fontSize: 8, fontWeight: 800 }}
