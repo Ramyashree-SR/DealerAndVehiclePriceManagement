@@ -4,7 +4,7 @@ import {
   UserOutlined,
 } from "@ant-design/icons";
 import { Layout, Menu, theme } from "antd";
-import React, { Children, useContext, useState } from "react";
+import React, { Children, useContext, useEffect, useState } from "react";
 import { Link, Route, Routes, useNavigate } from "react-router-dom";
 import DealerSubDealerTable from "./../Dealers/DealerSubDealerTable";
 import { Box, Button, Grid, Typography } from "@mui/material";
@@ -33,10 +33,14 @@ function Dashboard() {
   };
 
   let navigateToLogin = () => {
+    sessionStorage.clear();
     navigate("/");
     // setshowModule(false);
   };
 
+  // useEffect(() => {
+  //   sessionStorage.clear();
+  // }, []);
   return (
     <>
       <Header
@@ -57,8 +61,8 @@ function Dashboard() {
         >
           <Box sx={{ p: 1 }}>
             <img
-              src="./assets/cagllogo.png"
-              alt="cagllogo"
+              src="./assets/cagllogo1.png"
+              alt="cagimage1"
               width="130px"
               height="100%"
             />

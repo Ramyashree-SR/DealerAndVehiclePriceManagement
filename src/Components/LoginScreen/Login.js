@@ -1,6 +1,6 @@
 // import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import {
   Box,
   Button,
@@ -76,37 +76,53 @@ function Login() {
     });
   };
 
+  // useEffect(() => {
+  //   sessionStorage.clear();
+  // }, []);
+
   const loginDetailsOfMakerChecker = async () => {
     const payload = {
       userName: loginDetails.userName,
-      userPassword: loginDetails.password,
+      password: loginDetails.password,
     };
     const { data, errRes } = await getLoginDetails(payload);
+
     if (data) {
-      if (data) {
-        data.data.userROle.forEach((item) => {
-          if (item === "ROLE_MAKER") {
-            // setLoading(false);
-            navigate("/dashboard");
-          }
-          if (item === "ROLE_CHECKER") {
-            // setLoading(false);
-            navigate("/checkerdashboard");
-          }
-        });
-      }
+      // if (data) {
+      // data.data.userROle.forEach((item) => {
+      //   if (item === "ROLE_MAKER") {
+      //     // setLoading(false);
+      //     navigate("/dashboard");
+      //   }
+      //   if (item === "ROLE_CHECKER") {
+      //     // setLoading(false);
+      //     navigate("/checkerdashboard");
+      //   }
+      // });
       // sessionStorage.setItem("jwtData", JSON.stringify(data));
       // sessionStorage.setItem("userName", loginDetails?.userName);
       // sessionStorage.setItem("token", JSON.stringify(data?.token));
-      // if (data?.userrole.includes("ROLE_MAKER")) {
+      // if (data?.userrole?.includes("ROLE_MAKER")) {
       //   navigate("/dashboard");
-      // } else if (data?.userrole.includes("ROLE_CHECKER")) {
+      // } else if (data?.userrole?.includes("ROLE_CHECKER")) {
       //   navigate("/checkerdashboard");
       // } else {
       //   navigate("/dashboard");
       // }
       // window.location.reload();
+      // addToast(data.message, { appearance: "success" });
+      sessionStorage.setItem("jwtData", JSON.stringify(data));
+      sessionStorage.setItem("userName", loginDetails?.userName);
+      sessionStorage.setItem("token", JSON.stringify(data?.token));
+      if (data?.userrole.includes("ROLE_MAKER")) {
+        navigate("/dashboard");
+      } else if (data?.userrole.includes("ROLE_CHECKER")) {
+        navigate("/checkerdashboard");
+      } else {
+        navigate("/dashboard");
+      }
       addToast(data.message, { appearance: "success" });
+      window.location.reload();
     } else if (errRes) {
       addToast(errRes, { appearance: "error" });
     }

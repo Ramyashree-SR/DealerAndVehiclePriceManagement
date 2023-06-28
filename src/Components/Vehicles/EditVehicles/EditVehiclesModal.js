@@ -8,6 +8,8 @@ import { useToasts } from "react-toast-notifications";
 function EditVehiclesModal(props) {
   const StatusOptions = ["APPROVED", "SEND BACK"];
   const { addToast } = useToasts();
+  const [onRoadPrice, setOnRoadPrice] = useState("");
+  const [maxLoanAmt, setMaxLoanAmt] = useState("");
   const [editVehicles, seteditVehicles] = useState({
     vehicleId: "",
     vehicleModel: "",
@@ -20,11 +22,24 @@ function EditVehiclesModal(props) {
   });
 
   const updateChange = (event) => {
+    // if (event.target.name === "onRoadPrice") {
+    //   setOnRoadPrice(event.target.value);
+    // } else if (event.target.name === "editVehicles") {
     seteditVehicles({
       ...editVehicles,
       [event.target.name]: event.target.value,
     });
+    // }
+    // const calculated = calculateValue(parseFloat(onRoadPrice));
+    // setMaxLoanAmt(calculated);
   };
+
+  // const calculateValue = (price) => {
+  //   if (isNaN(price)) {
+  //     return "";
+  //   }
+  //   return (9 * price).toFixed(2);
+  // };
 
   useEffect(() => {
     seteditVehicles({ ...props.editVehicleData });
@@ -96,7 +111,7 @@ function EditVehiclesModal(props) {
         aria-labelledby="contained-modal-title-vcenter"
         centered
       >
-        <Modal.Header closeButton>
+        <Modal.Header>
           <Modal.Title
             id="contained-modal-title-vcenter"
             className="text-align-center"
@@ -169,7 +184,7 @@ function EditVehiclesModal(props) {
               variant="outlined"
               // size="small"
               sx={{ m: 1 }}
-              name="vehicalOnRoadPrice"
+              name="onRoadPrice"
               value={editVehicles?.vehicalOnRoadPrice}
               onChange={(e) => updateChange(e)}
             />
@@ -180,7 +195,7 @@ function EditVehiclesModal(props) {
               variant="outlined"
               // size="small"
               sx={{ m: 1 }}
-              name="vehicleMaxLoanAmount"
+              name="maxLoanAmt"
               value={editVehicles?.vehicleMaxLoanAmount}
               onChange={(e) => updateChange(e)}
               disabled

@@ -2,7 +2,7 @@ import serviceUtil from "./serviceUtil/ServiceUtils";
 
 const getLoginDetails = (payload) => {
   return serviceUtil
-    .post(`login`, payload)
+    .post(`login/userlogin`, payload)
     .then((res) => {
       const data = res.data;
       return { data };

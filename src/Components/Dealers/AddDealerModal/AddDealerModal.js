@@ -37,6 +37,31 @@ import AddVehiclesModal from "./../../Vehicles/AddVehicles/AddVehiclesModal";
 import { getAllDistrictDetailsForAddingMainDealer } from "../../service/districtapi/Districtapi";
 import CheckBoxOutlineBlankIcon from "@mui/icons-material/CheckBoxOutlineBlank";
 
+let errObj = {
+  mainDealerContactNumbermainDealerName: "",
+  mainDealerManufacturerName: "",
+  mainDealerMailID: "",
+  mainDealerContactNumber: "",
+  mainDealerAlternateContactNumber: "",
+  mainDealerContactPersonName: "",
+  contactPersonMobile: "",
+  mainDealerPaymentEligible: "",
+  mainDealerActivationData: "",
+  state: "",
+  city: "",
+  pinCode: "",
+  addressDetails: "",
+  mainDealerPanNumber: "",
+  mainDealerGstNumber: "",
+  mainDealerBankName: "",
+  mainDealerBankBranchName: "",
+  mainDealerBankAccNumber: "",
+  mainDealerIfsc: "",
+  mainDealerAccountHolderName: "",
+  mainDealerExpireData: "",
+  mainDealerPaniniCheck: "",
+  mainDealerActivationStatus: "",
+};
 export default function AddDealerModal(props) {
   const { addToast } = useToasts();
   const navigate = useNavigate();
@@ -88,9 +113,233 @@ export default function AddDealerModal(props) {
   const [accountNoError, setaccountNoError] = useState("");
   const [IfscError, setIfscError] = useState("");
 
+  const nameRegex = /^[A-Za-z]+$/;
+  const mobileRegex = /^(\+|\d)[0-9]{7,16}$/;
+  const emailRegex = /^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+(\.\w{2,3})$/;
+  const notAllowSpecialChar = /[^a-zA-Z0-9]/;
+  const nameWithSpaces = /^[a-zA-Z ]*$/;
+  const nameWithSpacesAndNumbers = /^[a-zA-Z0-9 ]*$/;
+
+  const [error, setError] = useState(errObj);
+  useEffect(() => {
+    let errObj = {
+      mainDealerName: "",
+      mainDealerManufacturerName: "",
+      mainDealerMailID: "",
+      mainDealerContactNumber: "",
+      mainDealerAlternateContactNumber: "",
+      mainDealerContactPersonName: "",
+      contactPersonMobile: "",
+      mainDealerPaymentEligible: "",
+      mainDealerActivationData: "",
+      state: "",
+      city: "",
+      pinCode: "",
+      addressDetails: "",
+      mainDealerPanNumber: "",
+      mainDealerGstNumber: "",
+      mainDealerBankName: "",
+      mainDealerBankBranchName: "",
+      mainDealerBankAccNumber: "",
+      mainDealerIfsc: "",
+      mainDealerAccountHolderName: "",
+      mainDealerExpireData: "",
+      mainDealerPaniniCheck: "",
+      mainDealerActivationStatus: "",
+    };
+    setError(errObj);
+  }, []);
+
+  const handleAddDealerError = () => {
+    let errorInForm = false;
+    let errObj = {
+      mainDealerName: "",
+      mainDealerManufacturerName: "",
+      mainDealerMailID: "",
+      mainDealerContactNumber: "",
+      mainDealerAlternateContactNumber: "",
+      mainDealerContactPersonName: "",
+      contactPersonMobile: "",
+      mainDealerPaymentEligible: "",
+      mainDealerActivationData: "",
+      state: "",
+      city: "",
+      pinCode: "",
+      addressDetails: "",
+      mainDealerPanNumber: "",
+      mainDealerGstNumber: "",
+      mainDealerBankName: "",
+      mainDealerBankBranchName: "",
+      mainDealerBankAccNumber: "",
+      mainDealerIfsc: "",
+      mainDealerAccountHolderName: "",
+      mainDealerExpireData: "",
+      mainDealerPaniniCheck: "",
+      mainDealerActivationStatus: "",
+    };
+    if (addDealer.mainDealerManufacturerName === "") {
+      errorInForm = true;
+      errObj.mainDealerManufacturerName = "*This field is required";
+    }
+    if (addDealer.state === "") {
+      errorInForm = true;
+      errObj.state = "*This field is required";
+    }
+    if (addDealer.district === "") {
+      errorInForm = true;
+      errObj.district = "*This field is required";
+    }
+    if (addDealer.mainDealerName === "") {
+      errorInForm = true;
+      errObj.mainDealerName = "*This field is required";
+    }
+    if (addDealer.mainDealerContactPersonName === "") {
+      errorInForm = true;
+      errObj.mainDealerContactPersonName = "*This field is required";
+    }
+    if (addDealer.mainDealerAlternateContactNumber === "") {
+      errorInForm = true;
+      errObj.mainDealerAlternateContactNumber = "*This field is required";
+    }
+    if (addDealer.mainDealerContactNumber === "") {
+      errorInForm = true;
+      errObj.mainDealerContactNumber = "*This field is required";
+    }
+    if (addDealer.mainDealerContactPersonName === "") {
+      errorInForm = true;
+      errObj.mainDealerContactPersonName = "*This field is required";
+    }
+    if (addDealer.mainDealerMailID === "") {
+      errorInForm = true;
+      errObj.mainDealerMailID = "*This field is required";
+    }
+    if (addDealer.mainDealerPanNumber === "") {
+      errorInForm = true;
+      errObj.mainDealerPanNumber = "*This field is required";
+    }
+    if (addDealer.mainDealerAccountHolderName === "") {
+      errorInForm = true;
+      errObj.mainDealerAccountHolderName = "*This field is required";
+    }
+    if (addDealer.mainDealerActivationData === "") {
+      errorInForm = true;
+      errObj.mainDealerActivationData = "*This field is required";
+    }
+    if (addDealer.mainDealerExpireData === "") {
+      errorInForm = true;
+      errObj.mainDealerExpireData = "*This field is required";
+    }
+    if (addDealer.mainDealerBankName === "") {
+      errorInForm = true;
+      errObj.mainDealerBankName = "*This field is required";
+    }
+    if (addDealer.mainDealerBankBranchName === "") {
+      errorInForm = true;
+      errObj.mainDealerBankBranchName = "*This field is required";
+    }
+    if (addDealer.mainDealerGstNumber === "") {
+      errorInForm = true;
+      errObj.mainDealerGstNumber = "*This field is required";
+    }
+    if (addDealer.mainDealerIfsc === "") {
+      errorInForm = true;
+      errObj.mainDealerIfsc = "*This field is required";
+    }
+    if (addDealer.contactPersonMobile === "") {
+      errorInForm = true;
+      errObj.contactPersonMobile = "*This field is required";
+    }
+    if (addDealer.mainDealerBankAccNumber === "") {
+      errorInForm = true;
+      errObj.mainDealerBankAccNumber = "*This field is required";
+    }
+    if (addDealer.city === "") {
+      errorInForm = true;
+      errObj.city = "*This field is required";
+    }
+    if (addDealer.pinCode === "") {
+      errorInForm = true;
+      errObj.pinCode = "*This field is required";
+    }
+    if (
+      !nameWithSpaces.test(addDealer.mainDealerName) &&
+      addDealer.mainDealerName !== ""
+    ) {
+      errorInForm = true;
+      errObj.mainDealerName = "*Invalid Dealer name";
+    }
+    if (
+      !nameWithSpaces.test(addDealer.mainDealerContactPersonName) &&
+      addDealer.mainDealerContactPersonName !== ""
+    ) {
+      errorInForm = true;
+      errObj.mainDealerContactPersonName = "Invalid Name";
+    }
+    if (
+      !nameWithSpaces.test(addDealer.mainDealerBankName) &&
+      addDealer.mainDealerBankName !== ""
+    ) {
+      errorInForm = true;
+      errObj.mainDealerBankName = "Invalid Name";
+    }
+    if (
+      !nameWithSpaces.test(addDealer.mainDealerBankBranchName) &&
+      addDealer.mainDealerBankBranchName !== ""
+    ) {
+      errorInForm = true;
+      errObj.mainDealerBankBranchName = "Invalid Name";
+    }
+    if (
+      !nameWithSpaces.test(addDealer.mainDealerAccountHolderName) &&
+      addDealer.mainDealerAccountHolderName !== ""
+    ) {
+      errorInForm = true;
+      errObj.mainDealerAccountHolderName = "Invalid Name";
+    }
+    if (
+      !emailRegex.test(addDealer.mainDealerMailID) &&
+      addDealer.mainDealerMailID !== ""
+    ) {
+      errorInForm = true;
+      errObj.mainDealerMailID = "Invalid EmailID";
+    }
+    if (
+      !mobileRegex.test(addDealer.mainDealerContactNumber) &&
+      addDealer.mainDealerContactNumber !== ""
+    ) {
+      errorInForm = true;
+      errObj.mainDealerContactNumber = "Invalid Mobile Number";
+    }
+    if (
+      !nameWithSpacesAndNumbers.test(
+        addDealer.mainDealerAlternateContactNumber
+      ) &&
+      addDealer.mainDealerAlternateContactNumber !== ""
+    ) {
+      errorInForm = true;
+      errObj.mainDealerAlternateContactNumber = "Invalid Alternate Number";
+    }
+    if (
+      !mobileRegex.test(addDealer.contactPersonMobile) &&
+      addDealer.contactPersonMobile !== ""
+    ) {
+      errorInForm = true;
+      errObj.contactPersonMobile = "Invalid contact Number";
+    }
+    if (
+      notAllowSpecialChar.test(addDealer.mainDealerIfsc) &&
+      addDealer.mainDealerIfsc !== ""
+    ) {
+      errorInForm = true;
+      errObj.mainDealerIfsc = "Invalid Ifsc Number";
+    }
+    setError({ ...errObj });
+    return errorInForm;
+  };
+
   let ContactNumberValidation = () => {
     if (addDealer.mainDealerContactNumber) {
-      let regex = /^[0-9]*\d$/;
+      let regex = /^(\+|\d)[0-9]{7,16}$/;
       if (regex.test(addDealer.mainDealerContactNumber)) {
         setContactError("");
         return true;
@@ -170,13 +419,11 @@ export default function AddDealerModal(props) {
     }));
   };
 
-  const handleDistrictChange = (name, e, value) => {
-    // if (e) {
-    //   setAddDealer(value);
-    // }
+  const handleDistrictChange = (name, e, val) => {
+    // setAddDealer(val);
     setAddDealer(() => ({
       ...addDealer,
-      [name]: value,
+      [name]: val,
     }));
   };
 
@@ -188,70 +435,70 @@ export default function AddDealerModal(props) {
   };
 
   const addDealersDetails = async () => {
-    if (props.type === "add") {
-      let payload = {
-        mainDealerName: addDealer?.mainDealerName,
-        mainDealerMailID: addDealer?.mainDealerMailID,
-        mainDealerManufacturerName: addDealer?.mainDealerManufacturerName,
-        mainDealerContactNumber: addDealer?.mainDealerContactNumber,
-        mainDealerAlternateContactNumber:
-          addDealer?.mainDealerAlternateContactNumber,
-        contactPersonMobile: addDealer?.contactPersonMobile,
-        mainDealerContactPersonName: addDealer?.mainDealerContactPersonName,
-        mainDealerPaymentEligible: addDealer?.mainDealerPaymentEligible,
-        mainDealerActivationData: moment(
-          addDealer?.mainDealerActivationData
-        ).format("YYYY-MM-DD"),
-        addressDetails: addDealer?.addressDetails,
-        state: addDealer?.state,
-        district: addDealer.district,
-        city: addDealer.city,
-        pinCode: addDealer.pinCode,
-        mainDealerPanNumber: addDealer?.mainDealerPanNumber,
-        mainDealerGstNumber: addDealer?.mainDealerGstNumber,
-        mainDealerBankName: addDealer?.mainDealerBankName,
-        mainDealerBankBranchName: addDealer?.mainDealerBankBranchName,
-        mainDealerBankAccNumber: addDealer?.mainDealerBankAccNumber,
-        mainDealerIfsc: addDealer?.mainDealerIfsc,
-        mainDealerAccountHolderName: addDealer?.mainDealerAccountHolderName,
-        mainDealerPaniniCheck: addDealer?.mainDealerPaniniCheck,
-        mainDealerActivationStatus: addDealer?.mainDealerActivationStatus,
-      };
-      const { data, errRes } = await addMainDealersDetails(payload);
-      if (data) {
-        setAddDealer({
-          mainDealerName: "",
-          mainDealerManufacturerName: "",
-          mainDealerMailID: "",
-          mainDealerContactNumber: "",
-          mainDealerAlternateContactNumber: "",
-          mainDealerContactPersonName: "",
-          contactPersonMobile: "",
-          mainDealerPaymentEligible: "",
-          mainDealerActivationData: "",
-          state: "",
-          district: "",
-          city: "",
-          pinCode: "",
-          addressDetails: "",
-          mainDealerPanNumber: "",
-          mainDealerGstNumber: "",
-          mainDealerBankName: "",
-          mainDealerBankBranchName: "",
-          mainDealerBankAccNumber: "",
-          mainDealerIfsc: "",
-          mainDealerAccountHolderName: "",
-          mainDealerExpireData: "",
-          mainDealerPaniniCheck: "",
-          mainDealerActivationStatus: "",
-        });
-        props.getDealersDetails(data?.data?.data);
-        addToast(data.message, { appearance: "success" });
-        props.close();
-      } else if (errRes) {
-        addToast(errRes, { appearance: "error" });
-      }
+    // if (props.type === "add") {
+    let payload = {
+      mainDealerName: addDealer?.mainDealerName,
+      mainDealerMailID: addDealer?.mainDealerMailID,
+      mainDealerManufacturerName: addDealer?.mainDealerManufacturerName,
+      mainDealerContactNumber: addDealer?.mainDealerContactNumber,
+      mainDealerAlternateContactNumber:
+        addDealer?.mainDealerAlternateContactNumber,
+      contactPersonMobile: addDealer?.contactPersonMobile,
+      mainDealerContactPersonName: addDealer?.mainDealerContactPersonName,
+      mainDealerPaymentEligible: addDealer?.mainDealerPaymentEligible,
+      mainDealerActivationData: moment(
+        addDealer?.mainDealerActivationData
+      ).format("YYYY-MM-DD"),
+      addressDetails: addDealer?.addressDetails,
+      state: addDealer?.state,
+      district: addDealer?.district,
+      city: addDealer?.city,
+      pinCode: addDealer.pinCode,
+      mainDealerPanNumber: addDealer?.mainDealerPanNumber,
+      mainDealerGstNumber: addDealer?.mainDealerGstNumber,
+      mainDealerBankName: addDealer?.mainDealerBankName,
+      mainDealerBankBranchName: addDealer?.mainDealerBankBranchName,
+      mainDealerBankAccNumber: addDealer?.mainDealerBankAccNumber,
+      mainDealerIfsc: addDealer?.mainDealerIfsc,
+      mainDealerAccountHolderName: addDealer?.mainDealerAccountHolderName,
+      mainDealerPaniniCheck: addDealer?.mainDealerPaniniCheck,
+      mainDealerActivationStatus: addDealer?.mainDealerActivationStatus,
+    };
+    const { data, errRes } = await addMainDealersDetails(payload);
+    if (data) {
+      setAddDealer({
+        mainDealerName: "",
+        mainDealerManufacturerName: "",
+        mainDealerMailID: "",
+        mainDealerContactNumber: "",
+        mainDealerAlternateContactNumber: "",
+        mainDealerContactPersonName: "",
+        contactPersonMobile: "",
+        mainDealerPaymentEligible: "",
+        mainDealerActivationData: "",
+        state: "",
+        district: "",
+        city: "",
+        pinCode: "",
+        addressDetails: "",
+        mainDealerPanNumber: "",
+        mainDealerGstNumber: "",
+        mainDealerBankName: "",
+        mainDealerBankBranchName: "",
+        mainDealerBankAccNumber: "",
+        mainDealerIfsc: "",
+        mainDealerAccountHolderName: "",
+        mainDealerExpireData: "",
+        mainDealerPaniniCheck: "",
+        mainDealerActivationStatus: "",
+      });
+      props.getDealersDetails(data?.data?.data);
+      addToast(data.message, { appearance: "success" });
+      props.close();
+    } else if (errRes) {
+      addToast(errRes, { appearance: "error" });
     }
+    // }
   };
 
   const editDealerDetails = async (mainDealerID) => {
@@ -363,7 +610,6 @@ export default function AddDealerModal(props) {
   };
 
   useEffect(() => {
-    // getStateDetails();
     getStateDetails();
   }, []);
 
@@ -402,34 +648,33 @@ export default function AddDealerModal(props) {
   useEffect(() => {
     if (props.type === "edit") {
       getEditDetails(props.EditDealerData);
-    } else {
-      setshowModule(true);
     }
   }, [props.EditDealerData]);
 
   let Submit = () => {
+    let err = handleAddDealerError();
     ContactNumberValidation();
     PanCardValidation();
     GSTNumberValidation();
     BankAccountNumberValidation();
     if (
-      ContactNumberValidation() &&
+      err &&
       PanCardValidation() &&
       GSTNumberValidation() &&
       BankAccountNumberValidation() &&
       BankAccountIFSCCodeValidation()
     ) {
       addDealersDetails();
-      setshowModule(true);
+      // setshowModule(true);
     }
   };
   const icon = <CheckBoxOutlineBlankIcon fontSize="small" />;
   const checkedIcon = <CheckBoxIcon fontSize="small" />;
 
-  const handleSubmit = (e) => {
-    props.type === "edit" ? editDealerDetails() : addDealersDetails();
-    e.preventDefault();
-  };
+  // const handleSubmit = (e) => {
+  //   props.type === "edit" ? editDealerDetails() : addDealersDetails();
+  //   e.preventDefault();
+  // };
   return (
     <>
       <Modal
@@ -446,49 +691,49 @@ export default function AddDealerModal(props) {
           </Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <Form onSubmit={handleSubmit}>
-            <Grid
-              sx={{
-                m: 1,
-                alignItems: "center",
-                justifyContent: "space-around",
-              }}
-            >
-              <Grid sx={{ display: "flex" }}>
-                <Autocomplete
-                  id="combo-box-demo"
-                  options={vehicleOEM}
-                  sx={{ width: 225, ml: 1, m: 1 }}
-                  // size="small"
-                  // getOptionLabel={(option) => option.oemName}
-                  renderInput={(params) => (
-                    <TextField {...params} label="Select Vehicle OEM" />
-                  )}
-                  name="mainDealerManufacturerName"
-                  value={addDealer?.mainDealerManufacturerName}
-                  onChange={(e, val) =>
-                    handleVehicleOEMChange("mainDealerManufacturerName", e, val)
-                  }
-                  disabled={props.type === "edit" ? true : false}
-                />
+          {/* <Form > */}
+          <Grid
+            sx={{
+              m: 1,
+              alignItems: "center",
+              justifyContent: "space-around",
+            }}
+          >
+            <Grid sx={{ display: "flex" }}>
+              <Autocomplete
+                id="combo-box-demo"
+                options={vehicleOEM}
+                sx={{ width: 225, ml: 1, m: 1 }}
+                // size="small"
+                // getOptionLabel={(option) => option.oemName}
+                renderInput={(params) => (
+                  <TextField {...params} label="Select Vehicle OEM" />
+                )}
+                name="mainDealerManufacturerName"
+                value={addDealer?.mainDealerManufacturerName}
+                onChange={(e, val) =>
+                  handleVehicleOEMChange("mainDealerManufacturerName", e, val)
+                }
+                disabled={props.type === "edit" ? true : false}
+              />
 
-                <Autocomplete
-                  id="combo-box-demo"
-                  options={dealerState}
-                  sx={{ width: 225, ml: 1, m: 1 }}
-                  filterOptions={(x) => x}
-                  renderInput={(params) => (
-                    <TextField {...params} label="Select State" />
-                  )}
-                  name="state"
-                  value={addDealer?.state}
-                  onChange={(e, value) => {
-                    handleStateChange("state", e, value);
-                  }}
-                  disabled={props.type === "edit" ? true : false}
-                />
+              <Autocomplete
+                id="combo-box-demo"
+                options={dealerState}
+                sx={{ width: 225, ml: 1, m: 1 }}
+                filterOptions={(x) => x}
+                renderInput={(params) => (
+                  <TextField {...params} label="Select State" />
+                )}
+                name="state"
+                value={addDealer?.state}
+                onChange={(e, value) => {
+                  handleStateChange("state", e, value);
+                }}
+                disabled={props.type === "edit" ? true : false}
+              />
 
-                {/* <TextField
+              {/* <TextField
                 id="outlined-basic"
                 label="District"
                 variant="outlined"
@@ -500,38 +745,41 @@ export default function AddDealerModal(props) {
                 required
               /> */}
 
-                <Autocomplete
-                  disablePortal
-                  id="combo-box-demo"
-                  multiple
-                  options={districtData}
-                  filterSelectedOptions
-                  getOptionLabel={(option) => option}
-                  // defaultValue={[districtData[0]]}
-                  sx={{ m: 1, width: 225, ml: 1 }}
-                  size="large"
-                  renderOption={(props, option, { selected }) => (
-                    <li {...props}>
-                      <Checkbox
-                        icon={icon}
-                        checkedIcon={checkedIcon}
-                        style={{ marginRight: 8 }}
-                        checked={selected}
-                      />
-                      {option}
-                    </li>
-                  )}
-                  renderInput={(params) => (
-                    <TextField {...params} label="Select District ," />
-                  )}
-                  value={addDealer?.district}
-                  onChange={(e, value) => {
-                    handleDistrictChange("district", e, value);
-                  }}
-                />
-              </Grid>
-              <Grid sx={{ display: "flex" }}>
+              <Autocomplete
+                disablePortal
+                id="combo-box-demo"
+                multiple
+                options={districtData}
+                filterSelectedOptions
+                getOptionLabel={(option) => option}
+                // defaultValue={[districtData[0]]}
+                sx={{ m: 1, width: 225, ml: 1 }}
+                size="large"
+                renderOption={(props, option, { selected }) => (
+                  <li {...props}>
+                    <Checkbox
+                      icon={icon}
+                      checkedIcon={checkedIcon}
+                      style={{ marginRight: 8 }}
+                      checked={selected}
+                    />
+                    {option}
+                  </li>
+                )}
+                renderInput={(params) => (
+                  <TextField {...params} label="Select District " />
+                )}
+                name="district"
+                value={addDealer?.district}
+                onChange={(e, value) => {
+                  handleDistrictChange("district", e, value);
+                }}
+              />
+            </Grid>
+            <Grid sx={{ display: "flex" }}>
+              <Grid>
                 <TextField
+                  type="text"
                   id="outlined-basic"
                   label="Dealer Name"
                   variant="outlined"
@@ -542,43 +790,52 @@ export default function AddDealerModal(props) {
                   onChange={(e) => updateChange(e)}
                   required
                 />
-
-                <Autocomplete
-                  id="combo-box-demo"
-                  options={DealerSubDealer}
-                  sx={{ width: 225, ml: 1, m: 1 }}
-                  filterOptions={(x) => x}
-                  renderInput={(params) => (
-                    <TextField {...params} label="Select DealerType" />
-                  )}
-                  name="state"
-                  value={dealerType}
-                  onChange={(event, newValue) => {
-                    setDealerTypeStatus(newValue);
-                  }}
-                  disabled
-                />
-                <Grid>
-                  <TextField
-                    id="outlined-basic"
-                    label="Contact No."
-                    variant="outlined"
-                    sx={{ m: 1 }}
-                    name="mainDealerContactNumber"
-                    value={addDealer?.mainDealerContactNumber}
-                    onChange={(e) => updateChange(e)}
-                    required
-                  />
-                  {contactError && (
-                    <Typography sx={{ color: "red" }}>
-                      {contactError}
-                    </Typography>
-                  )}
-                </Grid>
+                {error.mainDealerName && (
+                  <Typography sx={{ color: "red" }}>
+                    {error.mainDealerName}
+                  </Typography>
+                )}
               </Grid>
 
-              <Grid sx={{ display: "flex" }}>
+              <Autocomplete
+                id="combo-box-demo"
+                options={DealerSubDealer}
+                sx={{ width: 225, ml: 1, m: 1 }}
+                filterOptions={(x) => x}
+                renderInput={(params) => (
+                  <TextField {...params} label="Select DealerType" />
+                )}
+                name="state"
+                value={dealerType}
+                onChange={(event, newValue) => {
+                  setDealerTypeStatus(newValue);
+                }}
+                disabled
+              />
+              <Grid>
                 <TextField
+                  type="number"
+                  id="outlined-basic"
+                  label="Contact No."
+                  variant="outlined"
+                  sx={{ m: 1 }}
+                  name="mainDealerContactNumber"
+                  value={addDealer?.mainDealerContactNumber}
+                  onChange={(e) => updateChange(e)}
+                  required
+                />
+                {error.mainDealerContactNumber && (
+                  <Typography sx={{ color: "red" }}>
+                    {error.mainDealerContactNumber}
+                  </Typography>
+                )}
+              </Grid>
+            </Grid>
+
+            <Grid sx={{ display: "flex" }}>
+              <Grid>
+                <TextField
+                  type="text"
                   id="outlined-basic"
                   label="Contact Person Name"
                   variant="outlined"
@@ -589,59 +846,71 @@ export default function AddDealerModal(props) {
                   onChange={(e) => updateChange(e)}
                   required
                 />
-
-                <Grid>
-                  <TextField
-                    id="outlined-basic"
-                    label="Contact Person Mobile No."
-                    variant="outlined"
-                    // size="small"
-                    sx={{ m: 1 }}
-                    name="contactPersonMobile"
-                    value={addDealer?.contactPersonMobile}
-                    onChange={(e) => updateChange(e)}
-                  />
-                  {contactError && (
-                    <Typography sx={{ color: "red" }}>
-                      {contactError}
-                    </Typography>
-                  )}
-                </Grid>
-
-                <Grid>
-                  <TextField
-                    id="outlined-basic"
-                    label="Alternate No."
-                    variant="outlined"
-                    sx={{ m: 1 }}
-                    name="mainDealerAlternateContactNumber"
-                    value={addDealer?.mainDealerAlternateContactNumber}
-                    onChange={(e) => updateChange(e)}
-                    required
-                  />
-                  {contactError && (
-                    <Typography sx={{ color: "red" }}>
-                      {contactError}
-                    </Typography>
-                  )}
-                </Grid>
+                {error.mainDealerContactPersonName && (
+                  <Typography sx={{ color: "red" }}>
+                    {error.mainDealerContactPersonName}
+                  </Typography>
+                )}
               </Grid>
 
-              <Grid sx={{ display: "flex" }}>
-                <Grid>
-                  <TextField
-                    id="outlined-basic"
-                    label="Alternate Person Name"
-                    variant="outlined"
-                    sx={{ m: 1 }}
-                    name="mainDealerAlternateContactNumber"
-                    value={addDealer?.mainDealerAlternateContactNumber}
-                    onChange={(e) => updateChange(e)}
-                    required
-                  />
-                </Grid>
-
+              <Grid>
                 <TextField
+                  type="number"
+                  id="outlined-basic"
+                  label="Contact Person Mobile No."
+                  variant="outlined"
+                  // size="small"
+                  sx={{ m: 1 }}
+                  name="contactPersonMobile"
+                  value={addDealer?.contactPersonMobile}
+                  onChange={(e) => updateChange(e)}
+                />
+                {error.contactPersonMobile && (
+                  <Typography sx={{ color: "red" }}>
+                    {error.contactPersonMobile}
+                  </Typography>
+                )}
+              </Grid>
+
+              <Grid>
+                <TextField
+                  type="text"
+                  id="outlined-basic"
+                  label="Alternate No."
+                  variant="outlined"
+                  sx={{ m: 1 }}
+                  name="mainDealerAlternateContactNumber"
+                  value={addDealer?.mainDealerAlternateContactNumber}
+                  onChange={(e) => updateChange(e)}
+                  required
+                />
+                {error.mainDealerAlternateContactNumber && (
+                  <Typography sx={{ color: "red" }}>
+                    {error.mainDealerAlternateContactNumber}
+                  </Typography>
+                )}
+              </Grid>
+            </Grid>
+
+            <Grid sx={{ display: "flex" }}>
+              {/* <Grid>
+                <TextField
+                  type="text"
+                  id="outlined-basic"
+                  label="Alternate Person Name"
+                  variant="outlined"
+                  sx={{ m: 1 }}
+                  name="mainDealerAlternateContactNumber"
+                  value={addDealer?.mainDealerAlternateContactNumber}
+                  onChange={(e) => updateChange(e)}
+                  required
+                />
+
+              </Grid> */}
+
+              <Grid>
+                <TextField
+                  type="text"
                   id="outlined-basic"
                   label="Dealer Email-ID"
                   variant="outlined"
@@ -652,44 +921,55 @@ export default function AddDealerModal(props) {
                   onChange={(e) => updateChange(e)}
                   required
                 />
-                <Grid>
-                  <TextField
-                    id="outlined-basic"
-                    label="Dealer PAN No."
-                    variant="outlined"
-                    // size="small"
-                    sx={{ m: 1 }}
-                    name="mainDealerPanNumber"
-                    value={addDealer?.mainDealerPanNumber}
-                    onChange={(e) => updateChange(e)}
-                    required
-                  />
-                  {panNoError && (
-                    <Typography sx={{ color: "red" }}>{panNoError}</Typography>
-                  )}
-                </Grid>
+                {error.mainDealerMailID && (
+                  <Typography sx={{ color: "red" }}>
+                    {error.mainDealerMailID}
+                  </Typography>
+                )}
+              </Grid>
+              <Grid>
+                <TextField
+                  type="text"
+                  id="outlined-basic"
+                  label="Dealer PAN No."
+                  variant="outlined"
+                  // size="small"
+                  sx={{ m: 1 }}
+                  name="mainDealerPanNumber"
+                  value={addDealer?.mainDealerPanNumber}
+                  onChange={(e) => updateChange(e)}
+                  required
+                />
+                {panNoError && (
+                  <Typography sx={{ color: "red" }}>{panNoError}</Typography>
+                )}
+              </Grid>
+            </Grid>
+
+            <Grid sx={{ display: "flex" }}>
+              <Grid>
+                <TextField
+                  type="text"
+                  id="outlined-basic"
+                  label="Dealer GST No."
+                  variant="outlined"
+                  // size="small"
+                  sx={{ m: 1 }}
+                  name="mainDealerGstNumber"
+                  value={addDealer?.mainDealerGstNumber}
+                  onChange={(e) => updateChange(e)}
+                  required
+                />
+                {gstNumberError && (
+                  <Typography sx={{ color: "red" }}>
+                    {gstNumberError}
+                  </Typography>
+                )}
               </Grid>
 
-              <Grid sx={{ display: "flex" }}>
-                <Grid>
-                  <TextField
-                    id="outlined-basic"
-                    label="Dealer GST No."
-                    variant="outlined"
-                    // size="small"
-                    sx={{ m: 1 }}
-                    name="mainDealerGstNumber"
-                    value={addDealer?.mainDealerGstNumber}
-                    onChange={(e) => updateChange(e)}
-                    required
-                  />
-                  {gstNumberError && (
-                    <Typography sx={{ color: "red" }}>
-                      {gstNumberError}
-                    </Typography>
-                  )}
-                </Grid>
+              <Grid>
                 <TextField
+                  type="text"
                   id="outlined-basic"
                   label="Dealer Bank Name"
                   variant="outlined"
@@ -700,8 +980,15 @@ export default function AddDealerModal(props) {
                   onChange={(e) => updateChange(e)}
                   required
                 />
-
+                {error.mainDealerBankName && (
+                  <Typography sx={{ color: "red" }}>
+                    {error.mainDealerBankName}
+                  </Typography>
+                )}
+              </Grid>
+              <Grid>
                 <TextField
+                  type="text"
                   id="outlined-basic"
                   label="Dealer Bank Branch Name"
                   variant="outlined"
@@ -712,44 +999,57 @@ export default function AddDealerModal(props) {
                   onChange={(e) => updateChange(e)}
                   required
                 />
+                {error.mainDealerBankBranchName && (
+                  <Typography sx={{ color: "red" }}>
+                    {error.mainDealerBankBranchName}
+                  </Typography>
+                )}
+              </Grid>
+            </Grid>
+
+            <Grid sx={{ display: "flex" }}>
+              <Grid>
+                <TextField
+                  type="number"
+                  id="outlined-basic"
+                  label="Dealer Account Number"
+                  variant="outlined"
+                  // size="small"
+                  sx={{ m: 1 }}
+                  name="mainDealerBankAccNumber"
+                  value={addDealer?.mainDealerBankAccNumber}
+                  onChange={(e) => updateChange(e)}
+                  required
+                />
+                {accountNoError && (
+                  <Typography sx={{ color: "red" }}>
+                    {accountNoError}
+                  </Typography>
+                )}
+              </Grid>
+              <Grid>
+                <TextField
+                  type="text"
+                  id="outlined-basic"
+                  label="IFSC Code"
+                  variant="outlined"
+                  // size="small"
+                  sx={{ m: 1 }}
+                  name="mainDealerIfsc"
+                  value={addDealer?.mainDealerIfsc}
+                  onChange={(e) => updateChange(e)}
+                  required
+                />
+                {error.mainDealerIfsc && (
+                  <Typography sx={{ color: "red" }}>
+                    {error.mainDealerIfsc}
+                  </Typography>
+                )}
               </Grid>
 
-              <Grid sx={{ display: "flex" }}>
-                <Grid>
-                  <TextField
-                    id="outlined-basic"
-                    label="Dealer Account Number"
-                    variant="outlined"
-                    // size="small"
-                    sx={{ m: 1 }}
-                    name="mainDealerBankAccNumber"
-                    value={addDealer?.mainDealerBankAccNumber}
-                    onChange={(e) => updateChange(e)}
-                    required
-                  />
-                  {accountNoError && (
-                    <Typography sx={{ color: "red" }}>
-                      {accountNoError}
-                    </Typography>
-                  )}
-                </Grid>
-                <Grid>
-                  <TextField
-                    id="outlined-basic"
-                    label="IFSC Code"
-                    variant="outlined"
-                    // size="small"
-                    sx={{ m: 1 }}
-                    name="mainDealerIfsc"
-                    value={addDealer?.mainDealerIfsc}
-                    onChange={(e) => updateChange(e)}
-                    required
-                  />
-                  {IfscError && (
-                    <Typography sx={{ color: "red" }}>{IfscError}</Typography>
-                  )}
-                </Grid>
+              <Grid>
                 <TextField
+                  type="text"
                   id="outlined-basic"
                   label="Account Holder Name"
                   variant="outlined"
@@ -760,8 +1060,14 @@ export default function AddDealerModal(props) {
                   onChange={(e) => updateChange(e)}
                   required
                 />
+                {error.mainDealerAccountHolderName && (
+                  <Typography sx={{ color: "red" }}>
+                    {error.mainDealerAccountHolderName}
+                  </Typography>
+                )}
+              </Grid>
 
-                {/* <TextField
+              {/* <TextField
                 id="outlined-basic"
                 label="Address"
                 variant="outlined"
@@ -771,9 +1077,11 @@ export default function AddDealerModal(props) {
                 value={addDealer?.addressDetails}
                 onChange={(e) => updateChange(e)}
               /> */}
-              </Grid>
-              <Grid sx={{ display: "flex" }}>
+            </Grid>
+            <Grid sx={{ display: "flex" }}>
+              <Grid>
                 <TextField
+                  type="text"
                   id="outlined-basic"
                   label="Address-Town/City/Village"
                   variant="outlined"
@@ -784,7 +1092,11 @@ export default function AddDealerModal(props) {
                   onChange={(e) => updateChange(e)}
                   required
                 />
+              </Grid>
+
+              <Grid>
                 <TextField
+                  type="number"
                   id="outlined-basic"
                   label="Pincode"
                   variant="outlined"
@@ -795,83 +1107,83 @@ export default function AddDealerModal(props) {
                   onChange={(e) => updateChange(e)}
                   required
                 />
-
-                <LocalizationProvider dateAdapter={AdapterDateFns}>
-                  <DemoContainer components={["DatePicker"]}>
-                    <DatePicker
-                      label="Activation Date"
-                      inputFormat="YYYY-MM-DD"
-                      value={new Date(addDealer?.mainDealerActivationData)}
-                      onChange={(e) => {
-                        handleActivationDateChange(e);
-                      }}
-                      sx={{ width: 225, ml: 1 }}
-                    />
-                  </DemoContainer>
-                </LocalizationProvider>
+                {error.pinCode && (
+                  <Typography sx={{ color: "red" }}>{error.pinCode}</Typography>
+                )}
               </Grid>
 
-              <Grid sx={{ display: "flex" }}>
-                <LocalizationProvider dateAdapter={AdapterDateFns}>
-                  <DemoContainer components={["DatePicker"]}>
-                    <DatePicker
-                      label="Expiry Date"
-                      inputFormat="YYYY-MM-DD"
-                      defaultValue="00-00-2099"
-                      disabled={props.type === "edit" ? false : true}
-                      value={new Date(addDealer?.mainDealerExpireData)}
-                      onChange={(e) => {
-                        handleExpiryDateChange(e);
-                      }}
-                      sx={{
-                        width: 225,
-                        ml: 2,
-                        // display: props.type === "edit" ? "block" : "none",
-                      }}
-                    />
-                  </DemoContainer>
-                </LocalizationProvider>
-                <Autocomplete
-                  id="combo-box-demo"
-                  options={activationStatus}
-                  sx={{ width: 225, m: 1 }}
-                  filterOptions={(x) => x}
-                  renderInput={(params) => (
-                    <TextField {...params} label="Dealer Status" />
-                  )}
-                  name="mainDealerActivationStatus"
-                  value={addDealer?.mainDealerActivationStatus}
-                  onChange={(event, newValue) => {
-                    handleActivationChange(
-                      "mainDealerActivationStatus",
-                      event,
-                      newValue
-                    );
-                  }}
-                />
-                <Autocomplete
-                  id="combo-box-demo"
-                  options={pennyCheckStatus}
-                  sx={{ width: 225, m: 1 }}
-                  // size="small"
-                  // getOptionLabel={(option) => option.oemName}
-                  renderInput={(params) => (
-                    <TextField {...params} label="Select PennyCheck Status" />
-                  )}
-                  name="mainDealerPaniniCheck"
-                  value={addDealer?.mainDealerPaniniCheck}
-                  onChange={(e, val) =>
-                    handlePennyCheckStatusChange(
-                      "mainDealerPaniniCheck",
-                      e,
-                      val
-                    )
-                  }
-                  disabled={props.type === "edit" ? true : false}
-                />
-              </Grid>
+              <LocalizationProvider dateAdapter={AdapterDateFns}>
+                <DemoContainer components={["DatePicker"]}>
+                  <DatePicker
+                    label="Activation Date"
+                    inputFormat="YYYY-MM-DD"
+                    value={new Date(addDealer?.mainDealerActivationData)}
+                    onChange={(e) => {
+                      handleActivationDateChange(e);
+                    }}
+                    sx={{ width: 225, ml: 1 }}
+                  />
+                </DemoContainer>
+              </LocalizationProvider>
             </Grid>
-          </Form>
+
+            <Grid sx={{ display: "flex" }}>
+              <LocalizationProvider dateAdapter={AdapterDateFns}>
+                <DemoContainer components={["DatePicker"]}>
+                  <DatePicker
+                    label="Expiry Date"
+                    inputFormat="YYYY-MM-DD"
+                    defaultValue="00-00-2099"
+                    disabled={props.type === "edit" ? false : true}
+                    value={new Date(addDealer?.mainDealerExpireData)}
+                    onChange={(e) => {
+                      handleExpiryDateChange(e);
+                    }}
+                    sx={{
+                      width: 225,
+                      ml: 2,
+                      // display: props.type === "edit" ? "block" : "none",
+                    }}
+                  />
+                </DemoContainer>
+              </LocalizationProvider>
+              <Autocomplete
+                id="combo-box-demo"
+                options={activationStatus}
+                sx={{ width: 225, m: 1 }}
+                filterOptions={(x) => x}
+                renderInput={(params) => (
+                  <TextField {...params} label="Dealer Status" />
+                )}
+                name="mainDealerActivationStatus"
+                value={addDealer?.mainDealerActivationStatus}
+                onChange={(event, newValue) => {
+                  handleActivationChange(
+                    "mainDealerActivationStatus",
+                    event,
+                    newValue
+                  );
+                }}
+              />
+              <Autocomplete
+                id="combo-box-demo"
+                options={pennyCheckStatus}
+                sx={{ width: 225, m: 1 }}
+                // size="small"
+                // getOptionLabel={(option) => option.oemName}
+                renderInput={(params) => (
+                  <TextField {...params} label="Select PennyCheck Status" />
+                )}
+                name="mainDealerPaniniCheck"
+                value={addDealer?.mainDealerPaniniCheck}
+                onChange={(e, val) =>
+                  handlePennyCheckStatusChange("mainDealerPaniniCheck", e, val)
+                }
+                disabled={props.type === "edit" ? true : false}
+              />
+            </Grid>
+          </Grid>
+          {/* </Form> */}
         </Modal.Body>
         <Modal.Footer>
           <Grid sx={{ display: "flex" }}>
@@ -936,7 +1248,6 @@ export default function AddDealerModal(props) {
 
 //BANk Account Number
 // RBI dictates certain rules like you've mentioned over Indian Bank Account Number structures (9 - 18).
-
 // Most of the banks have unique account numbers.
 // Account number length varies from 9 digits to 18 digits.
 // Most of the banks (67 out of 78) have included branch code as part of the account number structure. Some banks have product code as part of the account number structure.

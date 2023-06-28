@@ -1,4 +1,10 @@
-import { Autocomplete, Grid, TextField, Typography } from "@mui/material";
+import {
+  Autocomplete,
+  Checkbox,
+  Grid,
+  TextField,
+  Typography,
+} from "@mui/material";
 import React, { useEffect, useState } from "react";
 import { Button, Modal } from "react-bootstrap";
 import {
@@ -10,6 +16,9 @@ import moment from "moment/moment";
 import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
 import { DemoContainer } from "@mui/x-date-pickers/internals/demo";
+import { getAllDistrictDetailsForAddingMainDealer } from "../../service/districtapi/Districtapi";
+import CheckBoxOutlineBlankIcon from "@mui/icons-material/CheckBoxOutlineBlank";
+import CheckBoxIcon from "@mui/icons-material/CheckBox";
 
 export default function AddSubDealerModal(props) {
   let activationStatus = ["Active", "InActive"];
@@ -40,6 +49,33 @@ export default function AddSubDealerModal(props) {
     pinCode: "",
     subDealerActivationStatus: "",
   });
+  const [districtData, setdistrictData] = useState([]);
+  const handleDistrictChange = (name, e, val) => {
+    // setAddDealer(val);
+    setAddSubDealer(() => ({
+      ...addSubDealer,
+      [name]: val,
+    }));
+  };
+
+  useEffect(() => {
+    getDistrictDetails();
+  }, []);
+
+  const getDistrictDetails = async () => {
+    const { data } = await getAllDistrictDetailsForAddingMainDealer();
+    if (data) {
+      if (data) {
+        let districtData = [];
+        data?.data?.data?.map((val) => {
+          districtData?.push(val);
+        });
+        setdistrictData(districtData);
+      } else {
+        setdistrictData([]);
+      }
+    }
+  };
 
   const [contactError, setContactError] = useState("");
   let ContactNumberValidation = () => {
@@ -66,7 +102,7 @@ export default function AddSubDealerModal(props) {
       subDealerActivationData: date,
     });
   };
-  console.log(props.mainDealerData, "props.mainDealerData");
+  // console.log(props.mainDealerData, "props.mainDealerData");
   const addAllSubDealersDetails = async (params) => {
     let payload = {
       mainDealerID: props.paramsId,
@@ -239,6 +275,8 @@ export default function AddSubDealerModal(props) {
       addAllSubDealersDetails(props.paramsId);
     }
   };
+  const icon = <CheckBoxOutlineBlankIcon fontSize="small" />;
+  const checkedIcon = <CheckBoxIcon fontSize="small" />;
 
   return (
     <>
@@ -259,30 +297,31 @@ export default function AddSubDealerModal(props) {
           <Grid
             sx={{ m: 1, alignItems: "center", justifyContent: "space-around" }}
           >
-            <TextField
-              id="outlined-basic"
-              label="Vehicle OEM"
-              variant="outlined"
-              // size="small"
-              sx={{ m: 1 }}
-              name="mainDealerManufacturerName"
-              value={props.mainDealerData.mainDealerManufacturerName}
-              onChange={(e) => updateChange(e)}
-              disabled
-            />
+            <Grid sx={{ display: "flex" }}>
+              <TextField
+                id="outlined-basic"
+                label="Vehicle OEM"
+                variant="outlined"
+                // size="small"
+                sx={{ m: 1 }}
+                name="mainDealerManufacturerName"
+                value={props.mainDealerData.mainDealerManufacturerName}
+                onChange={(e) => updateChange(e)}
+                disabled
+              />
 
-            <TextField
-              id="outlined-basic"
-              label="State"
-              variant="outlined"
-              // size="small"
-              sx={{ m: 1 }}
-              name="state"
-              value={props.mainDealerData.state}
-              onChange={(e) => updateChange(e)}
-              disabled
-            />
-            <TextField
+              <TextField
+                id="outlined-basic"
+                label="State"
+                variant="outlined"
+                // size="small"
+                sx={{ m: 1 }}
+                name="state"
+                value={props.mainDealerData.state}
+                onChange={(e) => updateChange(e)}
+                disabled
+              />
+              {/* <TextField
               id="outlined-basic"
               label="District"
               variant="outlined"
@@ -291,7 +330,39 @@ export default function AddSubDealerModal(props) {
               name="district"
               value={addSubDealer?.district ?? ""}
               onChange={(e) => updateChange(e)}
-            />
+            /> */}
+
+              <Autocomplete
+                disablePortal
+                id="combo-box-demo"
+                multiple
+                options={districtData}
+                filterSelectedOptions
+                getOptionLabel={(option) => option}
+                // defaultValue={[districtData[0]]}
+                sx={{ m: 1, width: 225, ml: 1 }}
+                size="large"
+                renderOption={(props, option, { selected }) => (
+                  <li {...props}>
+                    <Checkbox
+                      icon={icon}
+                      checkedIcon={checkedIcon}
+                      style={{ marginRight: 8 }}
+                      checked={selected}
+                    />
+                    {option}
+                  </li>
+                )}
+                renderInput={(params) => (
+                  <TextField {...params} label="Select District " />
+                )}
+                name="district"
+                // value={addSubDealer?.district}
+                onChange={(e, value) => {
+                  handleDistrictChange("district", e, value);
+                }}
+              />
+            </Grid>
             <Grid sx={{ display: "flex" }}>
               <TextField
                 id="outlined-basic"

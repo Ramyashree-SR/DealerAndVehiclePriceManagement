@@ -16,7 +16,7 @@ function CheckerDashboard() {
   // const [showModule, setshowModule] = useState(true);
   const [hideButtons, setHideButtons] = useState(false);
   const [selectedComponent, setSelectedComponent] = useState("CheckerDetails");
-  const [btnhide, setBtnhide] = useState(false)
+  const [btnhide, setBtnhide] = useState(false);
 
   let navigate = useNavigate();
 
@@ -40,6 +40,7 @@ function CheckerDashboard() {
     // setshowModule(false);
   };
   let naviagteToLogin = () => {
+    sessionStorage.clear();
     navigate("/");
     // setshowModule(true);
   };
@@ -162,7 +163,7 @@ function CheckerDashboard() {
             className="bg-dark"
             onClick={() => {
               navigateToVehiclePriceTable();
-              setBtnhide(true)
+              setBtnhide(true);
             }}
             sx={{ margin: 1, color: "white", mt: 2, fontSize: 10, width: 100 }}
           >
@@ -196,7 +197,9 @@ function CheckerDashboard() {
             {selectedComponent === "DealerSubDealerTable" && (
               <DealerSubDealerTable hideButtons={hideButtons} />
             )}
-            {selectedComponent === "VehicleDetails" && <VehicleDetails btnhide={btnhide}/>}
+            {selectedComponent === "VehicleDetails" && (
+              <VehicleDetails btnhide={btnhide} />
+            )}
           </Content>
         </Layout>
       </Layout>

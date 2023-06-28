@@ -62,13 +62,8 @@ function AddVehiclesModal(props) {
     }
     return (9 * price).toFixed(2);
   };
-  // const inputvalue = event.target.vehicalOnRoadPrice;
-  // setOnRoadPrice(inputvalue);
-  // const calculated = (parseFloat(inputvalue) * 0.9).toFixed(2);
-  // setMaxLoanAmt(calculated);
-
+  
   useEffect(() => {
-    // getStateDetails();
     getStateDetails();
   }, []);
 
@@ -120,7 +115,7 @@ function AddVehiclesModal(props) {
       ...addNewVehicles,
       [name]: value,
     });
-    setShowModel(true);
+    setShowModel(true)
     setshowVariant(true);
     getVariantDetails(value);
   };
@@ -207,7 +202,7 @@ function AddVehiclesModal(props) {
         aria-labelledby="contained-modal-title-vcenter"
         centered
       >
-        <Modal.Header closeButton>
+        <Modal.Header >
           <Modal.Title
             id="contained-modal-title-vcenter"
             className="text-align-center"

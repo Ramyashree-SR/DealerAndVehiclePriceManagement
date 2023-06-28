@@ -24,6 +24,17 @@ const style = {
 
 function ShowSubVehicleVariantModal(props) {
   const [removeRowData, setRemoveRowData] = useState([]);
+  const [page, setPage] = useState(0);
+  const [rowsPerPage, setRowsPerPage] = useState(5);
+
+  const handleChangePage = (event, newPage) => {
+    setPage(newPage);
+  };
+
+  const handleChangeRowsPerPage = (event) => {
+    setRowsPerPage(+event.target.value);
+    setPage(0);
+  };
 
   useEffect(() => {
     const tempArr = [];
@@ -85,37 +96,49 @@ function ShowSubVehicleVariantModal(props) {
             </thead>
 
             <tbody className="table table-success table-striped">
-              {props.showSubVariants?.map((val, idx) => (
-                <tr key={idx}>
-                  <td
-                    colSpan={3}
-                    cellSpacing={3}
-                    style={{ fontWeight: "bold" }}
-                  >
-                    {val.variantID}
-                  </td>
-                  <td
-                    colSpan={3}
-                    cellSpacing={3}
-                    style={{ fontWeight: "bold" }}
-                  >
-                    {val.variantName}
-                  </td>
-                  <td>
-                    <DeleteIcon
-                      onClick={() => {
-                        removeRowDataofVariantsFromTable(
-                          props.subDealerID,
-                          val
-                        );
-                      }}
-                      size="large"
-                    />
-                  </td>
-                </tr>
-              ))}
+              {props.showSubVariants
+                ?.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                .map((val, idx) => (
+                  <tr key={idx}>
+                    <td
+                      colSpan={3}
+                      cellSpacing={3}
+                      style={{ fontWeight: "bold" }}
+                    >
+                      {val.variantID}
+                    </td>
+                    <td
+                      colSpan={3}
+                      cellSpacing={3}
+                      style={{ fontWeight: "bold" }}
+                    >
+                      {val.variantName}
+                    </td>
+                    <td>
+                      <DeleteIcon
+                        onClick={() => {
+                          removeRowDataofVariantsFromTable(
+                            props.subDealerID,
+                            val
+                          );
+                        }}
+                        size="large"
+                      />
+                    </td>
+                  </tr>
+                ))}
             </tbody>
           </table>
+          <TablePagination
+            rowsPerPageOptions={[5, 10, 15]}
+            component="div"
+            count={props.showSubVariants?.length}
+            rowsPerPage={rowsPerPage}
+            page={page}
+            onPageChange={handleChangePage}
+            onRowsPerPageChange={handleChangeRowsPerPage}
+            sx={{ alignItems: "center", justifyContent: "center" }}
+          />
           <ChildModal
             subDealerID={props.subDealerID}
             showSubVariantsToAdd={props.showSubVariantsToAdd}
@@ -157,13 +180,13 @@ function ChildModal(props) {
     props.showSubVariantsToAdd?.map((item) => {
       tempState.push({ ...item, checked: false });
     });
-    console.log(tempState);
+    // console.log(tempState);
     setaddvehicle([...props.showSubVariantsToAdd]);
   }, [props.showSubVariantsToAdd]);
 
   function onCheckBoxClick(e, index) {
     const tempState = [...addvehicle];
-    console.log(tempState, "tempp");
+    // console.log(tempState, "tempp");
     tempState[index].checked = e.target.checked;
     setaddvehicle([...tempState]);
   }
@@ -236,7 +259,7 @@ function ChildModal(props) {
       >
         Add
       </Button>
-      <Button onClick={() => setOpen(false)}>Close </Button>
+      {/* <Button onClick={() => setOpen(false)}>Close </Button> */}
     </>
   );
 }

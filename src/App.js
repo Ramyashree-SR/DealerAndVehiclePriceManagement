@@ -32,32 +32,33 @@ function App() {
             id="toaster"
             transitionDuration={4}
           >
-            {/* {!tokenCredentials && ( */}
-            <Routes>
-              <Route path="/" element={<Login />} />
-            </Routes>
-            {/* )} */}
+            {!tokenCredentials && (
+              <Routes>
+                <Route path="/" element={<Login />} />
+              </Routes>
+            )}
 
-            {/* {tokenCredentials?.userrole.includes("ROLE_MAKER") && ( */}
-            <Routes>
-              <Route path="/dashboard" element={<Dashboard />} />
-              <Route path="/dealers" element={<DealerSubDealerTable />} />
-              <Route path="/vehicle" element={<VehicleDetails />} />
-            </Routes>
-            {/* )} */}
+            {tokenCredentials?.userrole.includes("ROLE_MAKER") && (
+              <Routes>
+                <Route path="/dashboard" element={<Dashboard />} />
+                <Route path="/dealers" element={<DealerSubDealerTable />} />
+                <Route path="/vehicle" element={<VehicleDetails />} />
+              </Routes>
+            )}
 
-            {/* {tokenCredentials?.userrole.includes("ROLE_CHECKER") && ( */}
-            <Routes>
-              <Route path="/checkerdashboard" element={<CheckerDashboard />} />
-              <Route path="/checkerdashboard" element={<CheckerDetails />} />
-            </Routes>
-            {/* )} */}
+            {tokenCredentials?.userrole?.includes("ROLE_CHECKER") && (
+              <Routes>
+                <Route
+                  path="/checkerdashboard"
+                  element={<CheckerDashboard />}
+                />
+                <Route path="/checkerdashboard" element={<CheckerDetails />} />
+              </Routes>
+            )}
           </ToastProvider>
           <LoaderComponent />
         </GloabalProvider>
       </BrowserRouter>
-
- 
     </>
   );
 }

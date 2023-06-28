@@ -200,6 +200,7 @@ export default function DealerSubDealerTable(props) {
   const [viewSubDealerData, setViewSubDealerData] = useState({});
   const [showSubVariants, setShowSubVariants] = useState([]);
   const [showSubVariantsToAdd, setShowSubVariantsToAdd] = useState([]);
+  const [openShowSubVariants, setOpenShowSubVariants] = useState(false);
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
@@ -241,7 +242,7 @@ export default function DealerSubDealerTable(props) {
   };
 
   const handleEditTable = (event, record) => {
-    event.preventDefault();
+    // event.preventDefault();
     setOpenAddDealerModal(true);
     setOpenEditDealerModal(true);
     setEditDealerData(record);
@@ -338,8 +339,9 @@ export default function DealerSubDealerTable(props) {
         let districtfilteredData = statefilteredData.filter((item) => {
           if (item.district) {
             return item?.district
+              .toString()
               .toLowerCase()
-              .includes(filterAllDealer1?.district.toLowerCase());
+              .includes(filterAllDealer1?.district.toString().toLowerCase());
           }
         });
         return districtfilteredData;
@@ -470,7 +472,7 @@ export default function DealerSubDealerTable(props) {
   const downloadXLSFile = async () => {
     await axios
       .get(
-        "http://caglcampaignleads.grameenkoota.in:8080/TwoWheelerLone/downloadexcel",
+        "http://caglcampaignleads.grameenkoota.in:8080/TwoWheelerLoan/downloadexcel",
         {
           // http://localhost:9666/downloadexcel
           method: "GET",
@@ -696,7 +698,7 @@ export default function DealerSubDealerTable(props) {
 
           <AddDealerModal
             show={openAddDealerModal}
-            close={() => setOpenAddDealerModal(window.location.reload(true))}
+            close={() => setOpenAddDealerModal(false)}
             getDealersDetails={getDealersDetails}
             type={openEditDealerModal ? "edit" : "add"}
             disabled={openEditDealerModal ? "edit" : "add"}
@@ -1393,7 +1395,9 @@ export default function DealerSubDealerTable(props) {
                                                   <SourceIcon
                                                     fontSize="small"
                                                     onClick={() => {
-                                                      setOpenShowVariants(true);
+                                                      setOpenShowSubVariants(
+                                                        true
+                                                      );
                                                       getShowVariantsInSubDealers(
                                                         val.subDealerID
                                                       );
@@ -1414,9 +1418,9 @@ export default function DealerSubDealerTable(props) {
                                               </ColorIcon>
 
                                               <ShowSubVehicleVariantModal
-                                                show={openShowVariants}
+                                                show={openShowSubVariants}
                                                 close={() =>
-                                                  setOpenShowVariants(false)
+                                                  setOpenShowSubVariants(false)
                                                 }
                                                 showSubVariants={
                                                   showSubVariants

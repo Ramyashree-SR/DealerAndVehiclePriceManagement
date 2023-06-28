@@ -38,7 +38,7 @@ function ShowBranchesOfMainDealer(props) {
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
   const [open, setOpen] = useState(false);
-  // const [removeRowData, setRemoveRowData] = useState([]);
+  const [removeRowData, setRemoveRowData] = useState([]);
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
@@ -50,7 +50,7 @@ function ShowBranchesOfMainDealer(props) {
   };
 
   const handleClose = (event) => {
-    event.preventDefault();
+    // event.preventDefault();
     setOpen(false);
     // window.location.reload();
   };
@@ -60,24 +60,20 @@ function ShowBranchesOfMainDealer(props) {
     props.showBranch?.map((item) => {
       tempArr.push({ ...item });
     });
-    // const lastRowIndex = props.showBranch?.length - 1;
-    // setRemoveRowData(tempArr, lastRowIndex);
+    // setRemoveRowData([...props.showBranch])
   }, [props.showBranch]);
 
   const removeRowDataofBranchesFromTable = async (params, value) => {
     let payload = [value];
     const { data } = await removeAllBranchesInMainDealer(params, payload);
     if (data?.data?.error === "FALSE") {
+      setRemoveRowData([]);
       props.getShowBranchesInMainDealers(props.mainDealerID);
       props.getShowBranchesToAddInMainDealers(props.mainDealerID);
     }
   };
 
-  // const removeRow = (id) => {
-  //   setRemoveRowData((prevData) =>
-  //     prevData.filter((value) => value.branchID !== id)
-  //   );
-  // };
+  
 
   return (
     <>
@@ -164,7 +160,7 @@ function ShowBranchesOfMainDealer(props) {
                         fontSize="large"
                       />
                       <Dialog
-                      open={open}
+                        open={open}
                         onClose={handleClose}
                         aria-labelledby="alert-dialog-title"
                         aria-describedby="alert-dialog-description"
@@ -177,8 +173,8 @@ function ShowBranchesOfMainDealer(props) {
                         <DialogActions>
                           <Button onClick={handleClose}>Back</Button>
                           <Button
-                            onClick={(e) => {
-                              handleClose(e);
+                            onClick={() => {
+                              handleClose();
                               removeRowDataofBranchesFromTable(
                                 props.mainDealerID,
                                 value
