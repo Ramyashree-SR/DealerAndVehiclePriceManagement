@@ -15,7 +15,7 @@ import { useState } from "react";
 import authToken from "./Components/AuthToken/AuthToken";
 
 function App() {
-  const [hideLoginScreen, setHideLoginScreen] = useState(true);
+  // const [hideLoginScreen, setHideLoginScreen] = useState(true);
 
   const tokenCredentials = authToken();
 

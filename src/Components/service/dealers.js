@@ -86,8 +86,9 @@ const showVehicleVariantsInMainDealer = (mainDealerID) => {
 
 const showVehicleVariantsToAddInMainDealer = (params) => {
   return serviceUtil
-    .get(`mainvariants?mainDealerID=${params}`)
+    .getWithResp(`mainvariants?mainDealerID=${params}`)
     .then((res) => {
+      // console.log(res,"mainVar");
       const data = res;
       return { data };
     })

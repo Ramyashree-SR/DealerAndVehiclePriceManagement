@@ -164,6 +164,7 @@ export default function DealerSubDealerTable(props) {
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [mainDealerData, setMainDealerData] = useState({});
   const [showVariants, setShowVariants] = useState([]);
+
   const [openAddDealerModal, setOpenAddDealerModal] = useState(false);
   const [openEditDealerModal, setOpenEditDealerModal] = useState(false);
   const [openShowVariants, setOpenShowVariants] = useState(false);
@@ -199,6 +200,7 @@ export default function DealerSubDealerTable(props) {
   const [openViewSubDealerModal, setopenViewSubDealerModal] = useState(false);
   const [viewSubDealerData, setViewSubDealerData] = useState({});
   const [showSubVariants, setShowSubVariants] = useState([]);
+  console.log(showSubVariants, "showSubVariants");
   const [showSubVariantsToAdd, setShowSubVariantsToAdd] = useState([]);
   const [openShowSubVariants, setOpenShowSubVariants] = useState(false);
 
@@ -386,7 +388,7 @@ export default function DealerSubDealerTable(props) {
 
   const getShowVariantsInMainDealers = async (mainDealerID) => {
     const { data } = await showVehicleVariantsInMainDealer(mainDealerID);
-    console.log(data, "showVariants");
+    // console.log(data, "showVariants");
     if (data) {
       if (data?.data?.error === "FALSE") {
         const vehicleData = data?.data?.data;
@@ -397,6 +399,7 @@ export default function DealerSubDealerTable(props) {
 
   const getAllAddVariantsDetails = async (params) => {
     const { data } = await showVehicleVariantsToAddInMainDealer(params);
+    // console.log(data?.data?.data,"mainVariantstoadd");
     if (data) {
       if (data) {
         if (data) {
@@ -409,18 +412,22 @@ export default function DealerSubDealerTable(props) {
 
   const getShowVariantsInSubDealers = async (subDealerID) => {
     const { data } = await showVehicleVariantsInSubDealer(subDealerID);
+    // console.log(data?.data?.data , "Adddata");
     if (data) {
-      let subData = data?.data?.data;
-      setShowSubVariants(subData);
+      if (data?.data?.error === "FALSE") {
+        let subData = data?.data?.data;
+        setShowSubVariants(subData);
+      }
     }
   };
 
   const getShowVariantsInSubDealersToAdd = async (subDealerID) => {
     const { data } = await showVehicleVariantsInSubDealerToAdd(subDealerID);
+    // console.log(data, "dataVariants");
     if (data) {
       // if (data) {
       let showData = data?.data?.data;
-      showSubVariantsToAdd([...showData]);
+      setShowSubVariantsToAdd([...showData]);
       // }
     }
   };
@@ -698,7 +705,9 @@ export default function DealerSubDealerTable(props) {
 
           <AddDealerModal
             show={openAddDealerModal}
-            close={() => setOpenAddDealerModal(false)}
+            close={() => {
+              setOpenAddDealerModal(false);
+            }}
             getDealersDetails={getDealersDetails}
             type={openEditDealerModal ? "edit" : "add"}
             disabled={openEditDealerModal ? "edit" : "add"}
@@ -1171,7 +1180,7 @@ export default function DealerSubDealerTable(props) {
                                           Activation Date
                                         </StyledSubTableCell>
                                         <StyledSubTableCell align="center">
-                                          Address
+                                          District
                                         </StyledSubTableCell>
                                         <StyledSubTableCell align="center">
                                           State
@@ -1228,11 +1237,12 @@ export default function DealerSubDealerTable(props) {
                                             {val.subDealerActivationData}
                                           </StyledSubTableCell>
                                           <StyledSubTableCell align="center">
-                                            {val.addressDetails}
+                                            {val.district}
                                           </StyledSubTableCell>
                                           <StyledSubTableCell align="center">
                                             {val.state}
                                           </StyledSubTableCell>
+
                                           <StyledSubTableCell align="center">
                                             <Grid
                                               sx={{

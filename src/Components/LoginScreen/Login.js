@@ -121,7 +121,7 @@ function Login() {
       } else {
         navigate("/dashboard");
       }
-      addToast(data.message, { appearance: "success" });
+      addToast("Successfully Logged In...", { appearance: "success" });
       window.location.reload();
     } else if (errRes) {
       addToast(errRes, { appearance: "error" });

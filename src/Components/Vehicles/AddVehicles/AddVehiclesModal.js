@@ -10,6 +10,12 @@ import {
 import { stateDropDownApi } from "../../service/stateapi/stateapi";
 
 import AddIcon from "@mui/icons-material/Add";
+import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers";
+import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
+import { DemoContainer } from "@mui/x-date-pickers/internals/demo";
+import moment from "moment/moment";
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import dayjs from "dayjs";
 
 function AddVehiclesModal(props) {
   const [vehicleOEM, setVehicleOEM] = useState([]);
@@ -33,6 +39,8 @@ function AddVehiclesModal(props) {
     vehicleMaxLoanAmount: "",
     vehicalOnRoadPrice: "",
     exShowRoomPrice: "",
+    priceActivationDate: "",
+    priceExpireDate: "",
   });
 
   const handleStateChange = (name, e, value) => {
@@ -62,7 +70,7 @@ function AddVehiclesModal(props) {
     }
     return (9 * price).toFixed(2);
   };
-  
+
   useEffect(() => {
     getStateDetails();
   }, []);
@@ -115,7 +123,7 @@ function AddVehiclesModal(props) {
       ...addNewVehicles,
       [name]: value,
     });
-    setShowModel(true)
+    setShowModel(true);
     setshowVariant(true);
     getVariantDetails(value);
   };
@@ -158,6 +166,7 @@ function AddVehiclesModal(props) {
       setVehicleVariant([]);
     }
   };
+
   const addNewVehicleDetails = async () => {
     let payload = {
       // vehicleId:addNewVehicles?.vehicleId,
@@ -167,6 +176,12 @@ function AddVehiclesModal(props) {
       vehicleState: addNewVehicles?.vehicleState,
       vehicalOnRoadPrice: onRoadPrice,
       vehicleMaxLoanAmount: maxLoanAmt,
+      priceActivationDate: moment(
+        new Date(addNewVehicles?.priceActivationDate)
+      ).format("YYYY-MM-DD"),
+      priceExpireDate: moment(new Date(addNewVehicles.priceExpireDate)).format(
+        "YYYY-MM-DD"
+      ),
     };
     const { data } = await addAllNewVehicleDetails(payload);
     // console.log(data,"dataadd");
@@ -179,10 +194,32 @@ function AddVehiclesModal(props) {
         vehicalOnRoadPrice: "",
         vehicleMaxLoanAmount: "",
         exShowRoomPrice: "",
+        priceActivationDate: "",
+        priceExpireDate: "",
       });
     }
     // props.getVehicleVariantsDetails(data?.data.data)
     props.close();
+  };
+
+  const handleActivationDateChange = (val) => {
+    const date = moment(val).format("YYYY-MM-DD");
+    setaddNewVehicles({
+      ...addNewVehicles,
+      priceActivationDate: date,
+    });
+    // const date = [...addNewVehicles];
+    // date.priceActivationDate = val;
+    // date.priceExpireDate = null;
+    // setaddNewVehicles([...date]);
+  };
+
+  const handleExpiryDateChange = (val) => {
+    const date = moment(val).format("YYYY-MM-DD");
+    setaddNewVehicles({
+      ...addNewVehicles,
+      priceExpireDate: date,
+    });
   };
 
   const addBtnClick = () => {
@@ -202,7 +239,7 @@ function AddVehiclesModal(props) {
         aria-labelledby="contained-modal-title-vcenter"
         centered
       >
-        <Modal.Header >
+        <Modal.Header>
           <Modal.Title
             id="contained-modal-title-vcenter"
             className="text-align-center"
@@ -396,17 +433,48 @@ function AddVehiclesModal(props) {
                 onChange={(e) => updateChange(e)}
               />
             </Grid>
-            <TextField
-              type="number"
-              id="outlined-basic"
-              label="Max Loan Amount *"
-              variant="outlined"
-              // size="small"
-              sx={{ m: 1 }}
-              name="maxLoanAmt"
-              value={maxLoanAmt}
-              onChange={(e) => updateChange(e)}
-            />
+            <Grid sx={{ display: "flex" }}>
+              <TextField
+                type="number"
+                id="outlined-basic"
+                label="Max Loan Amount *"
+                variant="outlined"
+                // size="small"
+                sx={{ m: 1 }}
+                name="maxLoanAmt"
+                value={maxLoanAmt}
+                onChange={(e) => updateChange(e)}
+              />
+
+              <LocalizationProvider dateAdapter={AdapterDateFns}>
+                <DemoContainer components={["DatePicker"]}>
+                  <DatePicker
+                    label="Activation Date"
+                    inputFormat="YYYY-MM-DD"
+                    disablePast={true}
+                    value={new Date(addNewVehicles?.priceActivationDate)}
+                    onChange={(e, val) => {
+                      handleActivationDateChange(e, val);
+                    }}
+                    sx={{ width: 225, ml: 1 }}
+                  />
+                </DemoContainer>
+              </LocalizationProvider>
+
+              <LocalizationProvider dateAdapter={AdapterDateFns}>
+                <DemoContainer components={["DatePicker"]}>
+                  <DatePicker
+                    label="Expiry Date"
+                    inputFormat="YYYY-MM-DD"
+                    value={new Date(addNewVehicles?.priceExpireDate)}
+                    onChange={(e) => {
+                      handleExpiryDateChange(e);
+                    }}
+                    sx={{ width: 225, ml: 1 }}
+                  />
+                </DemoContainer>
+              </LocalizationProvider>
+            </Grid>
           </Grid>
         </Modal.Body>
         <Modal.Footer>

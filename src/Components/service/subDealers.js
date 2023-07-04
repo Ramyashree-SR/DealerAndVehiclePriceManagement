@@ -29,7 +29,6 @@ const addSubDealersDetails = (params, payload) => {
 const editSubDealersDetails = (params, payload) => {
   return serviceUtil
     .put(`editsubdealer?subDealerID=${params}`, payload)
-
     .then((res) => {
       console.log(params, "params");
       const data = res;
@@ -46,6 +45,7 @@ const showVehicleVariantsInSubDealer = (params) => {
   return serviceUtil
     .get(`avaliablesubvariants?subDealerID=${params}`)
     .then((res) => {
+      // console.log(res, "vehicle");
       const data = res;
       return { data };
     })
@@ -59,7 +59,7 @@ const showVehicleVariantsInSubDealerToAdd = (params) => {
   return serviceUtil
     .get(`subvariants?subDealerID=${params}`)
     .then((res) => {
-      console.log(res,"response");
+      // console.log(res, "response");
       const data = res;
       return { data };
     })

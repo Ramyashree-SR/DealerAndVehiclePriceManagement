@@ -528,6 +528,12 @@ export default function VehicleChecker(props) {
                     Max Loan Amount
                   </StyledTableCell>
                   <StyledTableCell align="center">
+                    Price Activation Date
+                  </StyledTableCell>
+                  <StyledTableCell align="center">
+                    Price Expiry Date
+                  </StyledTableCell>
+                  <StyledTableCell align="center">
                     Updated UserID
                   </StyledTableCell>
                   <StyledTableCell align="center">Updated Date</StyledTableCell>
@@ -584,6 +590,12 @@ export default function VehicleChecker(props) {
                         </StyledTableCell>
                         <StyledTableCell align="center">
                           {row.vehicleMaxLoanAmount}
+                        </StyledTableCell>
+                        <StyledTableCell align="center">
+                          {row.priceActivationDate}
+                        </StyledTableCell>
+                        <StyledTableCell align="center">
+                          {row.priceExpireDate}
                         </StyledTableCell>
                         <StyledTableCell align="center">
                           {row.updaterUserID}

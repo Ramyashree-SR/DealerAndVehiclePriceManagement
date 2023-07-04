@@ -66,14 +66,13 @@ function ShowBranchesOfMainDealer(props) {
   const removeRowDataofBranchesFromTable = async (params, value) => {
     let payload = [value];
     const { data } = await removeAllBranchesInMainDealer(params, payload);
+    console.log(data?.data?.data, "removedata");
     if (data?.data?.error === "FALSE") {
       setRemoveRowData([]);
       props.getShowBranchesInMainDealers(props.mainDealerID);
       props.getShowBranchesToAddInMainDealers(props.mainDealerID);
     }
   };
-
-  
 
   return (
     <>

@@ -114,7 +114,7 @@ export default function AddDealerModal(props) {
   const [IfscError, setIfscError] = useState("");
 
   const nameRegex = /^[A-Za-z]+$/;
-  const mobileRegex = /^(\+|\d)[0-9]{7,16}$/;
+  const mobileRegex = /^(\+|\d)[0-9]{9}$/;
   const emailRegex = /^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+(\.\w{2,3})$/;
   const notAllowSpecialChar = /[^a-zA-Z0-9]/;
   const nameWithSpaces = /^[a-zA-Z ]*$/;
@@ -135,6 +135,7 @@ export default function AddDealerModal(props) {
       state: "",
       city: "",
       pinCode: "",
+      district: "",
       addressDetails: "",
       mainDealerPanNumber: "",
       mainDealerGstNumber: "",
@@ -165,6 +166,7 @@ export default function AddDealerModal(props) {
       state: "",
       city: "",
       pinCode: "",
+      district: "",
       addressDetails: "",
       mainDealerPanNumber: "",
       mainDealerGstNumber: "",
@@ -185,7 +187,7 @@ export default function AddDealerModal(props) {
       errorInForm = true;
       errObj.state = "*This field is required";
     }
-    if (addDealer.district === "") {
+    if (addDealer?.district === "") {
       errorInForm = true;
       errObj.district = "*This field is required";
     }
@@ -253,6 +255,11 @@ export default function AddDealerModal(props) {
       errorInForm = true;
       errObj.mainDealerBankAccNumber = "*This field is required";
     }
+    if (addDealer.mainDealerActivationStatus === "") {
+      errorInForm = true;
+      errObj.mainDealerActivationStatus = "*This field is required";
+    }
+
     if (addDealer.city === "") {
       errorInForm = true;
       errObj.city = "*This field is required";
@@ -261,15 +268,16 @@ export default function AddDealerModal(props) {
       errorInForm = true;
       errObj.pinCode = "*This field is required";
     }
+
     if (
-      !nameWithSpaces.test(addDealer.mainDealerName) &&
+      !nameWithSpaces.test(addDealer?.mainDealerName) &&
       addDealer.mainDealerName !== ""
     ) {
       errorInForm = true;
       errObj.mainDealerName = "*Invalid Dealer name";
     }
     if (
-      !nameWithSpaces.test(addDealer.mainDealerContactPersonName) &&
+      !nameWithSpaces.test(addDealer?.mainDealerContactPersonName) &&
       addDealer.mainDealerContactPersonName !== ""
     ) {
       errorInForm = true;
@@ -492,10 +500,16 @@ export default function AddDealerModal(props) {
         mainDealerPaniniCheck: "",
         mainDealerActivationStatus: "",
       });
+
       props.getDealersDetails(data?.data?.data);
-      addToast(data.message, { appearance: "success" });
+
       props.close();
+      addToast("Dealer Data Added Successfully", { appearance: "success" });
+      setTimeout(() => {
+        props.getDealersDetails();
+      }, 9000);
     } else if (errRes) {
+      props.close();
       addToast(errRes, { appearance: "error" });
     }
     // }
@@ -564,10 +578,10 @@ export default function AddDealerModal(props) {
 
   const handleActivationDateChange = (val) => {
     const date = moment(val).format("YYYY-MM-DD");
-
     setAddDealer({
       ...addDealer,
       mainDealerActivationData: date,
+      // mainDealerExpireData: null,
     });
   };
 
@@ -700,38 +714,49 @@ export default function AddDealerModal(props) {
             }}
           >
             <Grid sx={{ display: "flex" }}>
-              <Autocomplete
-                id="combo-box-demo"
-                options={vehicleOEM}
-                sx={{ width: 225, ml: 1, m: 1 }}
-                // size="small"
-                // getOptionLabel={(option) => option.oemName}
-                renderInput={(params) => (
-                  <TextField {...params} label="Select Vehicle OEM" />
+              <Grid>
+                <Autocomplete
+                  id="combo-box-demo"
+                  options={vehicleOEM}
+                  sx={{ width: 225, ml: 1, m: 1 }}
+                  // size="small"
+                  // getOptionLabel={(option) => option.oemName}
+                  renderInput={(params) => (
+                    <TextField {...params} label="Select Vehicle OEM" />
+                  )}
+                  name="mainDealerManufacturerName"
+                  value={addDealer?.mainDealerManufacturerName}
+                  onChange={(e, val) =>
+                    handleVehicleOEMChange("mainDealerManufacturerName", e, val)
+                  }
+                  disabled={props.type === "edit" ? true : false}
+                />
+                {error.mainDealerManufacturerName && (
+                  <Typography sx={{ color: "red" }}>
+                    {error.mainDealerManufacturerName}
+                  </Typography>
                 )}
-                name="mainDealerManufacturerName"
-                value={addDealer?.mainDealerManufacturerName}
-                onChange={(e, val) =>
-                  handleVehicleOEMChange("mainDealerManufacturerName", e, val)
-                }
-                disabled={props.type === "edit" ? true : false}
-              />
-
-              <Autocomplete
-                id="combo-box-demo"
-                options={dealerState}
-                sx={{ width: 225, ml: 1, m: 1 }}
-                filterOptions={(x) => x}
-                renderInput={(params) => (
-                  <TextField {...params} label="Select State" />
+              </Grid>
+              <Grid>
+                <Autocomplete
+                  id="combo-box-demo"
+                  options={dealerState}
+                  sx={{ width: 225, ml: 1, m: 1 }}
+                  filterOptions={(x) => x}
+                  renderInput={(params) => (
+                    <TextField {...params} label="Select State" />
+                  )}
+                  name="state"
+                  value={addDealer?.state}
+                  onChange={(e, value) => {
+                    handleStateChange("state", e, value);
+                  }}
+                  disabled={props.type === "edit" ? true : false}
+                />
+                {error.state && (
+                  <Typography sx={{ color: "red" }}>{error.state}</Typography>
                 )}
-                name="state"
-                value={addDealer?.state}
-                onChange={(e, value) => {
-                  handleStateChange("state", e, value);
-                }}
-                disabled={props.type === "edit" ? true : false}
-              />
+              </Grid>
 
               {/* <TextField
                 id="outlined-basic"
@@ -745,36 +770,44 @@ export default function AddDealerModal(props) {
                 required
               /> */}
 
-              <Autocomplete
-                disablePortal
-                id="combo-box-demo"
-                multiple
-                options={districtData}
-                filterSelectedOptions
-                getOptionLabel={(option) => option}
-                // defaultValue={[districtData[0]]}
-                sx={{ m: 1, width: 225, ml: 1 }}
-                size="large"
-                renderOption={(props, option, { selected }) => (
-                  <li {...props}>
-                    <Checkbox
-                      icon={icon}
-                      checkedIcon={checkedIcon}
-                      style={{ marginRight: 8 }}
-                      checked={selected}
-                    />
-                    {option}
-                  </li>
+              <Grid>
+                <Autocomplete
+                  disablePortal
+                  id="combo-box-demo"
+                  multiple
+                  options={districtData}
+                  filterSelectedOptions
+                  getOptionLabel={(option) => option}
+                  // defaultValue={[districtData[0]]}
+                  sx={{ m: 1, width: 225, ml: 1 }}
+                  size="large"
+                  renderOption={(props, option, { selected }) => (
+                    <li {...props}>
+                      <Checkbox
+                        icon={icon}
+                        checkedIcon={checkedIcon}
+                        style={{ marginRight: 8 }}
+                        checked={selected}
+                      />
+                      {option}
+                    </li>
+                  )}
+                  renderInput={(params) => (
+                    <TextField {...params} label="Select District " />
+                  )}
+                  name="district"
+                  // inputValue={addDealer?.district ?? ""}
+                  value={addDealer?.district}
+                  onChange={(e, value) => {
+                    handleDistrictChange("district", e, value);
+                  }}
+                />
+                {error.district && (
+                  <Typography sx={{ color: "red" }}>
+                    {error.district}
+                  </Typography>
                 )}
-                renderInput={(params) => (
-                  <TextField {...params} label="Select District " />
-                )}
-                name="district"
-                value={addDealer?.district}
-                onChange={(e, value) => {
-                  handleDistrictChange("district", e, value);
-                }}
-              />
+              </Grid>
             </Grid>
             <Grid sx={{ display: "flex" }}>
               <Grid>
@@ -944,9 +977,7 @@ export default function AddDealerModal(props) {
                   <Typography sx={{ color: "red" }}>{panNoError}</Typography>
                 )}
               </Grid>
-            </Grid>
 
-            <Grid sx={{ display: "flex" }}>
               <Grid>
                 <TextField
                   type="text"
@@ -966,7 +997,9 @@ export default function AddDealerModal(props) {
                   </Typography>
                 )}
               </Grid>
+            </Grid>
 
+            <Grid sx={{ display: "flex" }}>
               <Grid>
                 <TextField
                   type="text"
@@ -986,6 +1019,7 @@ export default function AddDealerModal(props) {
                   </Typography>
                 )}
               </Grid>
+
               <Grid>
                 <TextField
                   type="text"
@@ -1005,9 +1039,7 @@ export default function AddDealerModal(props) {
                   </Typography>
                 )}
               </Grid>
-            </Grid>
 
-            <Grid sx={{ display: "flex" }}>
               <Grid>
                 <TextField
                   type="number"
@@ -1027,6 +1059,9 @@ export default function AddDealerModal(props) {
                   </Typography>
                 )}
               </Grid>
+            </Grid>
+
+            <Grid sx={{ display: "flex" }}>
               <Grid>
                 <TextField
                   type="text"
@@ -1077,8 +1112,6 @@ export default function AddDealerModal(props) {
                 value={addDealer?.addressDetails}
                 onChange={(e) => updateChange(e)}
               /> */}
-            </Grid>
-            <Grid sx={{ display: "flex" }}>
               <Grid>
                 <TextField
                   type="text"
@@ -1093,7 +1126,8 @@ export default function AddDealerModal(props) {
                   required
                 />
               </Grid>
-
+            </Grid>
+            <Grid sx={{ display: "flex" }}>
               <Grid>
                 <TextField
                   type="number"
@@ -1117,6 +1151,7 @@ export default function AddDealerModal(props) {
                   <DatePicker
                     label="Activation Date"
                     inputFormat="YYYY-MM-DD"
+                    disablePast={true}
                     value={new Date(addDealer?.mainDealerActivationData)}
                     onChange={(e) => {
                       handleActivationDateChange(e);
@@ -1125,15 +1160,14 @@ export default function AddDealerModal(props) {
                   />
                 </DemoContainer>
               </LocalizationProvider>
-            </Grid>
 
-            <Grid sx={{ display: "flex" }}>
               <LocalizationProvider dateAdapter={AdapterDateFns}>
                 <DemoContainer components={["DatePicker"]}>
                   <DatePicker
                     label="Expiry Date"
                     inputFormat="YYYY-MM-DD"
                     defaultValue="00-00-2099"
+                    disablePast={false}
                     disabled={props.type === "edit" ? false : true}
                     value={new Date(addDealer?.mainDealerExpireData)}
                     onChange={(e) => {
@@ -1147,24 +1181,35 @@ export default function AddDealerModal(props) {
                   />
                 </DemoContainer>
               </LocalizationProvider>
-              <Autocomplete
-                id="combo-box-demo"
-                options={activationStatus}
-                sx={{ width: 225, m: 1 }}
-                filterOptions={(x) => x}
-                renderInput={(params) => (
-                  <TextField {...params} label="Dealer Status" />
+            </Grid>
+
+            <Grid sx={{ display: "flex" }}>
+              <Grid>
+                <Autocomplete
+                  id="combo-box-demo"
+                  options={activationStatus}
+                  sx={{ width: 225, m: 1 }}
+                  filterOptions={(x) => x}
+                  renderInput={(params) => (
+                    <TextField {...params} label="Dealer Status" />
+                  )}
+                  name="mainDealerActivationStatus"
+                  value={addDealer?.mainDealerActivationStatus}
+                  onChange={(event, newValue) => {
+                    handleActivationChange(
+                      "mainDealerActivationStatus",
+                      event,
+                      newValue
+                    );
+                  }}
+                />
+                {error.mainDealerActivationStatus && (
+                  <Typography sx={{ color: "red" }}>
+                    {error.mainDealerActivationStatus}
+                  </Typography>
                 )}
-                name="mainDealerActivationStatus"
-                value={addDealer?.mainDealerActivationStatus}
-                onChange={(event, newValue) => {
-                  handleActivationChange(
-                    "mainDealerActivationStatus",
-                    event,
-                    newValue
-                  );
-                }}
-              />
+              </Grid>
+
               <Autocomplete
                 id="combo-box-demo"
                 options={pennyCheckStatus}
@@ -1190,9 +1235,9 @@ export default function AddDealerModal(props) {
             <Grid sx={{ m: 1 }}>
               {props.type === "edit" ? (
                 <Button
-                  onClick={() =>
-                    editDealerDetails(props.EditDealerData.mainDealerID)
-                  }
+                  onClick={() => {
+                    editDealerDetails(props.EditDealerData.mainDealerID);
+                  }}
                   sx={{ m: 1 }}
                 >
                   Edit
@@ -1210,7 +1255,25 @@ export default function AddDealerModal(props) {
             </Grid>
 
             <Grid sx={{ m: 1 }}>
-              <Button onClick={props.close}>Cancel</Button>
+              {props.type === "edit" ? (
+                <Button
+                  onClick={() => {
+                    props.close();
+                    window.location.reload();
+                  }}
+                >
+                  Cancel
+                </Button>
+              ) : (
+                <Button
+                  onClick={() => {
+                    props.close();
+                  }}
+                >
+                  Cancel
+                </Button>
+              )}
+              ;
             </Grid>
           </Grid>
         </Modal.Footer>

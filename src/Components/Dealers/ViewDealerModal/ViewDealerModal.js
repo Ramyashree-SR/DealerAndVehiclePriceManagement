@@ -449,7 +449,7 @@ function ViewDealerModal(props) {
               onChange={(e) => updateChange(e)}
               disabled
             />
-            <TextField
+            {/* <TextField
               id="outlined-basic"
               label="Address"
               variant="outlined"
@@ -459,7 +459,7 @@ function ViewDealerModal(props) {
               value={editingDealer?.addressDetails}
               onChange={(e) => updateChange(e)}
               disabled
-            />
+            /> */}
             <TextField
               id="outlined-basic"
               label="City"
@@ -482,8 +482,7 @@ function ViewDealerModal(props) {
               onChange={(e) => updateChange(e)}
               disabled
             />
-            <Grid sx={{ display: "flex" }}>
-              <TextField
+             <TextField
                 id="outlined-basic"
                 label="Pincode"
                 variant="outlined"
@@ -494,6 +493,8 @@ function ViewDealerModal(props) {
                 onChange={(e) => updateChange(e)}
                 disabled
               />
+            <Grid sx={{ display: "flex" }}>
+             
               <LocalizationProvider dateAdapter={AdapterDateFns}>
                 <DemoContainer components={["DatePicker"]}>
                   <DatePicker
@@ -528,9 +529,7 @@ function ViewDealerModal(props) {
                   />
                 </DemoContainer>
               </LocalizationProvider>
-            </Grid>
 
-            <Grid sx={{ display: "flex" }}>
               <Autocomplete
                 id="combo-box-demo"
                 options={activationStatus}
@@ -551,6 +550,10 @@ function ViewDealerModal(props) {
                 }}
                 disabled
               />
+            </Grid>
+
+            <Grid sx={{ display: "flex" }}>
+              
 
               <Autocomplete
                 id="combo-box-demo"

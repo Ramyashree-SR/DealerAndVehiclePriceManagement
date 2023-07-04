@@ -499,7 +499,7 @@ export default function VehicleDetails(props) {
             display: "flex",
             alignItems: "center",
             justifyContent: "space-between",
-            width: "88%",
+            width: "87%",
             mt: 1,
             position: "fixed",
             zIndex: 1,
@@ -608,9 +608,17 @@ export default function VehicleDetails(props) {
                     Max Loan Amount
                   </StyledTableCell>
                   <StyledTableCell align="center">
+                    Price Activation Date
+                  </StyledTableCell>
+                  <StyledTableCell align="center">
+                    Price Expiry Date
+                  </StyledTableCell>
+
+                  <StyledTableCell align="center">
                     Updated UserID
                   </StyledTableCell>
                   <StyledTableCell align="center">Updated Date</StyledTableCell>
+
                   <StyledTableCell align="center">Actions</StyledTableCell>
                   <StyledTableCell align="center">
                     Checker Status
@@ -664,6 +672,12 @@ export default function VehicleDetails(props) {
                           {row.vehicleMaxLoanAmount}
                         </StyledTableCell>
                         <StyledTableCell align="center">
+                          {row.priceActivationDate}
+                        </StyledTableCell>
+                        <StyledTableCell align="center">
+                          {row.priceExpireDate}
+                        </StyledTableCell>
+                        <StyledTableCell align="center">
                           {row.updaterUserID}
                         </StyledTableCell>
                         <StyledTableCell align="center">
@@ -671,6 +685,7 @@ export default function VehicleDetails(props) {
                         </StyledTableCell>
 
                         <StyledTableCell align="center">
+                          <Grid sx={{display:"flex",flexDirection:"row"}}> 
                           <ColorIcon>
                             <Grid
                               sx={{
@@ -730,6 +745,7 @@ export default function VehicleDetails(props) {
                               </Grid>
                             </ColorIcon>
                           )}
+                        </Grid>
                         </StyledTableCell>
                         <StyledTableCell align="center">
                           {row.status}

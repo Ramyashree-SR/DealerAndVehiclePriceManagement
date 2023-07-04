@@ -36,10 +36,12 @@ function ShowSubVehicleVariantModal(props) {
     setPage(0);
   };
 
+  console.log(props.showSubVariants, "showSubVariants");
+
   useEffect(() => {
     const tempArr = [];
     props.showSubVariants?.map((item) => {
-      tempArr.push({ ...item });
+      return tempArr.push(item);
     });
     // setRemoveRowData([...props.showVariants]);
   }, [props.showSubVariants]);
@@ -132,7 +134,7 @@ function ShowSubVehicleVariantModal(props) {
           <TablePagination
             rowsPerPageOptions={[5, 10, 15]}
             component="div"
-            count={props.showSubVariants?.length}
+            count={props?.showSubVariants?.length}
             rowsPerPage={rowsPerPage}
             page={page}
             onPageChange={handleChangePage}
@@ -161,6 +163,8 @@ function ChildModal(props) {
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
   const [open, setOpen] = useState(false);
+
+  const [selectedId, setselectedId] = useState([]);
   const handleOpen = () => {
     setOpen(true);
   };
@@ -184,26 +188,49 @@ function ChildModal(props) {
     setaddvehicle([...props.showSubVariantsToAdd]);
   }, [props.showSubVariantsToAdd]);
 
-  function onCheckBoxClick(e, index) {
-    const tempState = [...addvehicle];
-    // console.log(tempState, "tempp");
-    tempState[index].checked = e.target.checked;
-    setaddvehicle([...tempState]);
+  const isSelected = (id) => selectedId.indexOf(id) !== -1;
+
+  function onCheckBoxClick(e, value, id) {
+    // setchecked(!checked);
+    // const tempState = [...addvehicle];
+
+    // tempState[index].checked = e.target.checked;
+    // setaddvehicle([...tempState]);
+    const selectedIndex = selectedId.indexOf(id);
+    let newSelected = [];
+
+    if (selectedIndex === -1) {
+      newSelected = newSelected.concat(selectedId, id);
+    } else if (selectedIndex === 0) {
+      newSelected = newSelected.concat(selectedId.slice(1));
+    } else if (selectedIndex === selectedId.length - 1) {
+      newSelected = newSelected.concat(selectedId.slice(0, -1));
+    } else if (selectedIndex > 0) {
+      newSelected = newSelected.concat(
+        selectedId.slice(0, selectedIndex),
+        selectedId.slice(selectedIndex + 1)
+      );
+    }
+    setselectedId(newSelected);
+    // window.location.reload();
   }
 
   const adddisplayedVariantToTheTable = async (params) => {
-    const tempState = [...addvehicle];
-    const checkedValue = tempState.filter((val) => val.checked);
-    if (checkedValue.length > 0) {
-      const { data } = await addVehicleVariantsInSubDealer(
-        params,
-        checkedValue
-      );
-      if (data?.data?.error === "False") {
-        props.getShowVariantsInSubDealers(props.subDealerID);
-        props.getShowVariantsInSubDealersToAdd(props.subDealerID);
+    // const tempState = [...addvehicle];
+    // const checkedValue = tempState.filter((val) => val.checked);
+    // if (checkedValue.length > 0) {
+    const payload = [];
+    props.showSubVariantsToAdd.forEach((item) => {
+      if (selectedId.includes(item.variantID)) {
+        payload.push(item);
       }
+    });
+    const { data } = await addVehicleVariantsInSubDealer(params, payload);
+    if (data?.data?.error === "False") {
+      props.getShowVariantsInSubDealers(props.subDealerID);
+      props.getShowVariantsInSubDealersToAdd(props.subDealerID);
     }
+    // }
   };
 
   return (
@@ -220,26 +247,28 @@ function ChildModal(props) {
           </tr>
         </thead>
 
-        <tbody className="table table-success table-striped">
+        <tbody className="table">
           {addvehicle
             ?.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-            .map((item, index) => (
-              <tr key={item.variantID}>
-                <td>
-                  <input
-                    type="checkbox"
-                    id="switch"
-                    checked={item.checked}
-                    value=""
-                    onChange={(e) => {
-                      onCheckBoxClick(e, index);
-                    }}
-                  />
-                </td>
-                <td style={{ fontWeight: "bold" }}>{item.variantID}</td>
-                <td style={{ fontWeight: "bold" }}>{item.variantName}</td>
-              </tr>
-            ))}
+            .map((item, index) => {
+              const isItemSelected = isSelected(item.variantID);
+              return (
+                <tr key={index}>
+                  <td>
+                    <input
+                      type="checkbox"
+                      id="switch"
+                      checked={isItemSelected}
+                      onChange={(e) => {
+                        onCheckBoxClick(e, item, item.variantID);
+                      }}
+                    />
+                  </td>
+                  <td style={{ fontWeight: "bold" }}>{item.variantID}</td>
+                  <td style={{ fontWeight: "bold" }}>{item.variantName}</td>
+                </tr>
+              );
+            })}
         </tbody>
       </table>
       <TablePagination

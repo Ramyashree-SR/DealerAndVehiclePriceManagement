@@ -243,7 +243,7 @@ const ChildModal = (props) => {
           </tr>
         </thead>
 
-        <tbody className="table  ">
+        <tbody className="table">
           {addMainVariant
             ?.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
             .map((val, idx) => {

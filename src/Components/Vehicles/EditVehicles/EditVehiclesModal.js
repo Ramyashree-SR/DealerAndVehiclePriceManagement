@@ -4,6 +4,10 @@ import { Button, Modal } from "react-bootstrap";
 import { editAllVehicleDetailsByRow } from "../../service/VehicleApi/VehicleApi";
 import { getVehiclePriceStatus } from "../../service/checker";
 import { useToasts } from "react-toast-notifications";
+import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers";
+import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
+import { DemoContainer } from "@mui/x-date-pickers/internals/demo";
+import moment from "moment/moment";
 
 function EditVehiclesModal(props) {
   const StatusOptions = ["APPROVED", "SEND BACK"];
@@ -19,7 +23,15 @@ function EditVehiclesModal(props) {
     MaxLoanAmount: "",
     vehicalOnRoadPrice: "",
     status: "",
+    priceActivationDate: "",
+    priceExpireDate: "",
   });
+  const calculateValue = (price) => {
+    if (isNaN(price)) {
+      return "";
+    }
+    return (9 * price).toFixed(2);
+  };
 
   const updateChange = (event) => {
     // if (event.target.name === "onRoadPrice") {
@@ -30,16 +42,11 @@ function EditVehiclesModal(props) {
       [event.target.name]: event.target.value,
     });
     // }
-    // const calculated = calculateValue(parseFloat(onRoadPrice));
-    // setMaxLoanAmt(calculated);
-  };
+    setOnRoadPrice(event.target.value);
 
-  // const calculateValue = (price) => {
-  //   if (isNaN(price)) {
-  //     return "";
-  //   }
-  //   return (9 * price).toFixed(2);
-  // };
+    const calculated = calculateValue(parseFloat(onRoadPrice));
+    setMaxLoanAmt(calculated);
+  };
 
   useEffect(() => {
     seteditVehicles({ ...props.editVehicleData });
@@ -52,8 +59,14 @@ function EditVehiclesModal(props) {
       vehicleVariant: editVehicles?.vehicleVariant,
       vehicalOem: editVehicles?.vehicalOem,
       state: editVehicles?.vehicalState,
-      vehicleMaxLoanAmount: editVehicles?.vehicleMaxLoanAmount,
-      vehicalOnRoadPrice: editVehicles?.vehicalOnRoadPrice,
+      vehicalOnRoadPrice: onRoadPrice,
+      vehicleMaxLoanAmount: maxLoanAmt,
+      priceActivationDate: moment(
+        new Date(editVehicles?.priceActivationDate)
+      ).format("YYYY-MM-DD"),
+      priceExpireDate: moment(new Date(editVehicles.priceExpireDate)).format(
+        "YYYY-MM-DD"
+      ),
       status: editVehicles?.status,
     };
     const { data } = await editAllVehicleDetailsByRow(vehicleId, payload);
@@ -67,6 +80,8 @@ function EditVehiclesModal(props) {
         vehicleMaxLoanAmount: "",
         vehicalOnRoadPrice: "",
         status: "",
+        priceActivationDate: "",
+        priceExpireDate: "",
       });
     }
     props.getVehicleVariantsDetails();
@@ -80,6 +95,22 @@ function EditVehiclesModal(props) {
     }));
   };
 
+  const handleActivationDateChange = (val) => {
+    const date = moment(val).format("YYYY-MM-DD");
+    seteditVehicles({
+      ...editVehicles,
+      priceActivationDate: date,
+    });
+  };
+
+  const handleExpiryDateChange = (val) => {
+    const date = moment(val).format("YYYY-MM-DD");
+    seteditVehicles({
+      ...editVehicles,
+      priceExpireDate: date,
+    });
+  };
+
   const getStatusOfVehiclesByChecker = async (vehicleId) => {
     let payload = {
       vehicleId: editVehicles?.vehicleId,
@@ -87,9 +118,11 @@ function EditVehiclesModal(props) {
       vehicleVariant: editVehicles?.vehicleVariant,
       vehicalOem: editVehicles?.vehicalOem,
       state: editVehicles?.vehicalState,
-      vehicleMaxLoanAmount: editVehicles?.vehicleMaxLoanAmount,
-      vehicalOnRoadPrice: editVehicles?.vehicalOnRoadPrice,
+      vehicalOnRoadPrice: onRoadPrice,
+      vehicleMaxLoanAmount: maxLoanAmt,
       status: editVehicles?.status,
+      priceExpireDate: editVehicles?.priceExpireDate,
+      priceActivationDate: editVehicles?.priceActivationDate,
     };
     const { data, errRes } = await getVehiclePriceStatus(vehicleId, payload);
     if (data) {
@@ -124,82 +157,119 @@ function EditVehiclesModal(props) {
             sx={{ m: 1, alignItems: "center", justifyContent: "space-around" }}
             key={editVehicles.vehicleId}
           >
-            <TextField
-              id="outlined-basic"
-              label="Vehicle ID"
-              variant="outlined"
-              // size="small"
-              sx={{ m: 1 }}
-              name="vehicleId"
-              value={editVehicles?.vehicleId}
-              onChange={(e) => updateChange(e)}
-              disabled
-            />
-            <TextField
-              id="outlined-basic"
-              label="Vehiclle State"
-              variant="outlined"
-              // size="small"
-              sx={{ m: 1 }}
-              name="vehicalState"
-              value={editVehicles?.vehicalState}
-              onChange={(e) => updateChange(e)}
-              disabled
-            />
+            <Grid>
+              <TextField
+                id="outlined-basic"
+                label="Vehicle ID"
+                variant="outlined"
+                // size="small"
+                sx={{ m: 1 }}
+                name="vehicleId"
+                value={editVehicles?.vehicleId}
+                onChange={(e) => updateChange(e)}
+                disabled
+              />
+              <TextField
+                id="outlined-basic"
+                label="Vehiclle State"
+                variant="outlined"
+                // size="small"
+                sx={{ m: 1 }}
+                name="vehicalState"
+                value={editVehicles?.vehicalState}
+                onChange={(e) => updateChange(e)}
+                disabled
+              />
 
-            <TextField
-              id="outlined-basic"
-              label="Vehicle OEM"
-              variant="outlined"
-              // size="small"
-              sx={{ m: 1 }}
-              name="vehicalOem"
-              value={editVehicles?.vehicalOem}
-              onChange={(e) => updateChange(e)}
-              disabled
-            />
-            <TextField
-              id="outlined-basic"
-              label="Vehicle Model"
-              variant="outlined"
-              // size="small"
-              sx={{ m: 1 }}
-              name="vehicleModel"
-              value={editVehicles?.vehicleModel}
-              onChange={(e) => updateChange(e)}
-            />
-            <TextField
-              id="outlined-basic"
-              label="Vehicle Variant"
-              variant="outlined"
-              // size="small"
-              sx={{ m: 1 }}
-              name="vehicleVariant"
-              value={editVehicles?.vehicleVariant}
-              onChange={(e) => updateChange(e)}
-            />
-            <TextField
-              id="outlined-basic"
-              label="On Road Price"
-              variant="outlined"
-              // size="small"
-              sx={{ m: 1 }}
-              name="onRoadPrice"
-              value={editVehicles?.vehicalOnRoadPrice}
-              onChange={(e) => updateChange(e)}
-            />
+              <TextField
+                id="outlined-basic"
+                label="Vehicle OEM"
+                variant="outlined"
+                // size="small"
+                sx={{ m: 1 }}
+                name="vehicalOem"
+                value={editVehicles?.vehicalOem}
+                onChange={(e) => updateChange(e)}
+                disabled
+              />
+            </Grid>
+            <Grid>
+              <TextField
+                id="outlined-basic"
+                label="Vehicle Model"
+                variant="outlined"
+                // size="small"
+                sx={{ m: 1 }}
+                name="vehicleModel"
+                value={editVehicles?.vehicleModel}
+                onChange={(e) => updateChange(e)}
+              />
+              <TextField
+                id="outlined-basic"
+                label="Vehicle Variant"
+                variant="outlined"
+                // size="small"
+                sx={{ m: 1 }}
+                name="vehicleVariant"
+                value={editVehicles?.vehicleVariant}
+                onChange={(e) => updateChange(e)}
+              />
+              <TextField
+                type="number"
+                id="outlined-basic"
+                label="On Road Price"
+                variant="outlined"
+                // size="small"
+                sx={{ m: 1 }}
+                name="vehicalOnRoadPrice"
+                value={editVehicles?.vehicalOnRoadPrice}
+                onChange={(e) => updateChange(e)}
+                required
+              />
+            </Grid>
+            <Grid sx={{ display: "flex" }}>
+              <TextField
+                type="number"
+                id="outlined-basic"
+                label="Max Loan Amount"
+                variant="outlined"
+                // size="small"
+                sx={{ m: 1 }}
+                name="vehicleMaxLoanAmount"
+                value={editVehicles?.vehicleMaxLoanAmount}
+                onChange={(e) => updateChange(e)}
+                required
+                disabled
+              />
 
-            <TextField
-              id="outlined-basic"
-              label="Max Loan Amount"
-              variant="outlined"
-              // size="small"
-              sx={{ m: 1 }}
-              name="maxLoanAmt"
-              value={editVehicles?.vehicleMaxLoanAmount}
-              onChange={(e) => updateChange(e)}
-              disabled
-            />
+              <LocalizationProvider dateAdapter={AdapterDateFns}>
+                <DemoContainer components={["DatePicker"]}>
+                  <DatePicker
+                    label="Activation Date"
+                    inputFormat="YYYY-MM-DD"
+                    value={new Date(editVehicles?.priceActivationDate)}
+                    onChange={(e) => {
+                      handleActivationDateChange(e);
+                    }}
+                    sx={{ width: 225, ml: 1 }}
+                  />
+                </DemoContainer>
+              </LocalizationProvider>
+
+              <LocalizationProvider dateAdapter={AdapterDateFns}>
+                <DemoContainer components={["DatePicker"]}>
+                  <DatePicker
+                    label="Expiry Date"
+                    inputFormat="YYYY-MM-DD"
+                    value={new Date(editVehicles?.priceExpireDate)}
+                    onChange={(e) => {
+                      handleExpiryDateChange(e);
+                    }}
+                    sx={{ width: 225, ml: 1 }}
+                  />
+                </DemoContainer>
+              </LocalizationProvider>
+            </Grid>
           </Grid>
         </Modal.Body>
         <Modal.Footer>

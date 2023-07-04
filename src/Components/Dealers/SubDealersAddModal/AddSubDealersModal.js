@@ -78,9 +78,10 @@ export default function AddSubDealerModal(props) {
   };
 
   const [contactError, setContactError] = useState("");
+
   let ContactNumberValidation = () => {
     if (addSubDealer.subDealerContactNumber) {
-      let regex = /^[0-9]*\d$/;
+      let regex = /^(\+|\d)[0-9]{9}$/;
       if (regex.test(addSubDealer.subDealerContactNumber)) {
         setContactError("");
         return true;
