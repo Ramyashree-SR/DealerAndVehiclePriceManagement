@@ -127,7 +127,7 @@ function UploadDocumentsModal(props) {
 
   const handleAgreementFileDownload = async (mainDealerId, documentType) => {
     const response = await fetch(
-      `http://caglcampaignleads.grameenkoota.in:8080/TwoWheelerLoan/getfile?mainDealerID=${mainDealerId}&documentType=${documentType}`
+      `https://caglcampaignleads.grameenkoota.in/TwoWheelerLoan/getfile?mainDealerID=${mainDealerId}&documentType=${documentType}`
       //http://localhost:9666/getfile?mainDealerID=${mainDealerId}&documentType=${documentType}
     );
 
@@ -152,7 +152,7 @@ function UploadDocumentsModal(props) {
     filename
   ) => {
     const response = await fetch(
-      `http://caglcampaignleads.grameenkoota.in:8080/TwoWheelerLoan/getfile?mainDealerID=${mainDealerId}&documentType=${documentType}`
+      `https://caglcampaignleads.grameenkoota.in/TwoWheelerLoan/getfile?mainDealerID=${mainDealerId}&documentType=${documentType}`
     );
 
     const blobImage = await response.blob();
@@ -176,7 +176,7 @@ function UploadDocumentsModal(props) {
     filename
   ) => {
     const response = await fetch(
-      `http://caglcampaignleads.grameenkoota.in:8080/TwoWheelerLoan/getfile?mainDealerID=${mainDealerId}&documentType=${documentType}`
+      `https://caglcampaignleads.grameenkoota.in/TwoWheelerLoan/getfile?mainDealerID=${mainDealerId}&documentType=${documentType}`
     );
 
     const blobImage = await response.blob();
@@ -195,7 +195,7 @@ function UploadDocumentsModal(props) {
   };
   const handleGstCertificateDownload = async (mainDealerId, documentType) => {
     const response = await fetch(
-      `http://caglcampaignleads.grameenkoota.in:8080/TwoWheelerLoan/getfile?mainDealerID=${mainDealerId}&documentType=${documentType}`
+      `https://caglcampaignleads.grameenkoota.in/TwoWheelerLoan/getfile?mainDealerID=${mainDealerId}&documentType=${documentType}`
     );
     const blobImage = await response.blob();
     const href = URL.createObjectURL(blobImage);
@@ -215,7 +215,7 @@ function UploadDocumentsModal(props) {
     documentType
   ) => {
     const response = await fetch(
-      `http://caglcampaignleads.grameenkoota.in:8080/TwoWheelerLoan/getfile?mainDealerID=${mainDealerId}&documentType=${documentType}`
+      `https://caglcampaignleads.grameenkoota.in/TwoWheelerLoan/getfile?mainDealerID=${mainDealerId}&documentType=${documentType}`
     );
 
     const blobImage = await response.blob();
@@ -235,7 +235,7 @@ function UploadDocumentsModal(props) {
 
   const handlePennyCheckFileDownload = async (mainDealerId, documentType) => {
     const response = await fetch(
-      `http://caglcampaignleads.grameenkoota.in:8080/TwoWheelerLoan/getfile?mainDealerID=${mainDealerId}&documentType=${documentType}`
+      `https://caglcampaignleads.grameenkoota.in/TwoWheelerLoan/getfile?mainDealerID=${mainDealerId}&documentType=${documentType}`
     );
 
     const blobImage = await response.blob();
@@ -255,7 +255,7 @@ function UploadDocumentsModal(props) {
 
   const handleApproveMailsDownload = async (mainDealerId, documentType) => {
     const response = await fetch(
-      `http://caglcampaignleads.grameenkoota.in:8080/TwoWheelerLoan/getfile?mainDealerID=${mainDealerId}&documentType=${documentType}`
+      `https://caglcampaignleads.grameenkoota.in/TwoWheelerLoan/getfile?mainDealerID=${mainDealerId}&documentType=${documentType}`
     );
 
     const blobImage = await response.blob();
@@ -426,7 +426,7 @@ function UploadDocumentsModal(props) {
                 Download
               </Button>
               <a
-                href={`http://caglcampaignleads.grameenkoota.in:8080/TwoWheelerLoan/viewimage?mainDealerID=${mainDealerId}&documentType=${"AgreementFile"}`}
+                href={`https://caglcampaignleads.grameenkoota.in/TwoWheelerLoan/viewimage?mainDealerID=${mainDealerId}&documentType=${"AgreementFile"}`}
                 //http://localhost:9666/viewimage?mainDealerID=${mainDealerId}&documentType=${"AgreementFile"}
                 target="_blank"
                 rel="noreferrer"
@@ -545,7 +545,7 @@ function UploadDocumentsModal(props) {
                 Download
               </Button>
               <a
-                href={`http://caglcampaignleads.grameenkoota.in:8080/TwoWheelerLoan/viewimage?mainDealerID=${mainDealerId}&documentType=${"PanCardDetails"}`}
+                href={`https://caglcampaignleads.grameenkoota.in/TwoWheelerLoan/viewimage?mainDealerID=${mainDealerId}&documentType=${"PanCardDetails"}`}
                 target="_blank"
                 rel="noreferrer"
                 onClick={() =>
@@ -663,7 +663,7 @@ function UploadDocumentsModal(props) {
                 Download
               </Button>
               <a
-                href={`http://caglcampaignleads.grameenkoota.in:8080/TwoWheelerLoan/viewimage?mainDealerID=${mainDealerId}&documentType=${"KYCDetails"}`}
+                href={`https://caglcampaignleads.grameenkoota.in/TwoWheelerLoan/viewimage?mainDealerID=${mainDealerId}&documentType=${"KYCDetails"}`}
                 target="_blank"
                 rel="noreferrer"
                 onClick={() => handleKycFileView(mainDealerId, "KYCDetails")}
@@ -779,7 +779,7 @@ function UploadDocumentsModal(props) {
                 Download
               </Button>
               <a
-                href={`http://caglcampaignleads.grameenkoota.in:8080/TwoWheelerLoan/viewimage?mainDealerID=${mainDealerId}&documentType=${"GSTCertificate"}`}
+                href={`https://caglcampaignleads.grameenkoota.in/TwoWheelerLoan/viewimage?mainDealerID=${mainDealerId}&documentType=${"GSTCertificate"}`}
                 target="_blank"
                 rel="noreferrer"
                 onClick={() =>
@@ -897,7 +897,7 @@ function UploadDocumentsModal(props) {
                 Download
               </Button>
               <a
-                href={`http://caglcampaignleads.grameenkoota.in:8080/TwoWheelerLoan/viewimage?mainDealerID=${mainDealerId}&documentType=${"BankStatementFile"}`}
+                href={`https://caglcampaignleads.grameenkoota.in/TwoWheelerLoan/viewimage?mainDealerID=${mainDealerId}&documentType=${"BankStatementFile"}`}
                 target="_blank"
                 rel="noreferrer"
                 onClick={() =>
@@ -1025,7 +1025,7 @@ function UploadDocumentsModal(props) {
                 View
               </Button> */}
               <a
-                href={`http://caglcampaignleads.grameenkoota.in:8080/TwoWheelerLoan/viewimage?mainDealerID=${mainDealerId}&documentType=${"PennyCheck"}`}
+                href={`https://caglcampaignleads.grameenkoota.in/TwoWheelerLoan/viewimage?mainDealerID=${mainDealerId}&documentType=${"PennyCheck"}`}
                 target="_blank"
                 rel="noreferrer"
                 onClick={() =>
@@ -1143,7 +1143,7 @@ function UploadDocumentsModal(props) {
                 View
               </Button> */}
               <a
-                href={`http://caglcampaignleads.grameenkoota.in:8080/TwoWheelerLoan/viewimage?mainDealerID=${mainDealerId}&documentType=${"ApproveMails"}`}
+                href={`https://caglcampaignleads.grameenkoota.in/TwoWheelerLoan/viewimage?mainDealerID=${mainDealerId}&documentType=${"ApproveMails"}`}
                 target="_blank"
                 rel="noreferrer"
                 onClick={() =>

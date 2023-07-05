@@ -358,10 +358,10 @@ export default function AddSubDealerModal(props) {
                   <TextField {...params} label="Select District " />
                 )}
                 name="district"
-                // value={addSubDealer?.district}
-                onChange={(e, value) => {
-                  handleDistrictChange("district", e, value);
-                }}
+                value={props.EditSubDealerData.district}
+                onChange={(e, value) =>
+                  handleDistrictChange("district", e, value)
+                }
               />
             </Grid>
             <Grid sx={{ display: "flex" }}>

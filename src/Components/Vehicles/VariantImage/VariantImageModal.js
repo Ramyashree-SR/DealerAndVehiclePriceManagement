@@ -168,7 +168,7 @@ function VariantImageModal(props) {
                             </div>
                             <div style={{ flexBasis: "50%" }}>
                               <a
-                                href={`http://caglcampaignleads.grameenkoota.in:8080/TwoWheelerLoan/viewvariantimage?variantID=${item.variantID}`}
+                                href={`https://caglcampaignleads.grameenkoota.in/TwoWheelerLoan/viewvariantimage?variantID=${item.variantID}`}
                                 //http://localhost:9666/viewvariantimage?variantID=${item.variantID}
                                 target="_blank"
                                 rel="noreferrer"

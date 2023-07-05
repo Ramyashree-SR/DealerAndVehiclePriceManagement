@@ -448,18 +448,19 @@ function ViewSubDealerModal(props) {
               onChange={(e) => updateChange(e)}
               disabled
             />
-            <TextField
-              id="outlined-basic"
-              label="Pincode"
-              variant="outlined"
-              // size="small"
-              sx={{ m: 1 }}
-              name="pinCode"
-              value={editingDealer?.pinCode}
-              onChange={(e) => updateChange(e)}
-              disabled
-            />
             <Grid sx={{ display: "flex" }}>
+              <TextField
+                id="outlined-basic"
+                label="Pincode"
+                variant="outlined"
+                // size="small"
+                sx={{ m: 1 }}
+                name="pinCode"
+                value={editingDealer?.pinCode}
+                onChange={(e) => updateChange(e)}
+                disabled
+              />
+
               <LocalizationProvider dateAdapter={AdapterDateFns}>
                 <DemoContainer components={["DatePicker"]}>
                   <DatePicker
@@ -495,28 +496,27 @@ function ViewSubDealerModal(props) {
                   />
                 </DemoContainer>
               </LocalizationProvider>
-
-              <Autocomplete
-                id="combo-box-demo"
-                options={activationStatus}
-                sx={{ width: 225, m: 2, ml: 1 }}
-                filterOptions={(x) => x}
-                renderInput={(params) => (
-                  <TextField {...params} label="Select Activation Status" />
-                )}
-                name="subDealerActivationStatus"
-                value={editingDealer?.subDealerActivationStatus}
-                // inputValue={dealerTypeStatus}
-                onChange={(event, newValue) => {
-                  handleActivationChange(
-                    "subDealerActivationStatus",
-                    event,
-                    newValue
-                  );
-                }}
-                disabled
-              />
             </Grid>
+            <Autocomplete
+              id="combo-box-demo"
+              options={activationStatus}
+              sx={{ width: 225, m: 2, ml: 1 }}
+              filterOptions={(x) => x}
+              renderInput={(params) => (
+                <TextField {...params} label="Select Activation Status" />
+              )}
+              name="subDealerActivationStatus"
+              value={editingDealer?.subDealerActivationStatus}
+              // inputValue={dealerTypeStatus}
+              onChange={(event, newValue) => {
+                handleActivationChange(
+                  "subDealerActivationStatus",
+                  event,
+                  newValue
+                );
+              }}
+              disabled
+            />
 
             <Grid sx={{ display: "flex" }}>
               {/* <Autocomplete

@@ -429,10 +429,15 @@ export default function AddDealerModal(props) {
 
   const handleDistrictChange = (name, e, val) => {
     // setAddDealer(val);
-    setAddDealer(() => ({
+    setAddDealer({
       ...addDealer,
       [name]: val,
-    }));
+      // ...val.filter((option) => addDealer.indexOf(option) === -1),
+    });
+
+    if (e) {
+      setAddDealer(val);
+    }
   };
 
   const handleVehicleOEMChange = (name, event, value) => {
@@ -500,9 +505,7 @@ export default function AddDealerModal(props) {
         mainDealerPaniniCheck: "",
         mainDealerActivationStatus: "",
       });
-
       props.getDealersDetails(data?.data?.data);
-
       props.close();
       addToast("Dealer Data Added Successfully", { appearance: "success" });
       setTimeout(() => {
@@ -661,7 +664,45 @@ export default function AddDealerModal(props) {
 
   useEffect(() => {
     if (props.type === "edit") {
-      getEditDetails(props.EditDealerData);
+      // getEditDetails(props.EditDealerData);
+      setAddDealer({
+        mainDealerName: props.EditDealerData?.mainDealerName,
+        dealerType: props.EditDealerData?.dealerType,
+        mainDealerMailID: props.EditDealerData?.mainDealerMailID,
+        mainDealerManufacturerName:
+          props.EditDealerData?.mainDealerManufacturerName,
+        mainDealerContactNumber: props.EditDealerData?.mainDealerContactNumber,
+        mainDealerAlternateContactNumber:
+          props.EditDealerData?.mainDealerAlternateContactNumber,
+        contactPersonMobile: props.EditDealerData?.contactPersonMobile,
+        mainDealerContactPersonName:
+          props.EditDealerData?.mainDealerContactPersonName,
+        mainDealerPaymentEligible:
+          props.EditDealerData?.mainDealerPaymentEligible,
+        mainDealerActivationData: moment(
+          new Date(props.EditDealerData?.mainDealerActivationData)
+        ).format("YYYY-MM-DD"),
+        mainDealerExpireData: moment(
+          new Date(props.EditDealerData?.mainDealerExpireData)
+        ).format("YYYY-MM-DD"),
+        addressDetails: props.EditDealerData?.addressDetails,
+        state: props.EditDealerData?.state,
+        district: props.EditDealerData?.district,
+        city: props.EditDealerData?.city,
+        pinCode: props.EditDealerData.pinCode,
+        mainDealerPanNumber: props.EditDealerData?.mainDealerPanNumber,
+        mainDealerGstNumber: props.EditDealerData?.mainDealerGstNumber,
+        mainDealerBankName: props.EditDealerData?.mainDealerBankName,
+        mainDealerBankBranchName:
+          props.EditDealerData?.mainDealerBankBranchName,
+        mainDealerBankAccNumber: props.EditDealerData?.mainDealerBankAccNumber,
+        mainDealerIfsc: props.EditDealerData?.mainDealerIfsc,
+        mainDealerAccountHolderName:
+          props.EditDealerData?.mainDealerAccountHolderName,
+        mainDealerPaniniCheck: props.EditDealerData?.mainDealerPaniniCheck,
+        mainDealerActivationStatus:
+          props.EditDealerData?.mainDealerActivationStatus,
+      });
     }
   }, [props.EditDealerData]);
 
@@ -777,7 +818,7 @@ export default function AddDealerModal(props) {
                   multiple
                   options={districtData}
                   filterSelectedOptions
-                  getOptionLabel={(option) => option}
+                  // getOptionLabel={(option) => option}
                   // defaultValue={[districtData[0]]}
                   sx={{ m: 1, width: 225, ml: 1 }}
                   size="large"
@@ -796,8 +837,14 @@ export default function AddDealerModal(props) {
                     <TextField {...params} label="Select District " />
                   )}
                   name="district"
-                  // inputValue={addDealer?.district ?? ""}
-                  value={addDealer?.district}
+                  value={props.EditDealerData?.district}
+                  // onChange={
+                  //   props.type === "edit"
+                  //     ? () => handleDistrictChange()
+                  //     : (e, value) => {
+                  //         handleDistrictChange("district", e, value);
+                  //       }
+                  // }
                   onChange={(e, value) => {
                     handleDistrictChange("district", e, value);
                   }}
@@ -1273,7 +1320,6 @@ export default function AddDealerModal(props) {
                   Cancel
                 </Button>
               )}
-              ;
             </Grid>
           </Grid>
         </Modal.Footer>

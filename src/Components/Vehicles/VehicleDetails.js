@@ -328,8 +328,9 @@ export default function VehicleDetails(props) {
   const downloadXLSFile = async () => {
     await axios
       .get(
-        "http://caglcampaignleads.grameenkoota.in:8080/TwoWheelerLoan/downloadvariantsexcel?base=seq",
+        "https://caglcampaignleads.grameenkoota.in/TwoWheelerLoan/downloadvariantsexcel?base=seq",
         {
+          // http://caglcampaignleads.grameenkoota.in:8080/TwoWheelerLoan/downloadvariantsexcel?base=seq
           // http://localhost:9666/downloadvariantsexcel
           method: "GET",
           responseType: "blob", // important

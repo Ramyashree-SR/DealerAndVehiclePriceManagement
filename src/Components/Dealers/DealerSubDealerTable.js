@@ -479,8 +479,9 @@ export default function DealerSubDealerTable(props) {
   const downloadXLSFile = async () => {
     await axios
       .get(
-        "http://caglcampaignleads.grameenkoota.in:8080/TwoWheelerLoan/downloadexcel",
+        "https://caglcampaignleads.grameenkoota.in/TwoWheelerLoan/downloadexcel",
         {
+          //http://caglcampaignleads.grameenkoota.in:8080/TwoWheelerLoan/downloadexcel
           // http://localhost:9666/downloadexcel
           method: "GET",
           responseType: "blob", // important
@@ -849,25 +850,27 @@ export default function DealerSubDealerTable(props) {
                                 // ml: 5,
                               }}
                             >
-                              <ColorIcon>
-                                <Grid
-                                  sx={{
-                                    display: "flex",
-                                    flexDirection: "column",
-                                    alignItems: "center",
-                                  }}
-                                >
-                                  <ViewModuleIcon
-                                    fontSize="small"
-                                    onClick={() => handleViewTable(row)}
-                                  />
-                                  <Typography
-                                    sx={{ fontSize: 8, fontWeight: 800 }}
+                              <Button>
+                                <ColorIcon>
+                                  <Grid
+                                    sx={{
+                                      display: "flex",
+                                      flexDirection: "column",
+                                      alignItems: "center",
+                                    }}
                                   >
-                                    View Details
-                                  </Typography>
-                                </Grid>
-                              </ColorIcon>
+                                    <ViewModuleIcon
+                                      fontSize="small"
+                                      onClick={() => handleViewTable(row)}
+                                    />
+                                    <Typography
+                                      sx={{ fontSize: 8, fontWeight: 800 }}
+                                    >
+                                      View Details
+                                    </Typography>
+                                  </Grid>
+                                </ColorIcon>
+                              </Button>
 
                               <ViewDealerModal
                                 show={openViewDealerModal}
@@ -878,7 +881,31 @@ export default function DealerSubDealerTable(props) {
                                 viewDealerData={viewDealerData}
                                 setViewDealerData={setViewDealerData}
                               />
-                              {props.hideButtons ? null : (
+
+                              <Button>
+                                {props.hideButtons ? null : (
+                                  <ColorIcon>
+                                    <Grid
+                                      sx={{
+                                        display: "flex",
+                                        flexDirection: "column",
+                                        alignItems: "center",
+                                      }}
+                                    >
+                                      <EditIcon
+                                        fontSize="small"
+                                        onClick={(e) => handleEditTable(e, row)}
+                                      />
+                                      <Typography
+                                        sx={{ fontSize: 8, fontWeight: 800 }}
+                                      >
+                                        Edit Details
+                                      </Typography>
+                                    </Grid>
+                                  </ColorIcon>
+                                )}
+                              </Button>
+                              <Button>
                                 <ColorIcon>
                                   <Grid
                                     sx={{
@@ -887,42 +914,21 @@ export default function DealerSubDealerTable(props) {
                                       alignItems: "center",
                                     }}
                                   >
-                                    <EditIcon
+                                    <UploadFileIcon
                                       fontSize="small"
-                                      onClick={(e) => handleEditTable(e, row)}
+                                      onClick={() => {
+                                        setOpenAddDocumentModal(true);
+                                        setfileMaindealerId(row.mainDealerID);
+                                      }}
                                     />
                                     <Typography
                                       sx={{ fontSize: 8, fontWeight: 800 }}
                                     >
-                                      Edit Details
+                                      Upload Documents
                                     </Typography>
                                   </Grid>
                                 </ColorIcon>
-                              )}
-
-                              <ColorIcon>
-                                <Grid
-                                  sx={{
-                                    display: "flex",
-                                    flexDirection: "column",
-                                    alignItems: "center",
-                                  }}
-                                >
-                                  <UploadFileIcon
-                                    fontSize="small"
-                                    onClick={() => {
-                                      setOpenAddDocumentModal(true);
-                                      setfileMaindealerId(row.mainDealerID);
-                                    }}
-                                  />
-                                  <Typography
-                                    sx={{ fontSize: 8, fontWeight: 800 }}
-                                  >
-                                    Upload Documents
-                                  </Typography>
-                                </Grid>
-                              </ColorIcon>
-
+                              </Button>
                               {openAddDocumentModal && (
                                 <UploadDocumentsModal
                                   show={openAddDocumentModal}
@@ -935,35 +941,36 @@ export default function DealerSubDealerTable(props) {
                                 />
                               )}
 
-                              <ColorIcon>
-                                <Grid
-                                  sx={{
-                                    display: "flex",
-                                    flexDirection: "column",
-                                    alignItems: "center",
-                                  }}
-                                >
-                                  <SourceIcon
-                                    size="lg"
-                                    onClick={() => {
-                                      setOpenShowVariants(true);
-                                      getShowVariantsInMainDealers(
-                                        row.mainDealerID
-                                      );
-                                      getAllAddVariantsDetails(
-                                        row.mainDealerID
-                                      );
-                                      setaddMaindealerId(row.mainDealerID);
+                              <Button>
+                                <ColorIcon>
+                                  <Grid
+                                    sx={{
+                                      display: "flex",
+                                      flexDirection: "column",
+                                      alignItems: "center",
                                     }}
-                                  />
-                                  <Typography
-                                    sx={{ fontSize: 8, fontWeight: 800 }}
                                   >
-                                    Link Vehicles
-                                  </Typography>
-                                </Grid>
-                              </ColorIcon>
-
+                                    <SourceIcon
+                                      size="lg"
+                                      onClick={() => {
+                                        setOpenShowVariants(true);
+                                        getShowVariantsInMainDealers(
+                                          row.mainDealerID
+                                        );
+                                        getAllAddVariantsDetails(
+                                          row.mainDealerID
+                                        );
+                                        setaddMaindealerId(row.mainDealerID);
+                                      }}
+                                    />
+                                    <Typography
+                                      sx={{ fontSize: 8, fontWeight: 800 }}
+                                    >
+                                      Link Vehicles
+                                    </Typography>
+                                  </Grid>
+                                </ColorIcon>
+                              </Button>
                               <ShowVehicleVariantModal
                                 show={openShowVariants}
                                 close={() => setOpenShowVariants(false)}
@@ -977,36 +984,37 @@ export default function DealerSubDealerTable(props) {
                                   getAllAddVariantsDetails
                                 }
                               />
-
-                              <ColorIcon>
-                                <Grid
-                                  sx={{
-                                    display: "flex",
-                                    flexDirection: "column",
-                                    alignItems: "center",
-                                  }}
-                                >
-                                  <AutoAwesomeMotionIcon
-                                    fontSize="small"
-                                    onClick={() => {
-                                      setOpenShowBranchModal(true);
-                                      setaddStateId(row?.state);
-                                      getShowBranchesInMainDealers(
-                                        row.mainDealerID
-                                      );
-                                      getShowBranchesToAddInMainDealers(
-                                        row.mainDealerID
-                                      );
-                                      setaddMaindealerId(row.mainDealerID);
+                              <Button>
+                                <ColorIcon>
+                                  <Grid
+                                    sx={{
+                                      display: "flex",
+                                      flexDirection: "column",
+                                      alignItems: "center",
                                     }}
-                                  />
-                                  <Typography
-                                    sx={{ fontSize: 8, fontWeight: 800 }}
                                   >
-                                    Branch Mapping
-                                  </Typography>
-                                </Grid>
-                              </ColorIcon>
+                                    <AutoAwesomeMotionIcon
+                                      fontSize="small"
+                                      onClick={() => {
+                                        setOpenShowBranchModal(true);
+                                        setaddStateId(row?.state);
+                                        getShowBranchesInMainDealers(
+                                          row.mainDealerID
+                                        );
+                                        getShowBranchesToAddInMainDealers(
+                                          row.mainDealerID
+                                        );
+                                        setaddMaindealerId(row.mainDealerID);
+                                      }}
+                                    />
+                                    <Typography
+                                      sx={{ fontSize: 8, fontWeight: 800 }}
+                                    >
+                                      Branch Mapping
+                                    </Typography>
+                                  </Grid>
+                                </ColorIcon>
+                              </Button>
                               <ShowBranchesOfMainDealer
                                 show={OpenShowBranchModal}
                                 close={() => setOpenShowBranchModal(false)}
@@ -1249,33 +1257,36 @@ export default function DealerSubDealerTable(props) {
                                                 display: "flex",
                                                 alignItems: "center",
                                                 justifyContent: "center",
-                                                ml: 5,
+                                                // ml: 5,
                                               }}
                                             >
-                                              <ColorIcon>
-                                                <Grid
-                                                  sx={{
-                                                    display: "flex",
-                                                    flexDirection: "column",
-                                                    alignItems: "center",
-                                                  }}
-                                                >
-                                                  <ViewModuleIcon
-                                                    fontSize="small"
-                                                    onClick={() =>
-                                                      handleSubViewTable(val)
-                                                    }
-                                                  />
-                                                  <Typography
+                                              <Button>
+                                                <ColorIcon>
+                                                  <Grid
                                                     sx={{
-                                                      fontSize: 8,
-                                                      fontWeight: 800,
+                                                      display: "flex",
+                                                      flexDirection: "column",
+                                                      alignItems: "center",
                                                     }}
                                                   >
-                                                    View Details
-                                                  </Typography>
-                                                </Grid>
-                                              </ColorIcon>
+                                                    <ViewModuleIcon
+                                                      fontSize="small"
+                                                      onClick={() =>
+                                                        handleSubViewTable(val)
+                                                      }
+                                                    />
+
+                                                    <Typography
+                                                      sx={{
+                                                        fontSize: 8,
+                                                        fontWeight: 800,
+                                                      }}
+                                                    >
+                                                      View Details
+                                                    </Typography>
+                                                  </Grid>
+                                                </ColorIcon>
+                                              </Button>
                                               <ViewSubDealerModal
                                                 show={openViewSubDealerModal}
                                                 close={() =>
@@ -1292,8 +1303,41 @@ export default function DealerSubDealerTable(props) {
                                                 paramsId={paramsId}
                                                 mainDealerData={mainDealerData}
                                               />
-
-                                              {props.hideButtons ? null : (
+                                              <Button>
+                                                {props.hideButtons ? null : (
+                                                  <ColorIcon>
+                                                    <Grid
+                                                      sx={{
+                                                        display: "flex",
+                                                        flexDirection: "column",
+                                                        alignItems: "center",
+                                                      }}
+                                                    >
+                                                      <EditIcon
+                                                        sx={{ ml: 1 }}
+                                                        onClick={() => {
+                                                          handleEditSubDealerTable(
+                                                            val
+                                                          );
+                                                          setMainDealerData(
+                                                            row
+                                                          );
+                                                        }}
+                                                        size="small"
+                                                      />
+                                                      <Typography
+                                                        sx={{
+                                                          fontWeight: 800,
+                                                          fontSize: 8,
+                                                        }}
+                                                      >
+                                                        Edit
+                                                      </Typography>
+                                                    </Grid>
+                                                  </ColorIcon>
+                                                )}
+                                              </Button>
+                                              <Button>
                                                 <ColorIcon>
                                                   <Grid
                                                     sx={{
@@ -1302,66 +1346,37 @@ export default function DealerSubDealerTable(props) {
                                                       alignItems: "center",
                                                     }}
                                                   >
-                                                    <EditIcon
-                                                      sx={{ ml: 1 }}
-                                                      onClick={() => {
-                                                        handleEditSubDealerTable(
-                                                          val
-                                                        );
-                                                        setMainDealerData(row);
-                                                      }}
+                                                    <AutoAwesomeMotionIcon
                                                       size="small"
+                                                      onClick={() => {
+                                                        setOpenShowSubBranchModal(
+                                                          true
+                                                        );
+                                                        setaddSubStateId(
+                                                          val?.state
+                                                        );
+                                                        setaddSubdealerId(
+                                                          val.subDealerID
+                                                        );
+                                                        getShowBranchesInSubDealers(
+                                                          val.subDealerID
+                                                        );
+                                                        getShowBranchesInSubDealersToAdd(
+                                                          val.subDealerID
+                                                        );
+                                                      }}
                                                     />
                                                     <Typography
                                                       sx={{
+                                                        fontSize: 7,
                                                         fontWeight: 800,
-                                                        fontSize: 8,
                                                       }}
                                                     >
-                                                      Edit
+                                                      Branch Mapping
                                                     </Typography>
                                                   </Grid>
                                                 </ColorIcon>
-                                              )}
-
-                                              <ColorIcon>
-                                                <Grid
-                                                  sx={{
-                                                    display: "flex",
-                                                    flexDirection: "column",
-                                                    alignItems: "center",
-                                                  }}
-                                                >
-                                                  <AutoAwesomeMotionIcon
-                                                    size="small"
-                                                    onClick={() => {
-                                                      setOpenShowSubBranchModal(
-                                                        true
-                                                      );
-                                                      setaddSubStateId(
-                                                        val?.state
-                                                      );
-                                                      setaddSubdealerId(
-                                                        val.subDealerID
-                                                      );
-                                                      getShowBranchesInSubDealers(
-                                                        val.subDealerID
-                                                      );
-                                                      getShowBranchesInSubDealersToAdd(
-                                                        val.subDealerID
-                                                      );
-                                                    }}
-                                                  />
-                                                  <Typography
-                                                    sx={{
-                                                      fontSize: 7,
-                                                      fontWeight: 800,
-                                                    }}
-                                                  >
-                                                    Branch Mapping
-                                                  </Typography>
-                                                </Grid>
-                                              </ColorIcon>
+                                              </Button>
                                               <ShowBranchesForSubDealers
                                                 show={openShowSubBranchModal}
                                                 close={() =>
