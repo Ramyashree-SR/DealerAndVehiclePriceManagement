@@ -152,6 +152,7 @@ const ChildModal = (props) => {
   const [rowsPerPage, setRowsPerPage] = useState(5);
   const [addMainVariant, setAddMainVariant] = useState([]);
   const [selectedId, setselectedId] = useState([]);
+  // const [checked, setChecked] = useState(false);
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
@@ -212,7 +213,7 @@ const ChildModal = (props) => {
 
   const addAllVehicleVariantsInMainDealerOnSelect = async (params) => {
     const payload = [];
-    props.showAddVariants.forEach((item) => {
+    props?.showAddVariants?.forEach((item) => {
       if (selectedId.includes(item.variantID)) {
         payload.push(item);
       }

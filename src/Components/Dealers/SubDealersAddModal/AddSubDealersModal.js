@@ -309,6 +309,7 @@ export default function AddSubDealerModal(props) {
                 value={props.mainDealerData.mainDealerManufacturerName}
                 onChange={(e) => updateChange(e)}
                 disabled
+                required
               />
 
               <TextField
@@ -321,6 +322,7 @@ export default function AddSubDealerModal(props) {
                 value={props.mainDealerData.state}
                 onChange={(e) => updateChange(e)}
                 disabled
+                required
               />
               {/* <TextField
               id="outlined-basic"
@@ -358,10 +360,16 @@ export default function AddSubDealerModal(props) {
                   <TextField {...params} label="Select District " />
                 )}
                 name="district"
-                value={props.EditSubDealerData.district}
+                // value={props.EditSubDealerData.district}
+                value={
+                  props.type === "edit"
+                    ? props.EditSubDealerData.district
+                    : undefined
+                }
                 onChange={(e, value) =>
                   handleDistrictChange("district", e, value)
                 }
+                required
               />
             </Grid>
             <Grid sx={{ display: "flex" }}>
@@ -375,6 +383,7 @@ export default function AddSubDealerModal(props) {
                 value={props.paramsId}
                 onChange={(e) => updateChange(e)}
                 disabled
+                required
               />
 
               <TextField
@@ -386,6 +395,7 @@ export default function AddSubDealerModal(props) {
                 name="subDealerName"
                 value={addSubDealer?.subDealerName}
                 onChange={(e) => updateChange(e)}
+                required
               />
 
               <Autocomplete
@@ -402,6 +412,7 @@ export default function AddSubDealerModal(props) {
                   setDealerTypeStatus(newValue);
                 }}
                 disabled
+                required
               />
             </Grid>
 
@@ -415,6 +426,7 @@ export default function AddSubDealerModal(props) {
                 name="subDealerMailID"
                 value={addSubDealer?.subDealerMailID}
                 onChange={(e) => updateChange(e)}
+                required
               />
               <Grid>
                 <TextField
@@ -426,6 +438,7 @@ export default function AddSubDealerModal(props) {
                   name="subDealerContactNumber"
                   value={addSubDealer?.subDealerContactNumber}
                   onChange={(e) => updateChange(e)}
+                  required
                 />
                 {contactError && (
                   <Typography sx={{ color: "red" }}>{contactError}</Typography>
@@ -440,6 +453,7 @@ export default function AddSubDealerModal(props) {
                 name="subDealerAlternateContactNumber"
                 value={addSubDealer?.subDealerAlternateContactNumber}
                 onChange={(e) => updateChange(e)}
+                required
               />
             </Grid>
             <Grid sx={{ display: "flex" }}>
@@ -452,6 +466,7 @@ export default function AddSubDealerModal(props) {
                 name="subDealerContactPersonName"
                 value={addSubDealer?.subDealerContactPersonName}
                 onChange={(e) => updateChange(e)}
+                required
               />
 
               <TextField
@@ -463,6 +478,7 @@ export default function AddSubDealerModal(props) {
                 name="contactPersonMobile"
                 value={addSubDealer?.contactPersonMobile}
                 onChange={(e) => updateChange(e)}
+                required
               />
               <TextField
                 disabled
@@ -474,6 +490,7 @@ export default function AddSubDealerModal(props) {
                 name="mainDealerPanNumber"
                 value={props.mainDealerData.mainDealerPanNumber}
                 onChange={(e) => updateChange(e)}
+                required
               />
             </Grid>
             <Grid sx={{ display: "flex" }}>
@@ -487,6 +504,7 @@ export default function AddSubDealerModal(props) {
                 name="props.mainDealerGstNumber"
                 value={props.mainDealerData.mainDealerGstNumber}
                 onChange={(e) => updateChange(e)}
+                required
               />
               <TextField
                 disabled
@@ -498,6 +516,7 @@ export default function AddSubDealerModal(props) {
                 name="mainDealerBankName"
                 value={props.mainDealerData.mainDealerBankName}
                 onChange={(e) => updateChange(e)}
+                required
               />
 
               <TextField
@@ -510,6 +529,7 @@ export default function AddSubDealerModal(props) {
                 name="mainDealerBankBranchName"
                 value={props.mainDealerData.mainDealerBankBranchName}
                 onChange={(e) => updateChange(e)}
+                required
               />
             </Grid>
             <Grid sx={{ display: "flex" }}>
@@ -523,6 +543,7 @@ export default function AddSubDealerModal(props) {
                 name="mainDealerBankAccNumber"
                 value={props.mainDealerData.mainDealerBankAccNumber}
                 onChange={(e) => updateChange(e)}
+                required
               />
               <TextField
                 disabled
@@ -534,6 +555,7 @@ export default function AddSubDealerModal(props) {
                 name="mainDealerIfsc"
                 value={props.mainDealerData.mainDealerIfsc}
                 onChange={(e) => updateChange(e)}
+                required
               />
 
               <TextField
@@ -546,6 +568,7 @@ export default function AddSubDealerModal(props) {
                 name="mainDealerAccountHolderName"
                 value={props.mainDealerData.mainDealerAccountHolderName}
                 onChange={(e) => updateChange(e)}
+                required
               />
             </Grid>
             <Grid sx={{ display: "flex" }}>
@@ -558,6 +581,7 @@ export default function AddSubDealerModal(props) {
                 name="addressDetails"
                 value={addSubDealer?.addressDetails}
                 onChange={(e) => updateChange(e)}
+                required
               />
               <TextField
                 id="outlined-basic"
@@ -568,6 +592,7 @@ export default function AddSubDealerModal(props) {
                 name="city"
                 value={addSubDealer?.city}
                 onChange={(e) => updateChange(e)}
+                required
               />
               <TextField
                 id="outlined-basic"
@@ -578,6 +603,7 @@ export default function AddSubDealerModal(props) {
                 name="pinCode"
                 value={addSubDealer?.pinCode}
                 onChange={(e) => updateChange(e)}
+                required
               />
             </Grid>
             <Grid sx={{ display: "flex" }}>
@@ -600,7 +626,7 @@ export default function AddSubDealerModal(props) {
                 sx={{ width: 224, m: 1 }}
                 filterOptions={(x) => x}
                 renderInput={(params) => (
-                  <TextField {...params} label="Select ActivationType" />
+                  <TextField {...params} label="SubDealer Status" />
                 )}
                 name="subDealerActivationStatus"
                 value={addSubDealer?.subDealerActivationStatus}
@@ -609,6 +635,7 @@ export default function AddSubDealerModal(props) {
                   handleActivationChange("subDealerActivationStatus", e, value);
                 }}
                 disabled={props.type === "edit" ? true : false}
+                required
               />
             </Grid>
           </Grid>

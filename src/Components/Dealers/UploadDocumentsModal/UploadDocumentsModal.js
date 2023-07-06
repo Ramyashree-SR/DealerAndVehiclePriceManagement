@@ -7,7 +7,7 @@ import {
   getUploadedDocumnetDetails,
   uploadFileApi,
 } from "../../service/uploadFile";
-import axios from "axios";
+// import axios from "axios";
 
 function UploadDocumentsModal(props) {
   const AgreementfileInput = React.useRef();

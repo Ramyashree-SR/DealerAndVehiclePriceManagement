@@ -73,6 +73,7 @@ const addVehicleVariantsInSubDealer = (params, payload) => {
   return serviceUtil
     .post(`addsubvariant?subDealerID=${params}`, payload)
     .then((res) => {
+      console.log(res,"resVaiant");
       const data = res;
       return { data };
     })

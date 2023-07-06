@@ -882,29 +882,31 @@ export default function DealerSubDealerTable(props) {
                                 setViewDealerData={setViewDealerData}
                               />
 
-                              <Button>
-                                {props.hideButtons ? null : (
-                                  <ColorIcon>
-                                    <Grid
-                                      sx={{
-                                        display: "flex",
-                                        flexDirection: "column",
-                                        alignItems: "center",
-                                      }}
+                              {/* <Button> */}
+                              {props.hideButtons ? null : (
+                                <ColorIcon>
+                                  <Grid
+                                    sx={{
+                                      display: props.hideButtons
+                                        ? "none"
+                                        : null,
+                                      flexDirection: "column",
+                                      alignItems: "center",
+                                    }}
+                                  >
+                                    <EditIcon
+                                      fontSize="small"
+                                      onClick={(e) => handleEditTable(e, row)}
+                                    />
+                                    <Typography
+                                      sx={{ fontSize: 8, fontWeight: 800 }}
                                     >
-                                      <EditIcon
-                                        fontSize="small"
-                                        onClick={(e) => handleEditTable(e, row)}
-                                      />
-                                      <Typography
-                                        sx={{ fontSize: 8, fontWeight: 800 }}
-                                      >
-                                        Edit Details
-                                      </Typography>
-                                    </Grid>
-                                  </ColorIcon>
-                                )}
-                              </Button>
+                                      Edit Details
+                                    </Typography>
+                                  </Grid>
+                                </ColorIcon>
+                              )}
+                              {/* </Button> */}
                               <Button>
                                 <ColorIcon>
                                   <Grid

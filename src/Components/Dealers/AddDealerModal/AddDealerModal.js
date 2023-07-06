@@ -432,12 +432,11 @@ export default function AddDealerModal(props) {
     setAddDealer({
       ...addDealer,
       [name]: val,
-      // ...val.filter((option) => addDealer.indexOf(option) === -1),
     });
 
-    if (e) {
-      setAddDealer(val);
-    }
+    // if (e) {
+    //   setAddDealer(val);
+    // }
   };
 
   const handleVehicleOEMChange = (name, event, value) => {
@@ -448,74 +447,74 @@ export default function AddDealerModal(props) {
   };
 
   const addDealersDetails = async () => {
-    // if (props.type === "add") {
-    let payload = {
-      mainDealerName: addDealer?.mainDealerName,
-      mainDealerMailID: addDealer?.mainDealerMailID,
-      mainDealerManufacturerName: addDealer?.mainDealerManufacturerName,
-      mainDealerContactNumber: addDealer?.mainDealerContactNumber,
-      mainDealerAlternateContactNumber:
-        addDealer?.mainDealerAlternateContactNumber,
-      contactPersonMobile: addDealer?.contactPersonMobile,
-      mainDealerContactPersonName: addDealer?.mainDealerContactPersonName,
-      mainDealerPaymentEligible: addDealer?.mainDealerPaymentEligible,
-      mainDealerActivationData: moment(
-        addDealer?.mainDealerActivationData
-      ).format("YYYY-MM-DD"),
-      addressDetails: addDealer?.addressDetails,
-      state: addDealer?.state,
-      district: addDealer?.district,
-      city: addDealer?.city,
-      pinCode: addDealer.pinCode,
-      mainDealerPanNumber: addDealer?.mainDealerPanNumber,
-      mainDealerGstNumber: addDealer?.mainDealerGstNumber,
-      mainDealerBankName: addDealer?.mainDealerBankName,
-      mainDealerBankBranchName: addDealer?.mainDealerBankBranchName,
-      mainDealerBankAccNumber: addDealer?.mainDealerBankAccNumber,
-      mainDealerIfsc: addDealer?.mainDealerIfsc,
-      mainDealerAccountHolderName: addDealer?.mainDealerAccountHolderName,
-      mainDealerPaniniCheck: addDealer?.mainDealerPaniniCheck,
-      mainDealerActivationStatus: addDealer?.mainDealerActivationStatus,
-    };
-    const { data, errRes } = await addMainDealersDetails(payload);
-    if (data) {
-      setAddDealer({
-        mainDealerName: "",
-        mainDealerManufacturerName: "",
-        mainDealerMailID: "",
-        mainDealerContactNumber: "",
-        mainDealerAlternateContactNumber: "",
-        mainDealerContactPersonName: "",
-        contactPersonMobile: "",
-        mainDealerPaymentEligible: "",
-        mainDealerActivationData: "",
-        state: "",
-        district: "",
-        city: "",
-        pinCode: "",
-        addressDetails: "",
-        mainDealerPanNumber: "",
-        mainDealerGstNumber: "",
-        mainDealerBankName: "",
-        mainDealerBankBranchName: "",
-        mainDealerBankAccNumber: "",
-        mainDealerIfsc: "",
-        mainDealerAccountHolderName: "",
-        mainDealerExpireData: "",
-        mainDealerPaniniCheck: "",
-        mainDealerActivationStatus: "",
-      });
-      props.getDealersDetails(data?.data?.data);
-      props.close();
-      addToast("Dealer Data Added Successfully", { appearance: "success" });
-      setTimeout(() => {
-        props.getDealersDetails();
-      }, 9000);
-    } else if (errRes) {
-      props.close();
-      addToast(errRes, { appearance: "error" });
+    if (props.type === "add") {
+      let payload = {
+        mainDealerName: addDealer?.mainDealerName,
+        mainDealerMailID: addDealer?.mainDealerMailID,
+        mainDealerManufacturerName: addDealer?.mainDealerManufacturerName,
+        mainDealerContactNumber: addDealer?.mainDealerContactNumber,
+        mainDealerAlternateContactNumber:
+          addDealer?.mainDealerAlternateContactNumber,
+        contactPersonMobile: addDealer?.contactPersonMobile,
+        mainDealerContactPersonName: addDealer?.mainDealerContactPersonName,
+        mainDealerPaymentEligible: addDealer?.mainDealerPaymentEligible,
+        mainDealerActivationData: moment(
+          addDealer?.mainDealerActivationData
+        ).format("YYYY-MM-DD"),
+        addressDetails: addDealer?.addressDetails,
+        state: addDealer?.state,
+        district: addDealer?.district,
+        city: addDealer?.city,
+        pinCode: addDealer.pinCode,
+        mainDealerPanNumber: addDealer?.mainDealerPanNumber,
+        mainDealerGstNumber: addDealer?.mainDealerGstNumber,
+        mainDealerBankName: addDealer?.mainDealerBankName,
+        mainDealerBankBranchName: addDealer?.mainDealerBankBranchName,
+        mainDealerBankAccNumber: addDealer?.mainDealerBankAccNumber,
+        mainDealerIfsc: addDealer?.mainDealerIfsc,
+        mainDealerAccountHolderName: addDealer?.mainDealerAccountHolderName,
+        mainDealerPaniniCheck: addDealer?.mainDealerPaniniCheck,
+        mainDealerActivationStatus: addDealer?.mainDealerActivationStatus,
+      };
+      const { data, errRes } = await addMainDealersDetails(payload);
+      if (data) {
+        setAddDealer({
+          mainDealerName: "",
+          mainDealerManufacturerName: "",
+          mainDealerMailID: "",
+          mainDealerContactNumber: "",
+          mainDealerAlternateContactNumber: "",
+          mainDealerContactPersonName: "",
+          contactPersonMobile: "",
+          mainDealerPaymentEligible: "",
+          mainDealerActivationData: "",
+          state: "",
+          district: "",
+          city: "",
+          pinCode: "",
+          addressDetails: "",
+          mainDealerPanNumber: "",
+          mainDealerGstNumber: "",
+          mainDealerBankName: "",
+          mainDealerBankBranchName: "",
+          mainDealerBankAccNumber: "",
+          mainDealerIfsc: "",
+          mainDealerAccountHolderName: "",
+          mainDealerExpireData: "",
+          mainDealerPaniniCheck: "",
+          mainDealerActivationStatus: "",
+        });
+        props.getDealersDetails(data?.data?.data);
+        addToast("Dealer Data Added Successfully", { appearance: "success" });
+        props.close();
+        setTimeout(() => {
+          props.getDealersDetails();
+        }, 9000);
+      } else if (errRes) {
+        addToast(errRes, { appearance: "error" });
+        props.close();
+      }
     }
-    // }
   };
 
   const editDealerDetails = async (mainDealerID) => {
@@ -551,9 +550,16 @@ export default function AddDealerModal(props) {
       mainDealerPaniniCheck: addDealer?.mainDealerPaniniCheck,
       mainDealerActivationStatus: addDealer?.mainDealerActivationStatus,
     };
-    const { data } = await editMainDealersDetails(mainDealerID, payload);
+    const { data, errRes } = await editMainDealersDetails(
+      mainDealerID,
+      payload
+    );
     if (data) {
       props.getDealersDetails();
+      addToast("Dealer Data Edited Successfully", { appearance: "success" });
+      props.close();
+    } else if (errRes) {
+      addToast(errRes, { appearance: "error" });
       props.close();
     }
   };
@@ -773,7 +779,7 @@ export default function AddDealerModal(props) {
                   disabled={props.type === "edit" ? true : false}
                 />
                 {error.mainDealerManufacturerName && (
-                  <Typography sx={{ color: "red" }}>
+                  <Typography sx={{ color: "red", ml: 1, fontSize: 12 }}>
                     {error.mainDealerManufacturerName}
                   </Typography>
                 )}
@@ -795,7 +801,9 @@ export default function AddDealerModal(props) {
                   disabled={props.type === "edit" ? true : false}
                 />
                 {error.state && (
-                  <Typography sx={{ color: "red" }}>{error.state}</Typography>
+                  <Typography sx={{ color: "red", ml: 1, fontSize: 12 }}>
+                    {error.state}
+                  </Typography>
                 )}
               </Grid>
 
@@ -818,7 +826,7 @@ export default function AddDealerModal(props) {
                   multiple
                   options={districtData}
                   filterSelectedOptions
-                  // getOptionLabel={(option) => option}
+                  getOptionLabel={(option) => option}
                   // defaultValue={[districtData[0]]}
                   sx={{ m: 1, width: 225, ml: 1 }}
                   size="large"
@@ -837,7 +845,11 @@ export default function AddDealerModal(props) {
                     <TextField {...params} label="Select District " />
                   )}
                   name="district"
-                  value={props.EditDealerData?.district}
+                  value={
+                    props.type === "edit"
+                      ? props.EditDealerData?.district
+                      : undefined
+                  }
                   // onChange={
                   //   props.type === "edit"
                   //     ? () => handleDistrictChange()
@@ -850,7 +862,7 @@ export default function AddDealerModal(props) {
                   }}
                 />
                 {error.district && (
-                  <Typography sx={{ color: "red" }}>
+                  <Typography sx={{ color: "red", ml: 1, fontSize: 12 }}>
                     {error.district}
                   </Typography>
                 )}
@@ -871,7 +883,7 @@ export default function AddDealerModal(props) {
                   required
                 />
                 {error.mainDealerName && (
-                  <Typography sx={{ color: "red" }}>
+                  <Typography sx={{ color: "red", ml: 1, fontSize: 12 }}>
                     {error.mainDealerName}
                   </Typography>
                 )}
@@ -905,7 +917,7 @@ export default function AddDealerModal(props) {
                   required
                 />
                 {error.mainDealerContactNumber && (
-                  <Typography sx={{ color: "red" }}>
+                  <Typography sx={{ color: "red", ml: 1, fontSize: 12 }}>
                     {error.mainDealerContactNumber}
                   </Typography>
                 )}
@@ -927,7 +939,7 @@ export default function AddDealerModal(props) {
                   required
                 />
                 {error.mainDealerContactPersonName && (
-                  <Typography sx={{ color: "red" }}>
+                  <Typography sx={{ color: "red", ml: 1, fontSize: 12 }}>
                     {error.mainDealerContactPersonName}
                   </Typography>
                 )}
@@ -946,7 +958,7 @@ export default function AddDealerModal(props) {
                   onChange={(e) => updateChange(e)}
                 />
                 {error.contactPersonMobile && (
-                  <Typography sx={{ color: "red" }}>
+                  <Typography sx={{ color: "red", ml: 1, fontSize: 12 }}>
                     {error.contactPersonMobile}
                   </Typography>
                 )}
@@ -965,7 +977,7 @@ export default function AddDealerModal(props) {
                   required
                 />
                 {error.mainDealerAlternateContactNumber && (
-                  <Typography sx={{ color: "red" }}>
+                  <Typography sx={{ color: "red", ml: 1, fontSize: 12 }}>
                     {error.mainDealerAlternateContactNumber}
                   </Typography>
                 )}
@@ -1002,7 +1014,7 @@ export default function AddDealerModal(props) {
                   required
                 />
                 {error.mainDealerMailID && (
-                  <Typography sx={{ color: "red" }}>
+                  <Typography sx={{ color: "red", ml: 1, fontSize: 12 }}>
                     {error.mainDealerMailID}
                   </Typography>
                 )}
@@ -1021,7 +1033,9 @@ export default function AddDealerModal(props) {
                   required
                 />
                 {panNoError && (
-                  <Typography sx={{ color: "red" }}>{panNoError}</Typography>
+                  <Typography sx={{ color: "red", ml: 1, fontSize: 12 }}>
+                    {panNoError}
+                  </Typography>
                 )}
               </Grid>
 
@@ -1039,7 +1053,7 @@ export default function AddDealerModal(props) {
                   required
                 />
                 {gstNumberError && (
-                  <Typography sx={{ color: "red" }}>
+                  <Typography sx={{ color: "red", ml: 1, fontSize: 12 }}>
                     {gstNumberError}
                   </Typography>
                 )}
@@ -1061,7 +1075,7 @@ export default function AddDealerModal(props) {
                   required
                 />
                 {error.mainDealerBankName && (
-                  <Typography sx={{ color: "red" }}>
+                  <Typography sx={{ color: "red", ml: 1, fontSize: 12 }}>
                     {error.mainDealerBankName}
                   </Typography>
                 )}
@@ -1081,7 +1095,7 @@ export default function AddDealerModal(props) {
                   required
                 />
                 {error.mainDealerBankBranchName && (
-                  <Typography sx={{ color: "red" }}>
+                  <Typography sx={{ color: "red", ml: 1, fontSize: 12 }}>
                     {error.mainDealerBankBranchName}
                   </Typography>
                 )}
@@ -1101,7 +1115,7 @@ export default function AddDealerModal(props) {
                   required
                 />
                 {accountNoError && (
-                  <Typography sx={{ color: "red" }}>
+                  <Typography sx={{ color: "red", ml: 1, fontSize: 12 }}>
                     {accountNoError}
                   </Typography>
                 )}
@@ -1123,7 +1137,7 @@ export default function AddDealerModal(props) {
                   required
                 />
                 {error.mainDealerIfsc && (
-                  <Typography sx={{ color: "red" }}>
+                  <Typography sx={{ color: "red", ml: 1, fontSize: 12 }}>
                     {error.mainDealerIfsc}
                   </Typography>
                 )}
@@ -1143,22 +1157,12 @@ export default function AddDealerModal(props) {
                   required
                 />
                 {error.mainDealerAccountHolderName && (
-                  <Typography sx={{ color: "red" }}>
+                  <Typography sx={{ color: "red", ml: 1, fontSize: 12 }}>
                     {error.mainDealerAccountHolderName}
                   </Typography>
                 )}
               </Grid>
 
-              {/* <TextField
-                id="outlined-basic"
-                label="Address"
-                variant="outlined"
-                // size="small"
-                sx={{ m: 1 }}
-                name="addressDetails"
-                value={addDealer?.addressDetails}
-                onChange={(e) => updateChange(e)}
-              /> */}
               <Grid>
                 <TextField
                   type="text"
@@ -1172,9 +1176,31 @@ export default function AddDealerModal(props) {
                   onChange={(e) => updateChange(e)}
                   required
                 />
+                {error.city && (
+                  <Typography sx={{ color: "red", ml: 1, fontSize: 12 }}>
+                    {error.city}
+                  </Typography>
+                )}
               </Grid>
             </Grid>
             <Grid sx={{ display: "flex" }}>
+              <Grid>
+                <TextField
+                  id="outlined-basic"
+                  label="Area"
+                  variant="outlined"
+                  // size="small"
+                  sx={{ m: 1 }}
+                  name="addressDetails"
+                  value={addDealer?.addressDetails}
+                  onChange={(e) => updateChange(e)}
+                />
+                {error.addressDetails && (
+                  <Typography sx={{ color: "red", ml: 1, fontSize: 12 }}>
+                    {error.addressDetails}
+                  </Typography>
+                )}
+              </Grid>
               <Grid>
                 <TextField
                   type="number"
@@ -1189,7 +1215,9 @@ export default function AddDealerModal(props) {
                   required
                 />
                 {error.pinCode && (
-                  <Typography sx={{ color: "red" }}>{error.pinCode}</Typography>
+                  <Typography sx={{ color: "red", ml: 1, fontSize: 12 }}>
+                    {error.pinCode}
+                  </Typography>
                 )}
               </Grid>
 
@@ -1207,7 +1235,9 @@ export default function AddDealerModal(props) {
                   />
                 </DemoContainer>
               </LocalizationProvider>
+            </Grid>
 
+            <Grid sx={{ display: "flex" }}>
               <LocalizationProvider dateAdapter={AdapterDateFns}>
                 <DemoContainer components={["DatePicker"]}>
                   <DatePicker
@@ -1228,9 +1258,7 @@ export default function AddDealerModal(props) {
                   />
                 </DemoContainer>
               </LocalizationProvider>
-            </Grid>
 
-            <Grid sx={{ display: "flex" }}>
               <Grid>
                 <Autocomplete
                   id="combo-box-demo"
@@ -1251,7 +1279,7 @@ export default function AddDealerModal(props) {
                   }}
                 />
                 {error.mainDealerActivationStatus && (
-                  <Typography sx={{ color: "red" }}>
+                  <Typography sx={{ color: "red", ml: 1, fontSize: 12 }}>
                     {error.mainDealerActivationStatus}
                   </Typography>
                 )}

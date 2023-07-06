@@ -41,22 +41,23 @@ function ShowSubVehicleVariantModal(props) {
   useEffect(() => {
     const tempArr = [];
     props.showSubVariants?.map((item) => {
-      return tempArr.push(item);
+      tempArr.push({ ...item });
     });
     // setRemoveRowData([...props.showVariants]);
   }, [props.showSubVariants]);
 
-  const removeRowDataofVariantsFromTable = async (params, value) => {
-    let payload = [
-      {
-        variantID: value.variantID,
-        variantName: value.variantName,
-      },
-    ];
+  const removeRowDataofVariantsFromTable = async (params, val) => {
+    // let payload = [
+    //   {
+    //     variantID: value.variantID,
+    //     variantName: value.variantName,
+    //   },
+    // ];
+    let payload = [val];
     let { data } = await removeAllVehicleVariantsInSubDealer(params, payload);
     if (data?.data?.error === "FALSE") {
-      props.getShowVariantsInSubDealersToAdd(props.subDealerID);
       props.getShowVariantsInSubDealers(props.subDealerID);
+      props.getShowVariantsInSubDealersToAdd(props.subDealerID);
     }
   };
 
@@ -124,7 +125,7 @@ function ShowSubVehicleVariantModal(props) {
                             val
                           );
                         }}
-                        size="large"
+                        fontSize="large"
                       />
                     </td>
                   </tr>
@@ -149,6 +150,7 @@ function ShowSubVehicleVariantModal(props) {
             getShowVariantsInSubDealersToAdd={
               props.getShowVariantsInSubDealersToAdd
             }
+            close={props.close}
           />
         </Modal.Body>
         <ModalFooter>
@@ -162,12 +164,8 @@ function ShowSubVehicleVariantModal(props) {
 function ChildModal(props) {
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
-  const [open, setOpen] = useState(false);
-
   const [selectedId, setselectedId] = useState([]);
-  const handleOpen = () => {
-    setOpen(true);
-  };
+
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
   };
@@ -179,13 +177,17 @@ function ChildModal(props) {
 
   const [addvehicle, setaddvehicle] = useState([]);
 
+  // useEffect(() => {
+  //   const tempState = [];
+  //   props.showSubVariantsToAdd?.map((item) => {
+  //     tempState.push({ ...item, checked: false });
+  //   });
+  //   // console.log(tempState);
+  //   setaddvehicle([...props.showSubVariantsToAdd]);
+  // }, [props.showSubVariantsToAdd]);
+
   useEffect(() => {
-    const tempState = [];
-    props.showSubVariantsToAdd?.map((item) => {
-      tempState.push({ ...item, checked: false });
-    });
-    // console.log(tempState);
-    setaddvehicle([...props.showSubVariantsToAdd]);
+    setaddvehicle(props.showSubVariantsToAdd);
   }, [props.showSubVariantsToAdd]);
 
   const isSelected = (id) => selectedId.indexOf(id) !== -1;
@@ -193,12 +195,10 @@ function ChildModal(props) {
   function onCheckBoxClick(e, value, id) {
     // setchecked(!checked);
     // const tempState = [...addvehicle];
-
     // tempState[index].checked = e.target.checked;
     // setaddvehicle([...tempState]);
     const selectedIndex = selectedId.indexOf(id);
     let newSelected = [];
-
     if (selectedIndex === -1) {
       newSelected = newSelected.concat(selectedId, id);
     } else if (selectedIndex === 0) {
@@ -220,7 +220,7 @@ function ChildModal(props) {
     // const checkedValue = tempState.filter((val) => val.checked);
     // if (checkedValue.length > 0) {
     const payload = [];
-    props.showSubVariantsToAdd.forEach((item) => {
+    props?.showSubVariantsToAdd?.forEach((item) => {
       if (selectedId.includes(item.variantID)) {
         payload.push(item);
       }
@@ -229,6 +229,8 @@ function ChildModal(props) {
     if (data?.data?.error === "False") {
       props.getShowVariantsInSubDealers(props.subDealerID);
       props.getShowVariantsInSubDealersToAdd(props.subDealerID);
+      setselectedId([]);
+      props.close();
     }
     // }
   };
