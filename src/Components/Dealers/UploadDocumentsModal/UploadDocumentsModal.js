@@ -67,7 +67,8 @@ function UploadDocumentsModal(props) {
     payload.append("ID", mainDealerId);
     payload.append("documentType", "AgreementFile");
     const { data } = await uploadFileApi(payload);
-    setactive(!active);
+    setactive(true);
+    // setSelectedImage(!selectedImage)
   };
 
   const handlePanCardDetailsUpload = async () => {
@@ -76,7 +77,7 @@ function UploadDocumentsModal(props) {
     payload.append("ID", mainDealerId);
     payload.append("documentType", "PanCardDetails");
     const { data } = await uploadFileApi(payload);
-    setactive1(!active1);
+    setactive1(true);
   };
 
   const handleKYCFileUpload = async () => {
@@ -400,16 +401,23 @@ function UploadDocumentsModal(props) {
                 </Typography>
               )}
 
-              {props.hideButtons ? null : (
+              {props.hideButtons ? null : agreementfile.filename ? (
                 <Button
                   name="Upload"
                   onClick={handleAgreementFileUpload}
-                  variant={active ? "contained" : "outlined"}
+                  variant="contained"
                   sx={{
-                    // background: agreementfile.file ? "green" : "blue",
-                    background: active ? "green" : "",
-                    color: active ? "#FFFFFF" : "",
+                    background: "green",
+                    color: "#FFFFFF",
                   }}
+                >
+                  Upload
+                </Button>
+              ) : (
+                <Button
+                  name="Upload"
+                  onClick={handleAgreementFileUpload}
+                  variant="outlined"
                 >
                   Upload
                 </Button>
@@ -436,34 +444,6 @@ function UploadDocumentsModal(props) {
               >
                 View
               </a>
-              {/* <Button
-                variant="outlined"
-                name="View"
-                onClick={() => {
-                  handleAgreementFileView(mainDealerId, "AgreementFile");
-                }}
-                className="m-2"
-              >
-                View
-              </Button> */}
-              {/* <img
-                src={`http://localhost:9666/viewimage?mainDealerID=${mainDealerId}&documentType=${"AgreementFile"}`}
-                alt=""
-                id="agreementView"
-                width="100px"
-                height="40px"
-                onClick={() =>
-                  handleApproveMailsFileView(mainDealerId, "AgreementFile")
-                }
-              /> */}
-              {/* {selectedImage && (
-                <img
-                  src={URL.createObjectURL(selectedImage)}
-                  alt="agreement"
-                  width="50px"
-                  height="30px"
-                />
-              )} */}
             </form>
           </Grid>
           <Grid
@@ -517,19 +497,29 @@ function UploadDocumentsModal(props) {
                   {pancard.filename}
                 </Typography>
               )}
-              {props.hideButtons ? null : (
+
+              {props.hideButtons ? null : pancard.filename ? (
                 <Button
                   name="Upload"
                   onClick={handlePanCardDetailsUpload}
-                  variant={active1 ? "contained" : "outlined"}
+                  variant="contained"
                   sx={{
-                    background: active1 ? "green" : "",
-                    color: active1 ? "#FFFFFF" : "",
+                    background: "green",
+                    color: "#FFFFFF",
                   }}
                 >
                   Upload
                 </Button>
+              ) : (
+                <Button
+                  name="Upload"
+                  onClick={handlePanCardDetailsUpload}
+                  variant="outlined"
+                >
+                  Upload
+                </Button>
               )}
+
               <Button
                 variant="outlined"
                 name="Download"
@@ -554,34 +544,6 @@ function UploadDocumentsModal(props) {
               >
                 View
               </a>
-              {/* <Button
-                variant="outlined"
-                name="Download"
-                onClick={() =>
-                  handlePanCardFileView(mainDealerId, "AgreementFile")
-                }
-                className="m-2"
-              >
-                View
-              </Button> */}
-              {/* <img
-                src={`http://localhost:9666/viewimage?mainDealerID=${mainDealerId}&documentType=${"PanCardDetails"}`}
-                alt=""
-                id="pancardDetails"
-                width="100px"
-                height="40px"
-                onClick={() =>
-                  handleApproveMailsFileView(mainDealerId, "PanCardDetails")
-                }
-              /> */}
-              {/* {selectedImage1 && (
-                <img
-                  src={URL.createObjectURL(selectedImage1)}
-                  alt="pancard"
-                  width="50px"
-                  height="30px"
-                />
-              )} */}
             </form>
           </Grid>
           <Grid
@@ -635,15 +597,24 @@ function UploadDocumentsModal(props) {
                   {KycFile.filename}
                 </Typography>
               )}
-              {props.hideButtons ? null : (
+
+              {props.hideButtons ? null : KycFile.filename ? (
                 <Button
                   name="Upload"
                   onClick={handleKYCFileUpload}
-                  variant={active2 ? "contained" : "outlined"}
+                  variant="contained"
                   sx={{
-                    background: active2 ? "green" : "",
-                    color: active2 ? "#FFFFFF" : "",
+                    background: "green",
+                    color: "#FFFFFF",
                   }}
+                >
+                  Upload
+                </Button>
+              ) : (
+                <Button
+                  name="Upload"
+                  onClick={handleKYCFileUpload}
+                  variant="outlined"
                 >
                   Upload
                 </Button>
@@ -670,34 +641,6 @@ function UploadDocumentsModal(props) {
               >
                 View
               </a>
-              {/* <Button
-                variant="outlined"
-                name="Download"
-                onClick={() =>
-                  handlePanCardFileView(mainDealerId, "AgreementFile")
-                }
-                className="m-2"
-              >
-                View
-              </Button> */}
-              {/* <img
-                src={`http://localhost:9666/viewimage?mainDealerID=${mainDealerId}&documentType=${"PanCardDetails"}`}
-                alt=""
-                id="pancardDetails"
-                width="100px"
-                height="40px"
-                onClick={() =>
-                  handleApproveMailsFileView(mainDealerId, "PanCardDetails")
-                }
-              /> */}
-              {/* {selectedImage1 && (
-                <img
-                  src={URL.createObjectURL(selectedImage1)}
-                  alt="pancard"
-                  width="50px"
-                  height="30px"
-                />
-              )} */}
             </form>
           </Grid>
           <Grid
@@ -747,19 +690,28 @@ function UploadDocumentsModal(props) {
               />
               {gstcertify.filename && (
                 <Typography sx={{ m: 2, width: 100 }}>
-                  {agreementfile.filename}
+                  {gstcertify.filename}
                   {/* <a href={gstcertify.url}>{gstcertify.filename}</a> */}
                 </Typography>
               )}
-              {props.hideButtons ? null : (
+
+              {props.hideButtons ? null : gstcertify.filename ? (
                 <Button
                   name="Upload"
                   onClick={handleGstCertificateUpload}
-                  variant={active3 ? "contained" : "outlined"}
+                  variant="contained"
                   sx={{
-                    background: active3 ? "green" : "",
-                    color: active3 ? "#FFFFFF" : "",
+                    background: "green",
+                    color: "#FFFFFF",
                   }}
+                >
+                  Upload
+                </Button>
+              ) : (
+                <Button
+                  name="Upload"
+                  onClick={handleGstCertificateUpload}
+                  variant="outlined"
                 >
                   Upload
                 </Button>
@@ -788,34 +740,6 @@ function UploadDocumentsModal(props) {
               >
                 View
               </a>
-              {/* <Button
-                variant="outlined"
-                name="Download"
-                onClick={() =>
-                  handleGSTCertificateFileView(mainDealerId, "AgreementFile")
-                }
-                className="m-2"
-              >
-                View
-              </Button> */}
-              {/* <img
-                src={`http://localhost:9666/viewimage?mainDealerID=${mainDealerId}&documentType=${"GSTCertificate"}`}
-                alt=""
-                id="gstcertificate"
-                width="100px"
-                height="40px"
-                onClick={() =>
-                  handleApproveMailsFileView(mainDealerId, "GSTCertificate")
-                }
-              /> */}
-              {/* {selectedImage2 && (
-                <img
-                  src={URL.createObjectURL(selectedImage2)}
-                  alt="gstcertify"
-                  width="50px"
-                  height="30px"
-                />
-              )} */}
             </form>
           </Grid>
           <Grid
@@ -869,19 +793,29 @@ function UploadDocumentsModal(props) {
                   {/* <a href={bankstatement.url}>{bankstatement.filename}</a> */}
                 </Typography>
               )}
-              {props.hideButtons ? null : (
+
+              {props.hideButtons ? null : bankstatement.filename ? (
                 <Button
                   name="Upload"
                   onClick={handleBankStatementFileUpload}
-                  variant={activate ? "contained" : "outlined"}
+                  variant="contained"
                   sx={{
-                    background: activate ? "green" : "",
-                    color: activate ? "#FFFFFF" : "",
+                    background: "green",
+                    color: "#FFFFFF",
                   }}
                 >
                   Upload
                 </Button>
+              ) : (
+                <Button
+                  name="Upload"
+                  onClick={handleBankStatementFileUpload}
+                  variant="outlined"
+                >
+                  Upload
+                </Button>
               )}
+
               <Button
                 variant="outlined"
                 name="Download"
@@ -906,34 +840,6 @@ function UploadDocumentsModal(props) {
               >
                 View
               </a>
-              {/* <Button
-                variant="outlined"
-                name="Download"
-                onClick={() =>
-                  handleBankStatementFileView(mainDealerId, "AgreementFile")
-                }
-                className="m-2"
-              >
-                View
-              </Button> */}
-              {/* <img
-                src={`http://localhost:9666/viewimage?mainDealerID=${mainDealerId}&documentType=${"BankStatementFile"}`}
-                alt=""
-                id="bankstatement"
-                width="100px"
-                height="40px"
-                onClick={() =>
-                  handleApproveMailsFileView(mainDealerId, "BankStatementFile")
-                } */}
-              {/* /> */}
-              {/* {selectedImage3 && (
-                <img
-                  src={URL.createObjectURL(selectedImage3)}
-                  alt="bankstatement"
-                  width="50px"
-                  height="30px"
-                />
-              )} */}
             </form>
           </Grid>
           <Grid
@@ -986,15 +892,24 @@ function UploadDocumentsModal(props) {
                   {pennycheck.filename}
                 </Typography>
               )}
-              {props.hideButtons ? null : (
+
+              {props.hideButtons ? null : pennycheck.filename ? (
                 <Button
                   name="Upload"
                   onClick={handlePennyCheckFileUpload}
-                  variant={active4 ? "contained" : "outlined"}
+                  variant="contained"
                   sx={{
-                    background: active4 ? "green" : "",
-                    color: active4 ? "#FFFFFF" : "",
+                    background: "green",
+                    color: "#FFFFFF",
                   }}
+                >
+                  Upload
+                </Button>
+              ) : (
+                <Button
+                  name="Upload"
+                  onClick={handlePennyCheckFileUpload}
+                  variant="outlined"
                 >
                   Upload
                 </Button>
@@ -1013,17 +928,7 @@ function UploadDocumentsModal(props) {
               >
                 Download
               </Button>
-              {/* <Button
-                variant="outlined"
-                name="Download"
-                onClick={() => {
-                  handlePennyCheckFileView(mainDealerId, "AgreementFile");
-                  setopenViewModal(true);
-                }}
-                className="m-2"
-              >
-                View
-              </Button> */}
+
               <a
                 href={`https://caglcampaignleads.grameenkoota.in/TwoWheelerLoan/viewimage?mainDealerID=${mainDealerId}&documentType=${"PennyCheck"}`}
                 target="_blank"
@@ -1034,24 +939,6 @@ function UploadDocumentsModal(props) {
               >
                 View
               </a>
-              {/* <img
-                src={`http://localhost:9666/viewimage?mainDealerID=${mainDealerId}&documentType=${"PennyCheck"}`}
-                alt=""
-                id="pennyCheck"
-                width="100px"
-                height="40px"
-                onClick={() =>
-                  handleApproveMailsFileView(mainDealerId, "PennyCheck")
-                }
-              /> */}
-              {/* {selectedImage4 && (
-                <img
-                  src={URL.createObjectURL(selectedImage4)}
-                  alt="pennycheck"
-                  width="50px"
-                  height="30px"
-                />
-              )} */}
             </form>
           </Grid>
           <Grid
@@ -1104,15 +991,24 @@ function UploadDocumentsModal(props) {
                   {approvemails.filename}
                 </Typography>
               )}
-              {props.hideButtons ? null : (
+
+              {props.hideButtons ? null : approvemails.filename ? (
                 <Button
                   name="Upload"
                   onClick={handleApprovMailsFileUpload}
-                  variant={active5 ? "contained" : "outlined"}
+                  variant="contained"
                   sx={{
-                    background: active5 ? "green" : "",
-                    color: active5 ? "#FFFFFF" : "",
+                    background: "green",
+                    color: "#FFFFFF",
                   }}
+                >
+                  Upload
+                </Button>
+              ) : (
+                <Button
+                  name="Upload"
+                  onClick={handleApprovMailsFileUpload}
+                  variant="outlined"
                 >
                   Upload
                 </Button>
@@ -1152,26 +1048,6 @@ function UploadDocumentsModal(props) {
               >
                 View
               </a>
-
-              {/* <img
-                src={`http://localhost:9666/viewimage?mainDealerID=${mainDealerId}&documentType=${"ApproveMails"}`}
-                alt=""
-                id="Approvmails"
-                width="100px"
-                height="40px"
-                onclick={() =>
-                  handleApproveMailsFileView(mainDealerId, "ApproveMails")
-                }
-              /> */}
-
-              {/* {selectedImage5 && (
-                <img
-                  src={URL.createObjectURL(selectedImage5)}
-                  alt="approvemail"
-                  width="50px"
-                  height="30px"
-                />
-              )} */}
             </form>
           </Grid>
         </Modal.Body>
@@ -1210,3 +1086,37 @@ export default UploadDocumentsModal;
 //     document.body.appendChild(link);
 //     link.click();
 //   });
+{
+  /* <Button
+                variant="outlined"
+                name="Download"
+                onClick={() =>
+                  handlePanCardFileView(mainDealerId, "AgreementFile")
+                }
+                className="m-2"
+              >
+                View
+              </Button> */
+}
+{
+  /* <img
+                src={`http://localhost:9666/viewimage?mainDealerID=${mainDealerId}&documentType=${"PanCardDetails"}`}
+                alt=""
+                id="pancardDetails"
+                width="100px"
+                height="40px"
+                onClick={() =>
+                  handleApproveMailsFileView(mainDealerId, "PanCardDetails")
+                }
+              /> */
+}
+{
+  /* {selectedImage1 && (
+                <img
+                  src={URL.createObjectURL(selectedImage1)}
+                  alt="pancard"
+                  width="50px"
+                  height="30px"
+                />
+              )} */
+}

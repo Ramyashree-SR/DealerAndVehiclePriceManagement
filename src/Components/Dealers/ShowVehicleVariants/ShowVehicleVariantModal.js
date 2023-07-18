@@ -222,8 +222,8 @@ const ChildModal = (props) => {
     if (data?.data?.error === "False") {
       props.getShowVariantsInMainDealers(props.mainDealerID);
       props.getAllAddVariantsDetails(props.mainDealerID);
-      setselectedId([]);
     }
+    setselectedId([]);
   };
 
   return (

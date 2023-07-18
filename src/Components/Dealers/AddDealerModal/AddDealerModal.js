@@ -1226,7 +1226,7 @@ export default function AddDealerModal(props) {
                   <DatePicker
                     label="Activation Date"
                     inputFormat="YYYY-MM-DD"
-                    disablePast={true}
+                    disablePast={false}
                     value={new Date(addDealer?.mainDealerActivationData)}
                     onChange={(e) => {
                       handleActivationDateChange(e);
