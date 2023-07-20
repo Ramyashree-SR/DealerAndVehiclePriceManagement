@@ -12,8 +12,8 @@ import moment from "moment/moment";
 function EditVehiclesModal(props) {
   const StatusOptions = ["APPROVED", "SEND BACK"];
   const { addToast } = useToasts();
-  const [onRoadPrice, setOnRoadPrice] = useState("");
-  const [maxLoanAmt, setMaxLoanAmt] = useState("");
+  const [onRoadPrice, setOnRoadPrice] = useState(0);
+  const [maxLoanAmt, setMaxLoanAmt] = useState(0);
   const [editVehicles, seteditVehicles] = useState({
     vehicleId: "",
     vehicleModel: "",
@@ -25,12 +25,13 @@ function EditVehiclesModal(props) {
     status: "",
     priceActivationDate: "",
     priceExpireDate: "",
+    exShowroomPrice: "",
   });
   const calculateValue = (price) => {
     if (isNaN(price)) {
       return "";
     }
-    return (9 * price).toFixed(2);
+    return (9 * price).toFixed(0);
   };
 
   const updateChange = (event) => {
@@ -68,6 +69,7 @@ function EditVehiclesModal(props) {
         "YYYY-MM-DD"
       ),
       status: editVehicles?.status,
+      exShowroomPrice: editVehicles?.exShowroomPrice,
     };
     const { data } = await editAllVehicleDetailsByRow(vehicleId, payload);
     if (data) {
@@ -82,6 +84,7 @@ function EditVehiclesModal(props) {
         status: "",
         priceActivationDate: "",
         priceExpireDate: "",
+        exShowroomPrice: "",
       });
     }
     props.getVehicleVariantsDetails();
@@ -123,6 +126,7 @@ function EditVehiclesModal(props) {
       status: editVehicles?.status,
       priceExpireDate: editVehicles?.priceExpireDate,
       priceActivationDate: editVehicles?.priceActivationDate,
+      exShowRoomPrice: editVehicles?.exShowroomPrice,
     };
     const { data, errRes } = await getVehiclePriceStatus(vehicleId, payload);
     if (data) {
@@ -217,6 +221,20 @@ function EditVehiclesModal(props) {
               <TextField
                 type="number"
                 id="outlined-basic"
+                label="Ex-Showroom Price"
+                variant="outlined"
+                // size="small"
+                sx={{ m: 1 }}
+                name="exShowRoomPrice"
+                value={editVehicles?.exShowroomPrice}
+                onChange={(e) => updateChange(e)}
+                disabled
+              />
+            </Grid>
+            <Grid sx={{ display: "flex" }}>
+              <TextField
+                type="number"
+                id="outlined-basic"
                 label="On Road Price"
                 variant="outlined"
                 // size="small"
@@ -226,8 +244,6 @@ function EditVehiclesModal(props) {
                 onChange={(e) => updateChange(e)}
                 required
               />
-            </Grid>
-            <Grid sx={{ display: "flex" }}>
               <TextField
                 type="number"
                 id="outlined-basic"
@@ -255,21 +271,20 @@ function EditVehiclesModal(props) {
                   />
                 </DemoContainer>
               </LocalizationProvider>
-
-              <LocalizationProvider dateAdapter={AdapterDateFns}>
-                <DemoContainer components={["DatePicker"]}>
-                  <DatePicker
-                    label="Expiry Date"
-                    inputFormat="YYYY-MM-DD"
-                    value={new Date(editVehicles?.priceExpireDate)}
-                    onChange={(e) => {
-                      handleExpiryDateChange(e);
-                    }}
-                    sx={{ width: 225, ml: 1 }}
-                  />
-                </DemoContainer>
-              </LocalizationProvider>
             </Grid>
+            <LocalizationProvider dateAdapter={AdapterDateFns}>
+              <DemoContainer components={["DatePicker"]}>
+                <DatePicker
+                  label="Expiry Date"
+                  inputFormat="YYYY-MM-DD"
+                  value={new Date(editVehicles?.priceExpireDate)}
+                  onChange={(e) => {
+                    handleExpiryDateChange(e);
+                  }}
+                  sx={{ width: 225, ml: 1 }}
+                />
+              </DemoContainer>
+            </LocalizationProvider>
           </Grid>
         </Modal.Body>
         <Modal.Footer>

@@ -429,10 +429,10 @@ export default function AddDealerModal(props) {
 
   const handleDistrictChange = (name, e, val) => {
     // setAddDealer(val);
-    setAddDealer({
+    setAddDealer(() => ({
       ...addDealer,
       [name]: val,
-    });
+    }));
 
     // if (e) {
     //   setAddDealer(val);
@@ -826,7 +826,7 @@ export default function AddDealerModal(props) {
                   multiple
                   options={districtData}
                   filterSelectedOptions
-                  getOptionLabel={(option) => option}
+                  // getOptionLabel={(option) => option}
                   // defaultValue={[districtData[0]]}
                   sx={{ m: 1, width: 225, ml: 1 }}
                   size="large"
@@ -845,11 +845,12 @@ export default function AddDealerModal(props) {
                     <TextField {...params} label="Select District " />
                   )}
                   name="district"
-                  value={
-                    props.type === "edit"
-                      ? props.EditDealerData?.district
-                      : undefined
-                  }
+                  // value={
+                  //   props.type === "edit"
+                  //     ? props.EditDealerData?.district
+                  //     : undefined
+                  // }
+                  value={addDealer?.district|| props.EditDealerData?.district}
                   // onChange={
                   //   props.type === "edit"
                   //     ? () => handleDistrictChange()

@@ -16,8 +16,10 @@ import { DemoContainer } from "@mui/x-date-pickers/internals/demo";
 import moment from "moment/moment";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import dayjs from "dayjs";
+import { useToasts } from "react-toast-notifications";
 
 function AddVehiclesModal(props) {
+  const { addToast } = useToasts();
   const [vehicleOEM, setVehicleOEM] = useState([]);
   // console.log(vehicleOEM, "vehicleOEM");
   const [showModel, setShowModel] = useState(false);
@@ -68,7 +70,7 @@ function AddVehiclesModal(props) {
     if (isNaN(price)) {
       return "";
     }
-    return (9 * price).toFixed(2);
+    return (9 * price).toFixed(0);
   };
 
   useEffect(() => {
@@ -174,7 +176,7 @@ function AddVehiclesModal(props) {
       vehicleVariant: addNewVehicles?.vehicleVariant,
       vehicleOem: addNewVehicles?.vehicleOem,
       vehicleState: addNewVehicles?.vehicleState,
-      vehicalOnRoadPrice: onRoadPrice,
+      vehicalOnRoadPrice:  onRoadPrice,
       vehicleMaxLoanAmount: maxLoanAmt,
       priceActivationDate: moment(
         new Date(addNewVehicles?.priceActivationDate)
@@ -183,7 +185,7 @@ function AddVehiclesModal(props) {
         "YYYY-MM-DD"
       ),
     };
-    const { data } = await addAllNewVehicleDetails(payload);
+    const { data, errRes } = await addAllNewVehicleDetails(payload);
     // console.log(data,"dataadd");
     if (data) {
       setaddNewVehicles({
@@ -197,6 +199,9 @@ function AddVehiclesModal(props) {
         priceActivationDate: "",
         priceExpireDate: "",
       });
+      addToast("Vehicle Data Added Successfully", { appearance: "success" });
+    } else if (errRes) {
+      addToast(errRes, { appearance: "error" });
     }
     // props.getVehicleVariantsDetails(data?.data.data)
     props.close();

@@ -27,7 +27,7 @@ const addAllNewVehicleDetails = (payload) => {
       return { data };
     })
     .catch((err) => {
-      const errRes = err;
+      const errRes = err && err.response && err.response.data;
       return { errRes };
     });
 };
@@ -42,7 +42,7 @@ const editAllVehicleDetailsByRow = (params, payload) => {
       return { data };
     })
     .catch((err) => {
-      const errRes = err;
+      const errRes = err && err.response && err.response.data;
       return { errRes };
     });
 };

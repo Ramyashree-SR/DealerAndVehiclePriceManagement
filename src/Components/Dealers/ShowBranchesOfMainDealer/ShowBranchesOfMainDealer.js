@@ -20,6 +20,8 @@ import {
 } from "@mui/material";
 import {
   addAllBranchesInMainDealer,
+  getAllBranchesInMainDealer,
+  getAllBranchesToAddInMainDealer,
   removeAllBranchesInMainDealer,
 } from "../../service/dealers";
 import DeleteSweepIcon from "@mui/icons-material/DeleteSweep";
@@ -39,6 +41,8 @@ function ShowBranchesOfMainDealer(props) {
   const [rowsPerPage, setRowsPerPage] = useState(5);
   const [open, setOpen] = useState(false);
   const [removeRowData, setRemoveRowData] = useState([]);
+  const [confirmDelete, setconfirmDelete] = useState(false);
+  const [confirmDeleteVal, setconfirmDeleteVal] = useState(null);
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
@@ -63,14 +67,31 @@ function ShowBranchesOfMainDealer(props) {
     // setRemoveRowData([...props.showBranch])
   }, [props.showBranch]);
 
-  const removeRowDataofBranchesFromTable = async (params, value) => {
-    let payload = [value];
-    const { data } = await removeAllBranchesInMainDealer(params, payload);
-    // console.log(data?.data?.data, "removedata");
-    if (data?.data?.error === "FALSE") {
-      setRemoveRowData([]);
-      props.getShowBranchesInMainDealers(props.mainDealerID);
-      props.getShowBranchesToAddInMainDealers(props.mainDealerID);
+  const handleConfirmDelete = () => {
+    setconfirmDelete(true);
+    removeRowDataofBranchesFromTable();
+  };
+
+  const removeRowDataofBranchesFromTable = async () => {
+    let payload = [{ ...confirmDeleteVal }];
+    console.log(payload, "payload1");
+    if (confirmDelete) {
+      console.log(payload, "payload");
+      const { data } = await removeAllBranchesInMainDealer(
+        props.mainDealerID,
+        payload
+      );
+      if (data?.data?.error === "FALSE") {
+        setconfirmDelete(false);
+        handleClose();
+        props.getShowBranchesInMainDealers(props.mainDealerID);
+        props.getShowBranchesToAddInMainDealers(props.mainDealerID);
+        setRemoveRowData([]);
+        if (props.showBranch.length == 1) {
+          // window.location.reload();
+          props.setOpenShowBranchModal(true);
+        }
+      }
     }
   };
 
@@ -107,7 +128,6 @@ function ShowBranchesOfMainDealer(props) {
                 <th align="right" scope="col">
                   Sl NO.
                 </th>
-
                 <th align="right" scope="col">
                   Branch ID
                 </th>
@@ -130,64 +150,82 @@ function ShowBranchesOfMainDealer(props) {
             <tbody className="table table-success table-striped">
               {props.showBranch
                 ?.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                .map((value, idx) => (
-                  <tr key={idx}>
-                    <td align="left" colSpan={1} style={{ fontWeight: "bold" }}>
-                      {idx}
-                    </td>
-                    <td align="left" colSpan={1} style={{ fontWeight: "bold" }}>
-                      {value.branchID}
-                    </td>
-                    <td align="left" colSpan={1} style={{ fontWeight: "bold" }}>
-                      {value.branchName}
-                    </td>
-                    <td align="left" colSpan={1} style={{ fontWeight: "bold" }}>
-                      {value.region}
-                    </td>
-                    <td align="left" colSpan={1} style={{ fontWeight: "bold" }}>
-                      {value.area}
-                    </td>
-                    <td align="left" colSpan={1} style={{ fontWeight: "bold" }}>
-                      {value.state}
-                    </td>
-
-                    <td align="left" colSpan={1} size="large">
-                      <DeleteSweepIcon
-                        onClick={() => {
-                          setOpen(true);
-                        }}
-                        fontSize="large"
-                      />
-                      <Dialog
-                        open={open}
-                        onClose={handleClose}
-                        aria-labelledby="alert-dialog-title"
-                        aria-describedby="alert-dialog-description"
+                .map((value, idx) => {
+                  return (
+                    <tr key={idx}>
+                      <td
+                        align="left"
+                        colSpan={1}
+                        style={{ fontWeight: "bold" }}
                       >
-                        <DialogContent>
-                          <Typography>
-                            Are you sure you want to delete?
-                          </Typography>
-                        </DialogContent>
-                        <DialogActions>
-                          <Button onClick={handleClose}>Back</Button>
-                          <Button
-                            onClick={() => {
-                              handleClose();
-                              removeRowDataofBranchesFromTable(
-                                props.mainDealerID,
-                                value
-                              );
-                              // removeRow(value.branchID);
-                            }}
-                          >
-                            Delete
-                          </Button>
-                        </DialogActions>
-                      </Dialog>
-                    </td>
-                  </tr>
-                ))}
+                        {idx + 1}
+                      </td>
+                      <td
+                        align="left"
+                        colSpan={1}
+                        style={{ fontWeight: "bold" }}
+                      >
+                        {value.branchID}
+                      </td>
+                      <td
+                        align="left"
+                        colSpan={1}
+                        style={{ fontWeight: "bold" }}
+                      >
+                        {value.branchName}
+                      </td>
+                      <td
+                        align="left"
+                        colSpan={1}
+                        style={{ fontWeight: "bold" }}
+                      >
+                        {value.region}
+                      </td>
+                      <td
+                        align="left"
+                        colSpan={1}
+                        style={{ fontWeight: "bold" }}
+                      >
+                        {value.area}
+                      </td>
+                      <td
+                        align="left"
+                        colSpan={1}
+                        style={{ fontWeight: "bold" }}
+                      >
+                        {value.state}
+                      </td>
+
+                      <td align="left" colSpan={1} size="large">
+                        <DeleteSweepIcon
+                          onClick={() => {
+                            setOpen(true);
+                            setconfirmDeleteVal(value);
+                          }}
+                          fontSize="large"
+                        />
+                        <Dialog
+                          open={open}
+                          onClose={handleClose}
+                          aria-labelledby="alert-dialog-title"
+                          aria-describedby="alert-dialog-description"
+                        >
+                          <DialogContent>
+                            <Typography>
+                              Are you sure you want to delete?
+                            </Typography>
+                          </DialogContent>
+                          <DialogActions>
+                            <Button onClick={handleClose}>Back</Button>
+                            <Button onClick={handleConfirmDelete}>
+                              Delete
+                            </Button>
+                          </DialogActions>
+                        </Dialog>
+                      </td>
+                    </tr>
+                  );
+                })}
             </tbody>
           </table>
           <TablePagination

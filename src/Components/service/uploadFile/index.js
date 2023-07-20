@@ -27,7 +27,7 @@ const uploadFileApi = (payload) => {
       return { data };
     })
     .catch((err) => {
-      const errRes = err;
+      const errRes = err && err.response && err.response.data;
       return { errRes };
     });
 };

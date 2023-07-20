@@ -7,16 +7,18 @@ import {
   getUploadedDocumnetDetails,
   uploadFileApi,
 } from "../../service/uploadFile";
+import { useToasts } from "react-toast-notifications";
 // import axios from "axios";
 
 function UploadDocumentsModal(props) {
   const AgreementfileInput = React.useRef();
   const PancardfileInput = React.useRef();
+  const KYCfileInput = React.useRef();
   const GstfileInput = React.useRef();
   const BankStatementfileInput = React.useRef();
   const PennyCheckfileInput = React.useRef();
   const ApproveMailsfileInput = React.useRef();
-  const KYCfileInput = React.useRef();
+
   // const [openViewModal, setopenViewModal] = useState(false);
   const [agreementfile, setagreementFile] = useState({
     file: {},
@@ -26,7 +28,7 @@ function UploadDocumentsModal(props) {
     file: {},
     filename: "",
   });
-  const [KycFile, setKycFile] = useState({
+  const [kycFile, setKycFile] = useState({
     file: {},
     filename: "",
   });
@@ -53,40 +55,61 @@ function UploadDocumentsModal(props) {
   const [selectedImage3, setSelectedImage3] = useState();
   const [selectedImage4, setSelectedImage4] = useState();
   const [selectedImage5, setSelectedImage5] = useState();
-  const [active, setactive] = useState(false);
+  const [active, setactive] = useState(null);
   const [active1, setactive1] = useState(false);
   const [active2, setactive2] = useState(false);
   const [activate, setactivate] = useState(false);
   const [active3, setactive3] = useState(false);
   const [active4, setactive4] = useState(false);
   const [active5, setactive5] = useState(false);
+  const { addToast } = useToasts();
 
   const handleAgreementFileUpload = async () => {
     const payload = new FormData();
     payload.append("file", agreementfile.file);
     payload.append("ID", mainDealerId);
     payload.append("documentType", "AgreementFile");
-    const { data } = await uploadFileApi(payload);
-    setactive(true);
-    // setSelectedImage(!selectedImage)
+    const { data, errRes } = await uploadFileApi(payload);
+    if (data.data) {
+      if (data.data.error == "FALSE") {
+        setactive(data.data);
+        addToast("File Uploaded", { appearance: "success" });
+      }
+    } else if (errRes) {
+      addToast(errRes, { appearance: "error" });
+    }
   };
+  // console.log(active, agreementfile.filename, "item112");
 
   const handlePanCardDetailsUpload = async () => {
     const payload = new FormData();
     payload.append("file", pancard.file);
     payload.append("ID", mainDealerId);
     payload.append("documentType", "PanCardDetails");
-    const { data } = await uploadFileApi(payload);
-    setactive1(true);
+    const { data, errRes } = await uploadFileApi(payload);
+    if (data.data) {
+      if (data.data.error == "FALSE") {
+        setactive1(data.data);
+      }
+    } else if (errRes) {
+      addToast(errRes, { appearance: "error" });
+    }
   };
 
   const handleKYCFileUpload = async () => {
     const payload = new FormData();
-    payload.append("file", KycFile.file);
+    payload.append("file", kycFile.file);
     payload.append("ID", mainDealerId);
     payload.append("documentType", "KYCDetails");
-    const { data } = await uploadFileApi(payload);
-    setactive2(!active2);
+    const { data, errRes } = await uploadFileApi(payload);
+    if (data.data) {
+      if (data.data.error == "FALSE") {
+        setactive2(data.data);
+      }
+    } else if (errRes) {
+      addToast(errRes, { appearance: "error" });
+    }
+    //
   };
 
   const handleGstCertificateUpload = async () => {
@@ -94,8 +117,15 @@ function UploadDocumentsModal(props) {
     payload.append("file", gstcertify.file);
     payload.append("ID", mainDealerId);
     payload.append("documentType", "GSTCertificate");
-    const { data } = await uploadFileApi(payload);
-    setactive3(!active3);
+    const { data, errRes } = await uploadFileApi(payload);
+    if (data.data) {
+      if (data.data.error == "FALSE") {
+        setactive3(data.data);
+      }
+    } else if (errRes) {
+      addToast(errRes, { appearance: "error" });
+    }
+    // setactive3(!active3);
   };
 
   const handleBankStatementFileUpload = async () => {
@@ -103,8 +133,15 @@ function UploadDocumentsModal(props) {
     payload.append("file", bankstatement.file);
     payload.append("ID", mainDealerId);
     payload.append("documentType", "BankStatementFile");
-    const { data } = await uploadFileApi(payload);
-    setactivate(!activate);
+    const { data, errRes } = await uploadFileApi(payload);
+    if (data.data) {
+      if (data.data.error == "FALSE") {
+        setactivate(data.data);
+      }
+    } else if (errRes) {
+      addToast(errRes, { appearance: "error" });
+    }
+    // setactivate(!activate);
   };
 
   const handlePennyCheckFileUpload = async () => {
@@ -112,9 +149,15 @@ function UploadDocumentsModal(props) {
     payload.append("file", pennycheck.file);
     payload.append("ID", mainDealerId);
     payload.append("documentType", "PennyCheck");
-    const { data } = await uploadFileApi(payload);
-    // console.log(data, "data");
-    setactive4(!active4);
+    const { data, errRes } = await uploadFileApi(payload);
+    if (data.data) {
+      if (data.data.error == "FALSE") {
+        setactive4(data.data);
+      }
+    } else if (errRes) {
+      addToast(errRes, { appearance: "error" });
+    }
+    // setactive4(!active4);
   };
 
   const handleApprovMailsFileUpload = async () => {
@@ -122,14 +165,21 @@ function UploadDocumentsModal(props) {
     payload.append("file", approvemails.file);
     payload.append("ID", mainDealerId);
     payload.append("documentType", "ApproveMails");
-    const { data } = await uploadFileApi(payload);
-    setactive5(!active5);
+    const { data, errRes } = await uploadFileApi(payload);
+    if (data.data) {
+      if (data.data.error == "FALSE") {
+        setactive5(data.data);
+      }
+    } else if (errRes) {
+      addToast(errRes, { appearance: "error" });
+    }
+    // setactive5(!active5);
   };
 
   const handleAgreementFileDownload = async (mainDealerId, documentType) => {
     const response = await fetch(
       `https://caglcampaignleads.grameenkoota.in/TwoWheelerLoan/getfile?mainDealerID=${mainDealerId}&documentType=${documentType}`
-      //http://localhost:9666/getfile?mainDealerID=${mainDealerId}&documentType=${documentType}
+      // `http://localhost:9666/getfile?mainDealerID=${mainDealerId}&documentType=${documentType}`
     );
 
     const blobImage = await response.blob();
@@ -194,6 +244,7 @@ function UploadDocumentsModal(props) {
     document.body.removeChild(anchorElement);
     window.URL.revokeObjectURL(href);
   };
+
   const handleGstCertificateDownload = async (mainDealerId, documentType) => {
     const response = await fetch(
       `https://caglcampaignleads.grameenkoota.in/TwoWheelerLoan/getfile?mainDealerID=${mainDealerId}&documentType=${documentType}`
@@ -304,23 +355,32 @@ function UploadDocumentsModal(props) {
     const { data } = await getUploadedDocumnetDetails(mainDealerId);
     if (data) {
       data?.data.forEach((item) => {
-        if (item.documentType === "AgreementFile") {
-          setagreementFile({ filename: item.fileName });
+        if (item.documentType == "AgreementFile") {
+          setactive(item);
         }
         if (item.documentType === "PanCardDetails") {
-          setpancard({ filename: item.fileName });
+          setactive1(item);
+          // setpancard({ filename: item.fileName });
+        }
+        if (item.documentType === "KYCDetails") {
+          setactive2(item);
+          // setKycFile({ filename: item.fileName });
         }
         if (item.documentType === "GSTCertificate") {
-          setbankstatement({ filename: item.fileName });
+          setactive3(item);
+          // setbankstatement({ filename: item.fileName });
         }
         if (item.documentType === "BankStatementFile") {
-          setgstcertify({ filename: item.fileName });
+          setactivate(item);
+          // setgstcertify({ filename: item.fileName });
         }
         if (item.documentType === "PennyCheck") {
-          setpennycheck({ filename: item.fileName });
+          setactive4(item);
+          // setpennycheck({ filename: item.fileName });
         }
         if (item.documentType === "ApproveMails") {
-          setapprovemails({ filename: item.fileName });
+          setactive5(item);
+          // setapprovemails({ filename: item.fileName });
         }
       });
     }
@@ -390,34 +450,28 @@ function UploadDocumentsModal(props) {
                     file: e.target.files[0],
                     filename: e.target.files[0].name,
                   });
-                  // if (e.target.files && e.target.files.length > 0) {
-                  //   setSelectedImage(e.target.files[0]);
-                  // }
                 }}
               />
-              {agreementfile.filename && (
+
+              {(agreementfile.filename || active?.fileType) && (
                 <Typography sx={{ m: 2, width: 100 }}>
-                  {agreementfile.filename}
+                  {agreementfile.filename
+                    ? agreementfile.filename
+                    : active?.fileType}
                 </Typography>
               )}
 
-              {props.hideButtons ? null : agreementfile.filename ? (
+              {props.hideButtons ? null : (
                 <Button
                   name="Upload"
-                  onClick={handleAgreementFileUpload}
-                  variant="contained"
-                  sx={{
-                    background: "green",
-                    color: "#FFFFFF",
-                  }}
-                >
-                  Upload
-                </Button>
-              ) : (
-                <Button
-                  name="Upload"
-                  onClick={handleAgreementFileUpload}
-                  variant="outlined"
+                  onClick={() => handleAgreementFileUpload()}
+                  variant={active ? "contained" : "outlined"}
+                  sx={
+                    active && {
+                      background: "green",
+                      color: "#FFFFFF",
+                    }
+                  }
                 >
                   Upload
                 </Button>
@@ -492,29 +546,24 @@ function UploadDocumentsModal(props) {
                   // }
                 }}
               />
-              {pancard.filename && (
+
+              {(pancard.filename || active1?.fileType) && (
                 <Typography sx={{ m: 2, width: 100 }}>
-                  {pancard.filename}
+                  {pancard.filename ? pancard.filename : active1?.fileType}
                 </Typography>
               )}
 
-              {props.hideButtons ? null : pancard.filename ? (
+              {props.hideButtons ? null : (
                 <Button
                   name="Upload"
                   onClick={handlePanCardDetailsUpload}
-                  variant="contained"
-                  sx={{
-                    background: "green",
-                    color: "#FFFFFF",
-                  }}
-                >
-                  Upload
-                </Button>
-              ) : (
-                <Button
-                  name="Upload"
-                  onClick={handlePanCardDetailsUpload}
-                  variant="outlined"
+                  variant={active1 ? "contained" : "outlined"}
+                  sx={
+                    active1 && {
+                      background: "green",
+                      color: "#FFFFFF",
+                    }
+                  }
                 >
                   Upload
                 </Button>
@@ -592,33 +641,28 @@ function UploadDocumentsModal(props) {
                   // }
                 }}
               />
-              {KycFile.filename && (
+              {(kycFile.filename || active2?.fileType) && (
                 <Typography sx={{ m: 2, width: 100 }}>
-                  {KycFile.filename}
+                  {kycFile.filename ? kycFile.filename : active2?.fileType}
                 </Typography>
               )}
 
-              {props.hideButtons ? null : KycFile.filename ? (
+              {props.hideButtons ? null : (
                 <Button
                   name="Upload"
                   onClick={handleKYCFileUpload}
-                  variant="contained"
-                  sx={{
-                    background: "green",
-                    color: "#FFFFFF",
-                  }}
-                >
-                  Upload
-                </Button>
-              ) : (
-                <Button
-                  name="Upload"
-                  onClick={handleKYCFileUpload}
-                  variant="outlined"
+                  variant={active2 ? "contained" : "outlined"}
+                  sx={
+                    active2 && {
+                      background: "green",
+                      color: "#FFFFFF",
+                    }
+                  }
                 >
                   Upload
                 </Button>
               )}
+
               <Button
                 variant="outlined"
                 name="Download"
@@ -626,7 +670,7 @@ function UploadDocumentsModal(props) {
                   handleKYCFileDownload(
                     mainDealerId,
                     "KYCDetails",
-                    KycFile.filename
+                    kycFile.filename
                   )
                 }
                 className="m-2"
@@ -683,39 +727,32 @@ function UploadDocumentsModal(props) {
                     file: e.target.files[0],
                     filename: e.target.files[0].name,
                   });
-                  if (e.target.files && e.target.files.length > 0) {
-                    setSelectedImage2(e.target.files[0]);
-                  }
                 }}
               />
-              {gstcertify.filename && (
+              {(gstcertify.filename || active3?.fileType) && (
                 <Typography sx={{ m: 2, width: 100 }}>
-                  {gstcertify.filename}
-                  {/* <a href={gstcertify.url}>{gstcertify.filename}</a> */}
+                  {gstcertify.filename
+                    ? gstcertify.filename
+                    : active3?.fileType}
                 </Typography>
               )}
 
-              {props.hideButtons ? null : gstcertify.filename ? (
+              {props.hideButtons ? null : (
                 <Button
                   name="Upload"
                   onClick={handleGstCertificateUpload}
-                  variant="contained"
-                  sx={{
-                    background: "green",
-                    color: "#FFFFFF",
-                  }}
-                >
-                  Upload
-                </Button>
-              ) : (
-                <Button
-                  name="Upload"
-                  onClick={handleGstCertificateUpload}
-                  variant="outlined"
+                  variant={active3 ? "contained" : "outlined"}
+                  sx={
+                    active3 && {
+                      background: "green",
+                      color: "#FFFFFF",
+                    }
+                  }
                 >
                   Upload
                 </Button>
               )}
+
               <Button
                 variant="outlined"
                 name="Download"
@@ -782,35 +819,30 @@ function UploadDocumentsModal(props) {
                     file: e.target.files[0],
                     filename: e.target.files[0].name,
                   });
-                  if (e.target.files && e.target.files.length > 0) {
-                    setSelectedImage3(e.target.files[0]);
-                  }
+                  // if (e.target.files && e.target.files.length > 0) {
+                  //   setSelectedImage3(e.target.files[0]);
+                  // }
                 }}
               />
-              {bankstatement.filename && (
+              {(bankstatement.filename || activate?.fileType) && (
                 <Typography sx={{ m: 2, width: 100 }}>
-                  {bankstatement.filename}
-                  {/* <a href={bankstatement.url}>{bankstatement.filename}</a> */}
+                  {bankstatement.filename
+                    ? bankstatement.filename
+                    : activate?.fileType}
                 </Typography>
               )}
 
-              {props.hideButtons ? null : bankstatement.filename ? (
+              {props.hideButtons ? null : (
                 <Button
                   name="Upload"
                   onClick={handleBankStatementFileUpload}
-                  variant="contained"
-                  sx={{
-                    background: "green",
-                    color: "#FFFFFF",
-                  }}
-                >
-                  Upload
-                </Button>
-              ) : (
-                <Button
-                  name="Upload"
-                  onClick={handleBankStatementFileUpload}
-                  variant="outlined"
+                  variant={activate ? "contained" : "outlined"}
+                  sx={
+                    activate && {
+                      background: "green",
+                      color: "#FFFFFF",
+                    }
+                  }
                 >
                   Upload
                 </Button>
@@ -882,34 +914,27 @@ function UploadDocumentsModal(props) {
                     file: e.target.files[0],
                     filename: e.target.files[0].name,
                   });
-                  if (e.target.files && e.target.files.length > 0) {
-                    setSelectedImage4(e.target.files[0]);
-                  }
                 }}
               />
-              {pennycheck.filename && (
+              {(pennycheck.filename || active4?.fileType) && (
                 <Typography sx={{ m: 2, width: 100 }}>
-                  {pennycheck.filename}
+                  {pennycheck.filename
+                    ? pennycheck.filename
+                    : active4?.fileType}
                 </Typography>
               )}
 
-              {props.hideButtons ? null : pennycheck.filename ? (
+              {props.hideButtons ? null : (
                 <Button
                   name="Upload"
                   onClick={handlePennyCheckFileUpload}
-                  variant="contained"
-                  sx={{
-                    background: "green",
-                    color: "#FFFFFF",
-                  }}
-                >
-                  Upload
-                </Button>
-              ) : (
-                <Button
-                  name="Upload"
-                  onClick={handlePennyCheckFileUpload}
-                  variant="outlined"
+                  variant={active4 ? "contained" : "outlined"}
+                  sx={
+                    active4 && {
+                      background: "green",
+                      color: "#FFFFFF",
+                    }
+                  }
                 >
                   Upload
                 </Button>
@@ -981,34 +1006,28 @@ function UploadDocumentsModal(props) {
                     file: e.target.files[0],
                     filename: e.target.files[0].name,
                   });
-                  if (e.target.files && e.target.files.length > 0) {
-                    setSelectedImage5(e.target.files[0]);
-                  }
                 }}
               />
-              {approvemails.filename && (
+
+              {(approvemails.filename || active5?.fileType) && (
                 <Typography sx={{ m: 2, width: 100 }}>
-                  {approvemails.filename}
+                  {approvemails.filename
+                    ? approvemails.filename
+                    : active5?.fileType}
                 </Typography>
               )}
 
-              {props.hideButtons ? null : approvemails.filename ? (
+              {props.hideButtons ? null : (
                 <Button
                   name="Upload"
                   onClick={handleApprovMailsFileUpload}
-                  variant="contained"
-                  sx={{
-                    background: "green",
-                    color: "#FFFFFF",
-                  }}
-                >
-                  Upload
-                </Button>
-              ) : (
-                <Button
-                  name="Upload"
-                  onClick={handleApprovMailsFileUpload}
-                  variant="outlined"
+                  variant={active5 ? "contained" : "outlined"}
+                  sx={
+                    active5 && {
+                      background: "green",
+                      color: "#FFFFFF",
+                    }
+                  }
                 >
                   Upload
                 </Button>

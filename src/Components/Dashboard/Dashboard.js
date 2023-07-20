@@ -93,6 +93,10 @@ function Dashboard() {
             >
               Logout
             </Button>
+            <Typography sx={{ fontWeight: "bold", fontSize: 18 }}>
+              {" "}
+              user: {sessionStorage.getItem("userName")}
+            </Typography>
           </Box>
         </Box>
       </Header>
