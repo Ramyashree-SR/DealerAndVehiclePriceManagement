@@ -132,7 +132,7 @@ function UploadDocumentsModal(props) {
     const payload = new FormData();
     payload.append("file", bankstatement.file);
     payload.append("ID", mainDealerId);
-    payload.append("documentType", "BankStatementFile");
+    payload.append("documentType", "BankStatement");
     const { data, errRes } = await uploadFileApi(payload);
     if (data.data) {
       if (data.data.error == "FALSE") {
@@ -245,7 +245,11 @@ function UploadDocumentsModal(props) {
     window.URL.revokeObjectURL(href);
   };
 
-  const handleGstCertificateDownload = async (mainDealerId, documentType) => {
+  const handleGstCertificateDownload = async (
+    mainDealerId,
+    documentType,
+    filename
+  ) => {
     const response = await fetch(
       `https://caglcampaignleads.grameenkoota.in/TwoWheelerLoan/getfile?mainDealerID=${mainDealerId}&documentType=${documentType}`
     );
@@ -264,7 +268,8 @@ function UploadDocumentsModal(props) {
 
   const handleBankStatementFileDownload = async (
     mainDealerId,
-    documentType
+    documentType,
+    filename
   ) => {
     const response = await fetch(
       `https://caglcampaignleads.grameenkoota.in/TwoWheelerLoan/getfile?mainDealerID=${mainDealerId}&documentType=${documentType}`
@@ -285,7 +290,11 @@ function UploadDocumentsModal(props) {
     window.URL.revokeObjectURL(href);
   };
 
-  const handlePennyCheckFileDownload = async (mainDealerId, documentType) => {
+  const handlePennyCheckFileDownload = async (
+    mainDealerId,
+    documentType,
+    filename
+  ) => {
     const response = await fetch(
       `https://caglcampaignleads.grameenkoota.in/TwoWheelerLoan/getfile?mainDealerID=${mainDealerId}&documentType=${documentType}`
     );
@@ -305,7 +314,11 @@ function UploadDocumentsModal(props) {
     window.URL.revokeObjectURL(href);
   };
 
-  const handleApproveMailsDownload = async (mainDealerId, documentType) => {
+  const handleApproveMailsDownload = async (
+    mainDealerId,
+    documentType,
+    filename
+  ) => {
     const response = await fetch(
       `https://caglcampaignleads.grameenkoota.in/TwoWheelerLoan/getfile?mainDealerID=${mainDealerId}&documentType=${documentType}`
     );
@@ -370,7 +383,7 @@ function UploadDocumentsModal(props) {
           setactive3(item);
           // setbankstatement({ filename: item.fileName });
         }
-        if (item.documentType === "BankStatementFile") {
+        if (item.documentType === "BankStatement") {
           setactivate(item);
           // setgstcertify({ filename: item.fileName });
         }
@@ -455,11 +468,14 @@ function UploadDocumentsModal(props) {
 
               {(agreementfile.filename || active?.fileType) && (
                 <Typography sx={{ m: 2, width: 100 }}>
-                  {agreementfile.filename
-                    ? agreementfile.filename
-                    : active?.fileType}
+                  {active?.fileType ? active?.fileType : agreementfile.filename}
                 </Typography>
               )}
+              {/* {agreementfile.filename && (
+                <Typography sx={{ m: 2, width: 100 }}>
+                  {agreementfile.filename}
+                </Typography>
+              )} */}
 
               {props.hideButtons ? null : (
                 <Button
@@ -547,7 +563,7 @@ function UploadDocumentsModal(props) {
                 }}
               />
 
-              {(pancard.filename || active1?.fileType) && (
+              {(pancard.filename || active1.fileType) && (
                 <Typography sx={{ m: 2, width: 100 }}>
                   {pancard.filename ? pancard.filename : active1?.fileType}
                 </Typography>
@@ -854,7 +870,7 @@ function UploadDocumentsModal(props) {
                 onClick={() =>
                   handleBankStatementFileDownload(
                     mainDealerId,
-                    "BankStatment",
+                    "BankStatement",
                     bankstatement.filename
                   )
                 }
@@ -863,11 +879,11 @@ function UploadDocumentsModal(props) {
                 Download
               </Button>
               <a
-                href={`https://caglcampaignleads.grameenkoota.in/TwoWheelerLoan/viewimage?mainDealerID=${mainDealerId}&documentType=${"BankStatementFile"}`}
+                href={`https://caglcampaignleads.grameenkoota.in/TwoWheelerLoan/viewimage?mainDealerID=${mainDealerId}&documentType=${"BankStatement"}`}
                 target="_blank"
                 rel="noreferrer"
                 onClick={() =>
-                  handleBankStatementFileView(mainDealerId, "BankStatementFile")
+                  handleBankStatementFileView(mainDealerId, "BankStatement")
                 }
               >
                 View

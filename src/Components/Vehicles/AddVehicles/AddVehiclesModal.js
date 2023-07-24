@@ -70,7 +70,7 @@ function AddVehiclesModal(props) {
     if (isNaN(price)) {
       return "";
     }
-    return (9 * price).toFixed(0);
+    return (9 * price).toFixed(3);
   };
 
   useEffect(() => {
@@ -176,7 +176,7 @@ function AddVehiclesModal(props) {
       vehicleVariant: addNewVehicles?.vehicleVariant,
       vehicleOem: addNewVehicles?.vehicleOem,
       vehicleState: addNewVehicles?.vehicleState,
-      vehicalOnRoadPrice:  onRoadPrice,
+      vehicalOnRoadPrice: onRoadPrice,
       vehicleMaxLoanAmount: maxLoanAmt,
       priceActivationDate: moment(
         new Date(addNewVehicles?.priceActivationDate)

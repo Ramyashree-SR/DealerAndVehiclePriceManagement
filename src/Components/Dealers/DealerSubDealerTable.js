@@ -193,6 +193,7 @@ export default function DealerSubDealerTable(props) {
   const [active, setActive] = useState(false);
   const [addMaindealerId, setaddMaindealerId] = useState(null);
   const [addSubdealerId, setaddSubdealerId] = useState(null);
+  // console.log(addSubdealerId,"addSubdealerId");
   const [filterAddSubBranch, setfilterAddSubBranch] = useState({});
   const [addSubStateId, setaddSubStateId] = useState(null);
   const [openViewDealerModal, setopenViewDealerModal] = useState(false);
@@ -368,7 +369,9 @@ export default function DealerSubDealerTable(props) {
   }, []);
 
   const getDealersDetails = async (id) => {
+    // console.log(id, "mainDealerID1");
     let paramsData = id ? id : "All";
+
     const { data } = await getAllMainDealersDetails(paramsData);
     if (data) {
       if (data) {
@@ -411,8 +414,8 @@ export default function DealerSubDealerTable(props) {
   };
 
   const getShowVariantsInSubDealers = async (subDealerID) => {
+    // console.log(subDealerID, "subDealerID");
     const { data } = await showVehicleVariantsInSubDealer(subDealerID);
-    // console.log(data?.data?.data , "Adddata");
     if (data) {
       if (data?.data?.error === "FALSE") {
         let subData = data?.data?.data;
@@ -802,6 +805,7 @@ export default function DealerSubDealerTable(props) {
                             align="center"
                           >
                             {row.mainDealerID}
+                            {/* {console.log(row.mainDealerID, "mainDealerID")} */}
                           </StyledTableCell>
                           <StyledTableCell
                             component="th"
@@ -1204,109 +1208,66 @@ export default function DealerSubDealerTable(props) {
                                       </StyledSubTableRow>
                                     </TableHead>
                                     <TableBody>
-                                      {allSubDealers?.map((val) => (
-                                        <StyledSubTableRow
-                                          key={val.subDealerID}
-                                        >
-                                          <StyledSubTableCell>
-                                            {val.subDealerID}
-                                          </StyledSubTableCell>
-                                          <StyledSubTableCell
-                                            component="th"
-                                            scope="row"
+                                      {allSubDealers?.map((val, idx) => {
+                                        return (
+                                          <StyledSubTableRow
+                                            key={val.subDealerID}
                                           >
-                                            {val.subDealerName}
-                                          </StyledSubTableCell>
-                                          <StyledSubTableCell>
-                                            {val.dealerType}
-                                          </StyledSubTableCell>
-                                          <StyledSubTableCell
-                                            align="center"
-                                            style={{ display: "none" }}
-                                          >
-                                            {val.subDealerMailID}
-                                          </StyledSubTableCell>
-                                          <StyledSubTableCell align="center">
-                                            {val.subDealerManufacturerName}
-                                          </StyledSubTableCell>
-                                          <StyledSubTableCell align="center">
-                                            {val.subDealerContactNumber}
-                                          </StyledSubTableCell>
-                                          <StyledSubTableCell align="center">
-                                            {
-                                              val.subDealerAlternateContactNumber
-                                            }
-                                          </StyledSubTableCell>
-                                          <StyledSubTableCell align="center">
-                                            {val.subDealerContactPersonName}
-                                          </StyledSubTableCell>
-                                          <StyledSubTableCell align="center">
-                                            {val.contactPersonMobile}
-                                          </StyledSubTableCell>
-                                          <StyledSubTableCell align="center">
-                                            {val.subDealerActivationData}
-                                          </StyledSubTableCell>
-                                          <StyledSubTableCell align="center">
-                                            {val.district}
-                                          </StyledSubTableCell>
-                                          <StyledSubTableCell align="center">
-                                            {val.state}
-                                          </StyledSubTableCell>
-
-                                          <StyledSubTableCell align="center">
-                                            <Grid
-                                              sx={{
-                                                display: "flex",
-                                                alignItems: "center",
-                                                justifyContent: "center",
-                                                // ml: 5,
-                                              }}
+                                            <StyledSubTableCell>
+                                              {val.subDealerID}
+                                            </StyledSubTableCell>
+                                            <StyledSubTableCell
+                                              component="th"
+                                              scope="row"
                                             >
-                                              <Button>
-                                                <ColorIcon>
-                                                  <Grid
-                                                    sx={{
-                                                      display: "flex",
-                                                      flexDirection: "column",
-                                                      alignItems: "center",
-                                                    }}
-                                                  >
-                                                    <ViewModuleIcon
-                                                      fontSize="small"
-                                                      onClick={() =>
-                                                        handleSubViewTable(val)
-                                                      }
-                                                    />
+                                              {val.subDealerName}
+                                            </StyledSubTableCell>
+                                            <StyledSubTableCell>
+                                              {val.dealerType}
+                                            </StyledSubTableCell>
+                                            <StyledSubTableCell
+                                              align="center"
+                                              style={{ display: "none" }}
+                                            >
+                                              {val.subDealerMailID}
+                                            </StyledSubTableCell>
+                                            <StyledSubTableCell align="center">
+                                              {val.subDealerManufacturerName}
+                                            </StyledSubTableCell>
+                                            <StyledSubTableCell align="center">
+                                              {val.subDealerContactNumber}
+                                            </StyledSubTableCell>
+                                            <StyledSubTableCell align="center">
+                                              {
+                                                val.subDealerAlternateContactNumber
+                                              }
+                                            </StyledSubTableCell>
+                                            <StyledSubTableCell align="center">
+                                              {val.subDealerContactPersonName}
+                                            </StyledSubTableCell>
+                                            <StyledSubTableCell align="center">
+                                              {val.contactPersonMobile}
+                                            </StyledSubTableCell>
+                                            <StyledSubTableCell align="center">
+                                              {val.subDealerActivationData}
+                                            </StyledSubTableCell>
+                                            <StyledSubTableCell align="center">
+                                              {val.district}
+                                            </StyledSubTableCell>
+                                            <StyledSubTableCell align="center">
+                                              {val.state}
+                                            </StyledSubTableCell>
 
-                                                    <Typography
-                                                      sx={{
-                                                        fontSize: 8,
-                                                        fontWeight: 800,
-                                                      }}
-                                                    >
-                                                      View Details
-                                                    </Typography>
-                                                  </Grid>
-                                                </ColorIcon>
-                                              </Button>
-                                              <ViewSubDealerModal
-                                                show={openViewSubDealerModal}
-                                                close={() =>
-                                                  setopenViewSubDealerModal(
-                                                    false
-                                                  )
-                                                }
-                                                viewSubDealerData={
-                                                  viewSubDealerData
-                                                }
-                                                getSubDealerDetails={
-                                                  getSubDealerDetails
-                                                }
-                                                paramsId={paramsId}
-                                                mainDealerData={mainDealerData}
-                                              />
-                                              <Button>
-                                                {props.hideButtons ? null : (
+                                            <StyledSubTableCell align="center">
+                                              <Grid
+                                                sx={{
+                                                  display: "flex",
+                                                  alignItems: "center",
+                                                  justifyContent: "center",
+                                                  // ml: 5,
+                                                }}
+                                              >
+                                                <Button>
                                                   <ColorIcon>
                                                     <Grid
                                                       sx={{
@@ -1315,31 +1276,153 @@ export default function DealerSubDealerTable(props) {
                                                         alignItems: "center",
                                                       }}
                                                     >
-                                                      <EditIcon
-                                                        sx={{ ml: 1 }}
-                                                        onClick={() => {
-                                                          handleEditSubDealerTable(
+                                                      <ViewModuleIcon
+                                                        fontSize="small"
+                                                        onClick={() =>
+                                                          handleSubViewTable(
                                                             val
-                                                          );
-                                                          setMainDealerData(
-                                                            row
-                                                          );
-                                                        }}
-                                                        size="small"
+                                                          )
+                                                        }
                                                       />
+
                                                       <Typography
                                                         sx={{
-                                                          fontWeight: 800,
                                                           fontSize: 8,
+                                                          fontWeight: 800,
                                                         }}
                                                       >
-                                                        Edit
+                                                        View Details
                                                       </Typography>
                                                     </Grid>
                                                   </ColorIcon>
-                                                )}
-                                              </Button>
-                                              <Button>
+                                                </Button>
+                                                <ViewSubDealerModal
+                                                  show={openViewSubDealerModal}
+                                                  close={() =>
+                                                    setopenViewSubDealerModal(
+                                                      false
+                                                    )
+                                                  }
+                                                  viewSubDealerData={
+                                                    viewSubDealerData
+                                                  }
+                                                  getSubDealerDetails={
+                                                    getSubDealerDetails
+                                                  }
+                                                  paramsId={paramsId}
+                                                  mainDealerData={
+                                                    mainDealerData
+                                                  }
+                                                />
+                                                <Button>
+                                                  {props.hideButtons ? null : (
+                                                    <ColorIcon>
+                                                      <Grid
+                                                        sx={{
+                                                          display: "flex",
+                                                          flexDirection:
+                                                            "column",
+                                                          alignItems: "center",
+                                                        }}
+                                                      >
+                                                        <EditIcon
+                                                          sx={{ ml: 1 }}
+                                                          onClick={() => {
+                                                            handleEditSubDealerTable(
+                                                              val
+                                                            );
+                                                            setMainDealerData(
+                                                              row
+                                                            );
+                                                          }}
+                                                          size="small"
+                                                        />
+                                                        <Typography
+                                                          sx={{
+                                                            fontWeight: 800,
+                                                            fontSize: 8,
+                                                          }}
+                                                        >
+                                                          Edit
+                                                        </Typography>
+                                                      </Grid>
+                                                    </ColorIcon>
+                                                  )}
+                                                </Button>
+                                                <Button>
+                                                  <ColorIcon>
+                                                    <Grid
+                                                      sx={{
+                                                        display: "flex",
+                                                        flexDirection: "column",
+                                                        alignItems: "center",
+                                                      }}
+                                                    >
+                                                      <AutoAwesomeMotionIcon
+                                                        size="small"
+                                                        onClick={() => {
+                                                          setOpenShowSubBranchModal(
+                                                            true
+                                                          );
+                                                          setaddSubStateId(
+                                                            val?.state
+                                                          );
+                                                          setaddSubdealerId(
+                                                            val.subDealerID
+                                                          );
+                                                          getShowBranchesInSubDealers(
+                                                            val.subDealerID
+                                                          );
+                                                          getShowBranchesInSubDealersToAdd(
+                                                            val.subDealerID
+                                                          );
+                                                        }}
+                                                      />
+                                                      <Typography
+                                                        sx={{
+                                                          fontSize: 7,
+                                                          fontWeight: 800,
+                                                        }}
+                                                      >
+                                                        Branch Mapping
+                                                      </Typography>
+                                                    </Grid>
+                                                  </ColorIcon>
+                                                </Button>
+                                                <ShowBranchesForSubDealers
+                                                  show={openShowSubBranchModal}
+                                                  close={() =>
+                                                    setOpenShowSubBranchModal(
+                                                      false
+                                                    )
+                                                  }
+                                                  showSubBranch={showSubBranch}
+                                                  showSubBranchToAdd={
+                                                    showSubBranchToAdd
+                                                  }
+                                                  getShowBranchesInSubDealers={
+                                                    getShowBranchesInSubDealers
+                                                  }
+                                                  getShowBranchesInSubDealersToAdd={
+                                                    getShowBranchesInSubDealersToAdd
+                                                  }
+                                                  filterAddSubBranch={
+                                                    filterAddSubBranch
+                                                  }
+                                                  setfilterAddSubBranch={
+                                                    setfilterAddSubBranch
+                                                  }
+                                                  state={addSubStateId}
+                                                  subDealerID={addSubdealerId}
+                                                  city={val.city}
+                                                  setShowBranchToAd={
+                                                    setShowBranchToAdd
+                                                  }
+                                                  mainDealerID={
+                                                    row.mainDealerID
+                                                  }
+                                                />
+
                                                 <ColorIcon>
                                                   <Grid
                                                     sx={{
@@ -1348,131 +1431,66 @@ export default function DealerSubDealerTable(props) {
                                                       alignItems: "center",
                                                     }}
                                                   >
-                                                    <AutoAwesomeMotionIcon
-                                                      size="small"
+                                                    <SourceIcon
+                                                      fontSize="small"
                                                       onClick={() => {
-                                                        setOpenShowSubBranchModal(
+                                                        setOpenShowSubVariants(
                                                           true
                                                         );
-                                                        setaddSubStateId(
-                                                          val?.state
+                                                        getShowVariantsInSubDealers(
+                                                          val.subDealerID
+                                                        );
+                                                        getShowVariantsInSubDealersToAdd(
+                                                          val.subDealerID
                                                         );
                                                         setaddSubdealerId(
-                                                          val.subDealerID
-                                                        );
-                                                        getShowBranchesInSubDealers(
-                                                          val.subDealerID
-                                                        );
-                                                        getShowBranchesInSubDealersToAdd(
                                                           val.subDealerID
                                                         );
                                                       }}
                                                     />
                                                     <Typography
                                                       sx={{
-                                                        fontSize: 7,
+                                                        fontSize: 8,
                                                         fontWeight: 800,
                                                       }}
                                                     >
-                                                      Branch Mapping
+                                                      Link Vehicles
                                                     </Typography>
                                                   </Grid>
                                                 </ColorIcon>
-                                              </Button>
-                                              <ShowBranchesForSubDealers
-                                                show={openShowSubBranchModal}
-                                                close={() =>
-                                                  setOpenShowSubBranchModal(
-                                                    false
-                                                  )
-                                                }
-                                                showSubBranch={showSubBranch}
-                                                showSubBranchToAdd={
-                                                  showSubBranchToAdd
-                                                }
-                                                getShowBranchesInSubDealers={
-                                                  getShowBranchesInSubDealers
-                                                }
-                                                getShowBranchesInSubDealersToAdd={
-                                                  getShowBranchesInSubDealersToAdd
-                                                }
-                                                filterAddSubBranch={
-                                                  filterAddSubBranch
-                                                }
-                                                setfilterAddSubBranch={
-                                                  setfilterAddSubBranch
-                                                }
-                                                state={addSubStateId}
-                                                subDealerID={addSubdealerId}
-                                                city={val.city}
-                                                setShowBranchToAd={
-                                                  setShowBranchToAdd
-                                                }
-                                                mainDealerID={row.mainDealerID}
-                                              />
 
-                                              <ColorIcon>
-                                                <Grid
-                                                  sx={{
-                                                    display: "flex",
-                                                    flexDirection: "column",
-                                                    alignItems: "center",
-                                                  }}
-                                                >
-                                                  <SourceIcon
-                                                    fontSize="small"
-                                                    onClick={() => {
-                                                      setOpenShowSubVariants(
-                                                        true
-                                                      );
-                                                      getShowVariantsInSubDealers(
-                                                        val.subDealerID
-                                                      );
-                                                      getShowVariantsInSubDealersToAdd(
-                                                        val.subDealerID
-                                                      );
-                                                    }}
-                                                  />
-                                                  <Typography
-                                                    sx={{
-                                                      fontSize: 8,
-                                                      fontWeight: 800,
-                                                    }}
-                                                  >
-                                                    Link Vehicles
-                                                  </Typography>
-                                                </Grid>
-                                              </ColorIcon>
-
-                                              <ShowSubVehicleVariantModal
-                                                show={openShowSubVariants}
-                                                close={() =>
-                                                  setOpenShowSubVariants(false)
-                                                }
-                                                showSubVariants={
-                                                  showSubVariants
-                                                }
-                                                subDealerID={val.subDealerID}
-                                                setShowSubVariants={
-                                                  setShowSubVariants
-                                                }
-                                                showSubVariantsToAdd={
-                                                  showSubVariantsToAdd
-                                                }
-                                                getShowVariantsInSubDealer={
-                                                  getShowVariantsInSubDealers
-                                                }
-                                                getShowVariantsInSubDealersToAdd={
-                                                  getShowVariantsInSubDealersToAdd
-                                                }
-                                              />
-                                            </Grid>
-                                          </StyledSubTableCell>
-                                          <StyledSubTableCell align="right">
-                                            {val.subDealerStatus}
-                                          </StyledSubTableCell>
-                                        </StyledSubTableRow>
-                                      ))}
+                                                <ShowSubVehicleVariantModal
+                                                  show={openShowSubVariants}
+                                                  close={() =>
+                                                    setOpenShowSubVariants(
+                                                      false
+                                                    )
+                                                  }
+                                                  showSubVariants={
+                                                    showSubVariants
+                                                  }
+                                                  subDealerID={addSubdealerId}
+                                                  setShowSubVariants={
+                                                    setShowSubVariants
+                                                  }
+                                                  showSubVariantsToAdd={
+                                                    showSubVariantsToAdd
+                                                  }
+                                                  getShowVariantsInSubDealers={
+                                                    getShowVariantsInSubDealers
+                                                  }
+                                                  getShowVariantsInSubDealersToAdd={
+                                                    getShowVariantsInSubDealersToAdd
+                                                  }
+                                                />
+                                              </Grid>
+                                            </StyledSubTableCell>
+                                            <StyledSubTableCell align="right">
+                                              {val.subDealerStatus}
+                                            </StyledSubTableCell>
+                                          </StyledSubTableRow>
+                                        );
+                                      })}
                                     </TableBody>
                                   </Table>
                                 </Box>

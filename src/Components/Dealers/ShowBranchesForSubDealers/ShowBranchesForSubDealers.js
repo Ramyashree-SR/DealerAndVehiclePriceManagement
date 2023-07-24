@@ -15,6 +15,7 @@ import DeleteSweepIcon from "@mui/icons-material/DeleteSweep";
 import {
   addAllBranchesofMainDealerInSubDealer,
   addBranchesInSubDealer,
+  getAllBranchesInSubDealer,
   removeBranchesInSubDealer,
 } from "../../service/subDealers";
 import {
@@ -29,6 +30,18 @@ const style = {
 function ShowBranchesForSubDealers(props) {
   const [active, setActive] = useState(false);
   const [removeRowData, setRemoveRowData] = useState([]);
+  const [page, setPage] = useState(0);
+  const [rowsPerPage, setRowsPerPage] = useState(5);
+
+  const handleChangePage = (event, newPage) => {
+    setPage(newPage);
+  };
+
+  const handleChangeRowsPerPage = (event) => {
+    setRowsPerPage(+event.target.value);
+    setPage(0);
+  };
+
   useEffect(() => {
     const tempArr = [];
     props.showSubBranch?.map((item) => {
@@ -55,6 +68,7 @@ function ShowBranchesForSubDealers(props) {
       if (data) {
         let addData = data?.data;
         props.setShowBranches(addData);
+        getAllBranchesInSubDealer(props.subDealerID);
         setActive(!active);
       }
     }
@@ -91,13 +105,20 @@ function ShowBranchesForSubDealers(props) {
               onClick={() =>
                 addBranchesofMainDealer(props.mainDealerID, props.subDealerID)
               }
-              sx={{
-                backgroundColor: active ? "red" : "green",
-                color: "white",
-              }}
+              sx={
+                active && {
+                  backgroundColor: active ? "red" : "green",
+                  color: "white",
+                }
+              }
             >
               Same As MainDealer
             </Button>
+            {/* <a
+              href={`showavaliablesubbranches?subDealerID=${props.subDealerID}`}
+            >
+              Refresh
+            </a> */}
           </Box>
           <table className="table table-dark table-striped">
             <thead>

@@ -45,7 +45,7 @@ const showVehicleVariantsInSubDealer = (params) => {
   return serviceUtil
     .get(`avaliablesubvariants?subDealerID=${params}`)
     .then((res) => {
-      // console.log(res, "vehicle");
+      console.log(params, "params");
       const data = res;
       return { data };
     })
@@ -87,6 +87,7 @@ const removeAllVehicleVariantsInSubDealer = (params, payload) => {
   return serviceUtil
     .deleteById(`removesubvariant?subDealerID=${params}`, payload)
     .then((res) => {
+      console.log(params,"params");
       const data = res;
       return { data };
     })

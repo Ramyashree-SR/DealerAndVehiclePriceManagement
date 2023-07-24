@@ -341,9 +341,9 @@ const ChildModal = (props) => {
     if (data?.data?.error === "FALSE") {
       props.getShowBranchesInMainDealers(props.mainDealerID);
       props.getShowBranchesToAddInMainDealers(props.mainDealerID);
-      setselectedId([]);
-      setChecked(false);
     }
+    setselectedId([]);
+    setChecked(false);
   };
 
   useEffect(() => {

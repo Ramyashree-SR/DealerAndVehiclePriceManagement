@@ -40,6 +40,7 @@ function ShowVehicleVariantModal(props) {
       params,
       payload
     );
+    console.log(data.data,"data");
     if (data?.data?.error === "FALSE") {
       props.getShowVariantsInMainDealers(props.mainDealerID);
       props.getAllAddVariantsDetails(props.mainDealerID);
@@ -152,7 +153,8 @@ const ChildModal = (props) => {
   const [rowsPerPage, setRowsPerPage] = useState(5);
   const [addMainVariant, setAddMainVariant] = useState([]);
   const [selectedId, setselectedId] = useState([]);
-  // const [checked, setChecked] = useState(false);
+  const [checked, setChecked] = useState(false);
+  const [sendselectedVariants, setsendselectedVariants] = useState([]);
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
@@ -188,6 +190,21 @@ const ChildModal = (props) => {
     setselectedId(newSelected);
   }
 
+  function onselectAllCheckBox(e) {
+    if (e.target.checked) {
+      setChecked(!checked);
+      const tempArr = [];
+      addMainVariant.forEach((item) => {
+        tempArr.push(item.variantID);
+      });
+      setselectedId(tempArr);
+      setsendselectedVariants(addMainVariant);
+    } else {
+      setChecked(false);
+      setselectedId([]);
+      setsendselectedVariants([]);
+    }
+  }
   // function onCheckBoxClick(e, index) {
   //   const tempState = [...addMainVariant];
   //   console.log(tempState, "tempp");
@@ -224,6 +241,7 @@ const ChildModal = (props) => {
       props.getAllAddVariantsDetails(props.mainDealerID);
     }
     setselectedId([]);
+    setChecked(false);
   };
 
   return (
@@ -234,7 +252,15 @@ const ChildModal = (props) => {
       <table className="table table-dark table-striped">
         <thead>
           <tr>
-            <th></th>
+            <th>
+              {" "}
+              <input
+                type="checkbox"
+                name="isAllSelected"
+                onChange={(e) => onselectAllCheckBox(e)}
+                checked={checked}
+              />
+            </th>
             <th align="center" scope="col">
               Variant ID
             </th>

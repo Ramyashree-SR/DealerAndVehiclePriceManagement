@@ -12,16 +12,16 @@ import moment from "moment/moment";
 function EditVehiclesModal(props) {
   const StatusOptions = ["APPROVED", "SEND BACK"];
   const { addToast } = useToasts();
-  const [onRoadPrice, setOnRoadPrice] = useState(0);
-  const [maxLoanAmt, setMaxLoanAmt] = useState(0);
+  const [onRoadPrice, setOnRoadPrice] = useState("");
+  const [maxLoanAmt, setMaxLoanAmt] = useState("");
   const [editVehicles, seteditVehicles] = useState({
     vehicleId: "",
     vehicleModel: "",
     vehicleVariant: "",
     vehicalOem: "",
     state: "",
-    MaxLoanAmount: "",
     vehicalOnRoadPrice: "",
+    vehicleMaxLoanAmount: "",
     status: "",
     priceActivationDate: "",
     priceExpireDate: "",
@@ -31,20 +31,20 @@ function EditVehiclesModal(props) {
     if (isNaN(price)) {
       return "";
     }
-    return (9 * price).toFixed(0);
+    return 9 * price;
   };
 
   const updateChange = (event) => {
     // if (event.target.name === "onRoadPrice") {
     //   setOnRoadPrice(event.target.value);
     // } else if (event.target.name === "editVehicles") {
+
     seteditVehicles({
       ...editVehicles,
       [event.target.name]: event.target.value,
     });
     // }
     setOnRoadPrice(event.target.value);
-
     const calculated = calculateValue(parseFloat(onRoadPrice));
     setMaxLoanAmt(calculated);
   };
@@ -60,7 +60,7 @@ function EditVehiclesModal(props) {
       vehicleVariant: editVehicles?.vehicleVariant,
       vehicalOem: editVehicles?.vehicalOem,
       state: editVehicles?.vehicalState,
-      vehicalOnRoadPrice: onRoadPrice,
+      vehicalOnRoadPrice: editVehicles?.vehicalOnRoadPrice,
       vehicleMaxLoanAmount: maxLoanAmt,
       priceActivationDate: moment(
         new Date(editVehicles?.priceActivationDate)
@@ -79,8 +79,8 @@ function EditVehiclesModal(props) {
         vehicleVariant: "",
         vehicalOem: "",
         state: "",
-        vehicleMaxLoanAmount: "",
         vehicalOnRoadPrice: "",
+        vehicleMaxLoanAmount: "",
         status: "",
         priceActivationDate: "",
         priceExpireDate: "",
@@ -121,8 +121,8 @@ function EditVehiclesModal(props) {
       vehicleVariant: editVehicles?.vehicleVariant,
       vehicalOem: editVehicles?.vehicalOem,
       state: editVehicles?.vehicalState,
-      vehicalOnRoadPrice: onRoadPrice,
-      vehicleMaxLoanAmount: maxLoanAmt,
+      vehicalOnRoadPrice: editVehicles?.vehicalOnRoadPrice,
+      vehicleMaxLoanAmount: editVehicles?.vehicleMaxLoanAmount,
       status: editVehicles?.status,
       priceExpireDate: editVehicles?.priceExpireDate,
       priceActivationDate: editVehicles?.priceActivationDate,

@@ -36,7 +36,7 @@ function ShowSubVehicleVariantModal(props) {
     setPage(0);
   };
 
-  console.log(props.showSubVariants, "showSubVariants");
+  // console.log(props.showSubVariants, "showSubVariants");
 
   useEffect(() => {
     const tempArr = [];
@@ -47,19 +47,16 @@ function ShowSubVehicleVariantModal(props) {
   }, [props.showSubVariants]);
 
   const removeRowDataofVariantsFromTable = async (params, val) => {
-    // let payload = [
-    //   {
-    //     variantID: value.variantID,
-    //     variantName: value.variantName,
-    //   },
-    // ];
+    console.log(val, params, "val");
     let payload = [val];
-    let { data } = await removeAllVehicleVariantsInSubDealer(params, payload);
+    const { data } = await removeAllVehicleVariantsInSubDealer(params, payload);
+    // console.log(data?.data?.data, "data");
     if (data?.data?.error === "FALSE") {
       props.getShowVariantsInSubDealers(props.subDealerID);
       props.getShowVariantsInSubDealersToAdd(props.subDealerID);
     }
   };
+  // console.log(props.showSubVariants, "props.showSubVariants");
 
   return (
     <>
@@ -120,6 +117,7 @@ function ShowSubVehicleVariantModal(props) {
                     <td>
                       <DeleteIcon
                         onClick={() => {
+                          console.log(props.subDealerID, "props.subDealerID");
                           removeRowDataofVariantsFromTable(
                             props.subDealerID,
                             val
