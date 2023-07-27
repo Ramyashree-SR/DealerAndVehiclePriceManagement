@@ -64,6 +64,12 @@ function UploadDocumentsModal(props) {
   const [active5, setactive5] = useState(false);
   const { addToast } = useToasts();
 
+  const [refreshCount, setRefreshCount] = useState(0);
+
+  const handleRefresh = () => {
+    // Increment the refreshCount to trigger a re-render
+    setRefreshCount((prevCount) => prevCount + 1);
+  };
   const handleAgreementFileUpload = async () => {
     const payload = new FormData();
     payload.append("file", agreementfile.file);
@@ -180,6 +186,7 @@ function UploadDocumentsModal(props) {
     const response = await fetch(
       `https://caglcampaignleads.grameenkoota.in/TwoWheelerLoan/getfile?mainDealerID=${mainDealerId}&documentType=${documentType}`
       // `http://localhost:9666/getfile?mainDealerID=${mainDealerId}&documentType=${documentType}`
+      //https://caglcampaignleads.grameenkoota.in/TwoWheelerLoan/getfile?mainDealerID=${mainDealerId}&documentType=${documentType}
     );
 
     const blobImage = await response.blob();
@@ -480,7 +487,10 @@ function UploadDocumentsModal(props) {
               {props.hideButtons ? null : (
                 <Button
                   name="Upload"
-                  onClick={() => handleAgreementFileUpload()}
+                  onClick={() => {
+                    handleAgreementFileUpload();
+                    handleRefresh();
+                  }}
                   variant={active ? "contained" : "outlined"}
                   sx={
                     active && {
@@ -506,6 +516,7 @@ function UploadDocumentsModal(props) {
               <a
                 href={`https://caglcampaignleads.grameenkoota.in/TwoWheelerLoan/viewimage?mainDealerID=${mainDealerId}&documentType=${"AgreementFile"}`}
                 //http://localhost:9666/viewimage?mainDealerID=${mainDealerId}&documentType=${"AgreementFile"}
+                //`https://caglcampaignleads.grameenkoota.in/TwoWheelerLoan/viewimage?mainDealerID=${mainDealerId}&documentType=${"AgreementFile"}`
                 target="_blank"
                 rel="noreferrer"
                 onClick={() =>
@@ -572,7 +583,10 @@ function UploadDocumentsModal(props) {
               {props.hideButtons ? null : (
                 <Button
                   name="Upload"
-                  onClick={handlePanCardDetailsUpload}
+                  onClick={() => {
+                    handlePanCardDetailsUpload();
+                    handleRefresh();
+                  }}
                   variant={active1 ? "contained" : "outlined"}
                   sx={
                     active1 && {
@@ -666,7 +680,10 @@ function UploadDocumentsModal(props) {
               {props.hideButtons ? null : (
                 <Button
                   name="Upload"
-                  onClick={handleKYCFileUpload}
+                  onClick={() => {
+                    handleKYCFileUpload();
+                    handleRefresh();
+                  }}
                   variant={active2 ? "contained" : "outlined"}
                   sx={
                     active2 && {
@@ -756,7 +773,10 @@ function UploadDocumentsModal(props) {
               {props.hideButtons ? null : (
                 <Button
                   name="Upload"
-                  onClick={handleGstCertificateUpload}
+                  onClick={() => {
+                    handleGstCertificateUpload();
+                    handleRefresh();
+                  }}
                   variant={active3 ? "contained" : "outlined"}
                   sx={
                     active3 && {
@@ -851,7 +871,10 @@ function UploadDocumentsModal(props) {
               {props.hideButtons ? null : (
                 <Button
                   name="Upload"
-                  onClick={handleBankStatementFileUpload}
+                  onClick={() => {
+                    handleBankStatementFileUpload();
+                    handleRefresh();
+                  }}
                   variant={activate ? "contained" : "outlined"}
                   sx={
                     activate && {
@@ -943,7 +966,10 @@ function UploadDocumentsModal(props) {
               {props.hideButtons ? null : (
                 <Button
                   name="Upload"
-                  onClick={handlePennyCheckFileUpload}
+                  onClick={() => {
+                    handlePennyCheckFileUpload();
+                    handleRefresh();
+                  }}
                   variant={active4 ? "contained" : "outlined"}
                   sx={
                     active4 && {
@@ -1036,7 +1062,10 @@ function UploadDocumentsModal(props) {
               {props.hideButtons ? null : (
                 <Button
                   name="Upload"
-                  onClick={handleApprovMailsFileUpload}
+                  onClick={() => {
+                    handleApprovMailsFileUpload();
+                    handleRefresh();
+                  }}
                   variant={active5 ? "contained" : "outlined"}
                   sx={
                     active5 && {

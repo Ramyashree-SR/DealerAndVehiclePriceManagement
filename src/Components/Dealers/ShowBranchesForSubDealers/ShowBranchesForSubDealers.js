@@ -262,12 +262,13 @@ function ShowBranchesForSubDealers(props) {
         </Modal.Body>
         <ModalFooter>
           <Button
+            variant="contained"
             onClick={props.close}
-            sx={{
-              backgroundColor: "blue",
-              color: "white",
-              borderColor: "green",
-            }}
+            // sx={{
+            //   backgroundColor: "blue",
+            //   color: "white",
+            //   borderColor: "green",
+            // }}
           >
             Close
           </Button>
