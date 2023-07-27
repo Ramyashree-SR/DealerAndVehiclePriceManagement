@@ -65,11 +65,13 @@ function ShowBranchesForSubDealers(props) {
       subDealerID
     );
     if (data) {
-      if (data) {
+      if (data?.error === "FALSE") {
         let addData = data?.data;
         props.setShowBranches(addData);
-        getAllBranchesInSubDealer(props.subDealerID);
-        setActive(!active);
+        // getAllBranchesInSubDealer(props.subDealerID);
+        setActive(data?.data);
+        props.getShowBranchesInSubDealers(subDealerID);
+        props.getShowBranchesInSubDealersToAdd(subDealerID);
       }
     }
   };
@@ -102,23 +104,18 @@ function ShowBranchesForSubDealers(props) {
           </Typography>
           <Box sx={{ m: 2 }}>
             <Button
-              onClick={() =>
-                addBranchesofMainDealer(props.mainDealerID, props.subDealerID)
-              }
-              sx={
-                active && {
-                  backgroundColor: active ? "red" : "green",
-                  color: "white",
-                }
-              }
+              onClick={() => {
+                addBranchesofMainDealer(props.mainDealerID, props.subDealerID);
+              }}
+              variant={active ? "outlined" : "contained"}
+              sx={{
+                background: "green",
+                color: "#FFFFFF",
+                borderColor: "green",
+              }}
             >
               Same As MainDealer
             </Button>
-            {/* <a
-              href={`showavaliablesubbranches?subDealerID=${props.subDealerID}`}
-            >
-              Refresh
-            </a> */}
           </Box>
           <table className="table table-dark table-striped">
             <thead>
@@ -231,6 +228,16 @@ function ShowBranchesForSubDealers(props) {
               ))}
             </tbody>
           </table>
+          <TablePagination
+            rowsPerPageOptions={[5, 10, 15]}
+            component="div"
+            count={props.showSubBranch?.length}
+            rowsPerPage={rowsPerPage}
+            page={page}
+            onPageChange={handleChangePage}
+            onRowsPerPageChange={handleChangeRowsPerPage}
+            sx={{ alignItems: "center", justifyContent: "center" }}
+          />
 
           <hr
             style={{
