@@ -18,7 +18,7 @@ function CheckerDashboard() {
   const [selectedComponent, setSelectedComponent] = useState("CheckerDetails");
   const [btnhide, setBtnhide] = useState(false);
 
-  let navigate = useNavigate();
+  const navigate = useNavigate();
 
   let navigateToMainDealerTableForChecking = () => {
     setSelectedComponent("CheckerDetails");
@@ -39,9 +39,12 @@ function CheckerDashboard() {
     setSelectedComponent("VehicleDetails");
     // setshowModule(false);
   };
+
   let naviagteToLogin = () => {
+    window.location.reload();
     sessionStorage.clear();
-    navigate("/");
+     navigate("/");
+
     // setshowModule(true);
   };
 
@@ -90,7 +93,7 @@ function CheckerDashboard() {
             <Button
               variant="contained"
               size="medium"
-              onClick={naviagteToLogin}
+              onClick={() => naviagteToLogin()}
               sx={{
                 background: "green",
                 fontSize: 15,
@@ -100,7 +103,7 @@ function CheckerDashboard() {
             </Button>
             <Typography sx={{ fontWeight: "bold", fontSize: 18 }}>
               {" "}
-            user :   {sessionStorage.getItem("userName")}
+              user : {sessionStorage.getItem("userName")}
             </Typography>
           </Box>
         </Box>

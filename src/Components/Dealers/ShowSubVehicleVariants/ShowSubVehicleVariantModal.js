@@ -47,16 +47,14 @@ function ShowSubVehicleVariantModal(props) {
   }, [props.showSubVariants]);
 
   const removeRowDataofVariantsFromTable = async (params, val) => {
-    console.log(val, params, "val");
+    // console.log(val, params, "val");
     let payload = [val];
     const { data } = await removeAllVehicleVariantsInSubDealer(params, payload);
-    // console.log(data?.data?.data, "data");
     if (data?.data?.error === "FALSE") {
       props.getShowVariantsInSubDealers(props.subDealerID);
       props.getShowVariantsInSubDealersToAdd(props.subDealerID);
     }
   };
-  // console.log(props.showSubVariants, "props.showSubVariants");
 
   return (
     <>
@@ -163,6 +161,9 @@ function ChildModal(props) {
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
   const [selectedId, setselectedId] = useState([]);
+  const [checked, setChecked] = useState(false);
+  const [sendselectedVariants, setsendselectedVariants] = useState([]);
+  const [addvehicle, setaddvehicle] = useState([]);
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
@@ -172,8 +173,6 @@ function ChildModal(props) {
     setRowsPerPage(+event.target.value);
     setPage(0);
   };
-
-  const [addvehicle, setaddvehicle] = useState([]);
 
   // useEffect(() => {
   //   const tempState = [];
@@ -213,6 +212,21 @@ function ChildModal(props) {
     // window.location.reload();
   }
 
+  function onselectAllCheckBox(e) {
+    if (e.target.checked) {
+      setChecked(!checked);
+      const tempArr = [];
+      addvehicle.forEach((item) => {
+        tempArr.push(item.variantID);
+      });
+      setselectedId(tempArr);
+      setsendselectedVariants(addvehicle);
+    } else {
+      setChecked(false);
+      setselectedId([]);
+      setsendselectedVariants([]);
+    }
+  }
   const adddisplayedVariantToTheTable = async (params) => {
     // const tempState = [...addvehicle];
     // const checkedValue = tempState.filter((val) => val.checked);
@@ -228,7 +242,7 @@ function ChildModal(props) {
       props.getShowVariantsInSubDealers(props.subDealerID);
       props.getShowVariantsInSubDealersToAdd(props.subDealerID);
       setselectedId([]);
-      props.close();
+      // props.close();
     }
     // }
   };
@@ -241,7 +255,14 @@ function ChildModal(props) {
       <table className="table table-dark table-striped">
         <thead>
           <tr>
-            <th></th>
+            <th>
+              <input
+                type="checkbox"
+                name="isAllSelected"
+                onChange={(e) => onselectAllCheckBox(e)}
+                checked={checked}
+              />
+            </th>
             <th style={{ fontWeight: "bold" }}>Variant ID</th>
             <th style={{ fontWeight: "bold" }}>Variant Name</th>
           </tr>

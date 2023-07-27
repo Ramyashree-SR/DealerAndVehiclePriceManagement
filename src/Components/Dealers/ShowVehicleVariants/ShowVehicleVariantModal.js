@@ -40,7 +40,7 @@ function ShowVehicleVariantModal(props) {
       params,
       payload
     );
-    console.log(data.data,"data");
+    // console.log(data.data,"data");
     if (data?.data?.error === "FALSE") {
       props.getShowVariantsInMainDealers(props.mainDealerID);
       props.getAllAddVariantsDetails(props.mainDealerID);

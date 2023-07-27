@@ -71,31 +71,58 @@ const getVehicleOEM = () => {
 };
 
 //Vehicle Variants Apis
-const showVehicleVariantsInMainDealer = (mainDealerID) => {
-  return serviceUtil
-    .get(`avaliablemainvariants?mainDealerID=${mainDealerID}`)
-    .then((res) => {
-      const data = res;
-      return { data };
-    })
-    .catch((err) => {
-      const errRes = err;
-      return { errRes };
-    });
+const showVehicleVariantsInMainDealer = (params) => {
+  let vehicleId = params?.split("-")[params?.split("-").length - 1];
+  if (vehicleId === "A01") {
+    return serviceUtil
+      .get(`avaliablemainvariants?mainDealerID=${params}`)
+      .then((res) => {
+        const data = res;
+        return { data };
+      })
+      .catch((err) => {
+        const errRes = err;
+        return { errRes };
+      });
+  } else {
+    return serviceUtil
+      .get(`avaliablesubvariants?subDealerID=${params}`)
+      .then((res) => {
+        const data = res;
+        return { data };
+      })
+      .catch((err) => {
+        const errRes = err;
+        return { errRes };
+      });
+  }
 };
 
 const showVehicleVariantsToAddInMainDealer = (params) => {
-  return serviceUtil
-    .getWithResp(`mainvariants?mainDealerID=${params}`)
-    .then((res) => {
-      // console.log(res,"mainVar");
-      const data = res;
-      return { data };
-    })
-    .catch((err) => {
-      const errRes = err;
-      return { errRes };
-    });
+  let vehicleId = params?.split("-")[params?.split("-").length - 1];
+  if (vehicleId === "A01") {
+    return serviceUtil
+      .getWithResp(`mainvariants?mainDealerID=${params}`)
+      .then((res) => {
+        const data = res;
+        return { data };
+      })
+      .catch((err) => {
+        const errRes = err;
+        return { errRes };
+      });
+  } else {
+    return serviceUtil
+      .getWithResp(`subvariants?subDealerID=${params}`)
+      .then((res) => {
+        const data = res;
+        return { data };
+      })
+      .catch((err) => {
+        const errRes = err;
+        return { errRes };
+      });
+  }
 };
 
 const addAllVehicleVariantsInMainDealer = (params, payload) => {
@@ -126,29 +153,57 @@ const removeAllVehicleVariantsInMainDealer = (params, payload) => {
 
 ///Branch Api's
 const getAllBranchesInMainDealer = (params) => {
-  return serviceUtil
-    .get(`showavaliablemainbranches?mainDealerID=${params}`)
-    .then((res) => {
-      const data = res;
-      return { data };
-    })
-    .catch((err) => {
-      const errRes = err;
-      return { errRes };
-    });
+  let array = params?.split("-")[params?.split("-").length - 1];
+  if (array === "A01") {
+    return serviceUtil
+      .get(`showavaliablemainbranches?mainDealerID=${params}`)
+      .then((res) => {
+        const data = res;
+        return { data };
+      })
+      .catch((err) => {
+        const errRes = err;
+        return { errRes };
+      });
+  } else {
+    return serviceUtil
+      .get(`showavaliablesubbranches?subDealerID=${params}`)
+      .then((res) => {
+        const data = res;
+        return { data };
+      })
+      .catch((err) => {
+        const errRes = err;
+        return { errRes };
+      });
+  }
 };
 
-const getAllBranchesToAddInMainDealer = (mainDealerID) => {
-  return serviceUtil
-    .getWithResp(`showmainbranches?mainDealerID=${mainDealerID}`)
-    .then((res) => {
-      const data = res;
-      return { data };
-    })
-    .catch((err) => {
-      const errRes = err;
-      return { errRes };
-    });
+const getAllBranchesToAddInMainDealer = (params) => {
+  let array = params?.split("-")[params?.split("-").length - 1];
+  if (array === "A01") {
+    return serviceUtil
+      .getWithResp(`showmainbranches?mainDealerID=${params}`)
+      .then((res) => {
+        const data = res;
+        return { data };
+      })
+      .catch((err) => {
+        const errRes = err;
+        return { errRes };
+      });
+  } else {
+    return serviceUtil
+      .getWithResp(`showsubbranches?subDealerID=${params}`)
+      .then((res) => {
+        const data = res;
+        return { data };
+      })
+      .catch((err) => {
+        const errRes = err;
+        return { errRes };
+      });
+  }
 };
 
 const addAllBranchesInMainDealer = (params, payload) => {

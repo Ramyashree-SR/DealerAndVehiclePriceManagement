@@ -335,7 +335,7 @@ export default function AddSubDealerModal(props) {
               onChange={(e) => updateChange(e)}
             /> */}
 
-              <Autocomplete
+              {/* <Autocomplete
                 disablePortal
                 id="combo-box-demo"
                 multiple
@@ -370,6 +370,50 @@ export default function AddSubDealerModal(props) {
                   handleDistrictChange("district", e, value)
                 }
                 required
+              /> */}
+              <Autocomplete
+                disablePortal
+                id="combo-box-demo"
+                multiple
+                options={districtData}
+                filterSelectedOptions
+                // getOptionLabel={(option) => option}
+                // defaultValue={[districtData[0]]}
+                sx={{ m: 1, width: 225, ml: 1 }}
+                size="large"
+                renderOption={(props, option, { selected }) => (
+                  <li {...props}>
+                    <Checkbox
+                      icon={icon}
+                      checkedIcon={checkedIcon}
+                      style={{ marginRight: 8 }}
+                      checked={selected}
+                    />
+                    {option}
+                  </li>
+                )}
+                renderInput={(params) => (
+                  <TextField {...params} label="Select District " />
+                )}
+                name="district"
+                // value={
+                //   props.type === "edit"
+                //     ? props.EditDealerData?.district
+                //     : undefined
+                // }
+                value={
+                  addSubDealer?.district || props.EditSubDealerData?.district
+                }
+                // onChange={
+                //   props.type === "edit"
+                //     ? () => handleDistrictChange()
+                //     : (e, value) => {
+                //         handleDistrictChange("district", e, value);
+                //       }
+                // }
+                onChange={(e, value) => {
+                  handleDistrictChange("district", e, value);
+                }}
               />
             </Grid>
             <Grid sx={{ display: "flex" }}>

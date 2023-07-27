@@ -9,6 +9,9 @@ import { Link, Route, Routes, useNavigate } from "react-router-dom";
 import DealerSubDealerTable from "./../Dealers/DealerSubDealerTable";
 import { Box, Button, Grid, Typography } from "@mui/material";
 import VehicleDetails from "../Vehicles/VehicleDetails";
+import axios from "axios";
+import FileDownloadIcon from "@mui/icons-material/FileDownload";
+import { lightGreen } from "@mui/material/colors";
 // import { GlobalContext } from "../Loader/GloabalProvider";
 
 const { Header, Content, Sider } = Layout;
@@ -27,12 +30,13 @@ function Dashboard() {
   };
 
   let navigateToVehicleTable = () => {
-    // navigate("vehicle");\
+    // navigate("vehicle");
     setActive(true);
     setshowModule(false);
   };
 
   let navigateToLogin = () => {
+    // window.location.reload();
     sessionStorage.clear();
     navigate("/");
     // setshowModule(false);
@@ -41,6 +45,28 @@ function Dashboard() {
   // useEffect(() => {
   //   sessionStorage.clear();
   // }, []);
+
+  const downloadXLSFile = async () => {
+    await axios
+      .get(
+        // "http://localhost:9666/getbranchexcel",
+        "https://caglcampaignleads.grameenkoota.in/TwoWheelerLoan/getbranchexcel",
+        {
+          //http://caglcampaignleads.grameenkoota.in:8080/TwoWheelerLoan/downloadexcel
+
+          method: "GET",
+          responseType: "blob", // important
+        }
+      )
+      .then((response) => {
+        const url = window.URL.createObjectURL(new Blob([response.data]));
+        const link = document.createElement("a");
+        link.href = url;
+        link.setAttribute("download", `${Date.now()}.xlsx`);
+        document.body.appendChild(link);
+        link.click();
+      });
+  };
   return (
     <>
       <Header
@@ -148,9 +174,35 @@ function Dashboard() {
             Vehicle Price Management
           </Button>
           {/* </Link> */}
+          <Button sx={{ marginRight: 2 }}>
+            <Typography
+              style={{
+                color: lightGreen[900],
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+                justifyContent: "space-between",
+                fontSize: 10,
+                fontWeight: 800,
+                marginTop: 15,
+              }}
+              onClick={downloadXLSFile}
+            >
+              <FileDownloadIcon
+                fontSize="small"
+                sx={{ color: lightGreen[900] }}
+                onClick={downloadXLSFile}
+              />
+              Download Branch <br />
+              Excel
+            </Typography>
+          </Button>
         </Sider>
 
         {/* <BreadCrumb/> */}
+        {/* <ColorIcon> */}
+
+        {/* </ColorIcon> */}
         <Layout
           style={{
             padding: "0px 0px 0px 0px",

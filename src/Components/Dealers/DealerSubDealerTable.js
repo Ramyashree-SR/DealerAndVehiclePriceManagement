@@ -61,8 +61,6 @@ import {
 } from "../service/subDealers";
 import AddSubDealerModal from "./SubDealersAddModal/AddSubDealersModal";
 import EditSubDealerModal from "./SubDealerEditModal/EditSubDealerModal";
-import * as FileSaver from "file-saver";
-import * as xlsx from "xlsx";
 import SourceIcon from "@mui/icons-material/Source";
 import ShowVehicleVariantModal from "./ShowVehicleVariants/ShowVehicleVariantModal";
 import FileDownloadIcon from "@mui/icons-material/FileDownload";
@@ -164,7 +162,6 @@ export default function DealerSubDealerTable(props) {
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [mainDealerData, setMainDealerData] = useState({});
   const [showVariants, setShowVariants] = useState([]);
-
   const [openAddDealerModal, setOpenAddDealerModal] = useState(false);
   const [openEditDealerModal, setOpenEditDealerModal] = useState(false);
   const [openShowVariants, setOpenShowVariants] = useState(false);
@@ -192,8 +189,9 @@ export default function DealerSubDealerTable(props) {
   const [addStateId, setaddStateId] = useState(null);
   const [active, setActive] = useState(false);
   const [addMaindealerId, setaddMaindealerId] = useState(null);
+  // console.log(addMaindealerId, "addMaindealerId");
   const [addSubdealerId, setaddSubdealerId] = useState(null);
-  // console.log(addSubdealerId,"addSubdealerId");
+  // console.log(addSubdealerId, "addSubdealerId");
   const [filterAddSubBranch, setfilterAddSubBranch] = useState({});
   const [addSubStateId, setaddSubStateId] = useState(null);
   const [openViewDealerModal, setopenViewDealerModal] = useState(false);
@@ -201,8 +199,7 @@ export default function DealerSubDealerTable(props) {
   const [openViewSubDealerModal, setopenViewSubDealerModal] = useState(false);
   const [viewSubDealerData, setViewSubDealerData] = useState({});
   const [showSubVariants, setShowSubVariants] = useState([]);
-  console.log(showSubVariants, "showSubVariants");
-  const [showSubVariantsToAdd, setShowSubVariantsToAdd] = useState([]);
+ const [showSubVariantsToAdd, setShowSubVariantsToAdd] = useState([]);
   const [openShowSubVariants, setOpenShowSubVariants] = useState(false);
 
   const handleChangePage = (event, newPage) => {

@@ -31,30 +31,29 @@ import {
   pink,
   yellow,
 } from "@mui/material/colors";
-
-// import AddSubDealerModal from "./SubDealersAddModal/AddSubDealersModal";
-// import EditSubDealerModal from "./SubDealerEditModal/EditSubDealerModal";
-import AutoAwesomeMotionIcon from "@mui/icons-material/AutoAwesomeMotion";
-import PlaylistAddIcon from "@mui/icons-material/PlaylistAdd";
-// import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import UploadFileIcon from "@mui/icons-material/UploadFile";
 import { getDealersAndSubDealersDetailsPendingDetails } from "../../service/checker";
-// import EditSubDealerModal from "../../Dealers/SubDealerEditModal/EditSubDealerModal";
-import ShowBranchesOfMainDealer from "../../Dealers/ShowBranchesOfMainDealer/ShowBranchesOfMainDealer";
-import UploadDocumentsModal from "../../Dealers/UploadDocumentsModal/UploadDocumentsModal";
-// import ShowBranchesForSubDealers from "../../Dealers/ShowBranchesForSubDealers/ShowBranchesForSubDealers";
 import {
   getAllBranchesInSubDealer,
   getAllBranchesInSubDealerToAdd,
+  showVehicleVariantsInSubDealer,
+  showVehicleVariantsInSubDealerToAdd,
 } from "../../service/subDealers";
 import {
   getAllBranchesInMainDealer,
   getAllBranchesToAddInMainDealer,
+  showVehicleVariantsInMainDealer,
+  showVehicleVariantsToAddInMainDealer,
 } from "../../service/dealers";
-
+import FormatListBulletedIcon from "@mui/icons-material/FormatListBulleted";
 import EditSubDealerModal from "../../Dealers/SubDealerEditModal/EditSubDealerModal";
 import ShowBranchesForSubDealers from "../../Dealers/ShowBranchesForSubDealers/ShowBranchesForSubDealers";
 import EditDealerModal from "../../Dealers/EditDealerModal/EditDealerModal";
+import UploadDocumentsModal from "../../Dealers/UploadDocumentsModal/UploadDocumentsModal";
+import ShowBranchesOfMainDealer from "../../Dealers/ShowBranchesOfMainDealer/ShowBranchesOfMainDealer";
+import ShowSubVehicleVariantModal from "../../Dealers/ShowSubVehicleVariants/ShowSubVehicleVariantModal";
+import SourceIcon from "@mui/icons-material/Source";
+import ShowVehicleVariantModal from "../../Dealers/ShowVehicleVariants/ShowVehicleVariantModal";
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.root}`]: {
@@ -136,24 +135,17 @@ export default function CheckerDetails(props) {
   const [allDealersCopy, setAllDealersCopy] = useState([]);
   const [searchText, setsearchText] = useState("");
   const [state, setState] = useState([]);
-
   const [district, setDistrict] = useState([]);
   const [filterAllDealer, setFilterAllDealer] = useState({});
   const [filterAllDealer1, setFilterAllDealer1] = useState({});
-
   const [vehicleOEM, setVehicleOEM] = useState([]);
-
   const [filterAllDealers, setFilterAllDealers] = useState({});
-
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [mainDealerData, setMainDealerData] = useState({});
-
   const [showVariants, setShowVariants] = useState([]);
-
   const [openAddDealerModal, setOpenAddDealerModal] = useState(false);
   const [openEditDealerModal, setOpenEditDealerModal] = useState(false);
-  // const [openShowVariants, setOpenShowVariants] = useState(false);
   const [EditDealerData, setEditDealerData] = useState({});
   const ref0 = useRef();
   const [open, setOpen] = useState(false);
@@ -162,33 +154,30 @@ export default function CheckerDetails(props) {
   const [openEditSubDealerModal, setOpenEditSubDealerModal] = useState(false);
   const [EditSubDealerData, setEditSubDealerData] = useState({});
   const [rowData, setRowData] = useState("");
-
   const [paramsId, setParamsId] = useState("");
-
   const [showAddVariants, setshowAddVariants] = useState([]);
-
+  const [openShowVariants, setOpenShowVariants] = useState(false);
   const [OpenShowBranchModal, setOpenShowBranchModal] = useState(false);
   const [showBranch, setShowBranch] = useState([]);
-
   const [showBranchToAdd, setShowBranchToAdd] = useState([]);
-
   const [filterAddBranch, setFilterAddBranch] = useState({});
   const [openShowSubBranchModal, setOpenShowSubBranchModal] = useState(false);
   const [showSubBranch, setShowSubBranch] = useState([]);
-
   const [showSubBranchToAdd, setshowSubBranchToAdd] = useState([]);
   const [disableStateOption, setdisableStateOption] = useState(true);
   const [disableDistrictOption, setdisableDistrictOption] = useState(true);
-
   const [openAddDocumentModal, setOpenAddDocumentModal] = useState(false);
   const [filemainDealerId, setfileMaindealerId] = useState(null);
   const [addStateId, setaddStateId] = useState(null);
   const [active, setActive] = useState(false);
   const [addMaindealerId, setaddMaindealerId] = useState(null);
-  const [addSubdealerId, setaddSubdealerId] = useState(null);
+  const [addSubdealerId, setaddSubdealerId] = useState("");
   const [filterAddSubBranch, setfilterAddSubBranch] = useState({});
   const [addSubStateId, setaddSubStateId] = useState(null);
-  const [dealerId, setdealerId] = useState(null);
+  const [dealerId, setdealerId] = useState("");
+  const [showSubVariants, setShowSubVariants] = useState([]);
+  const [showSubVariantsToAdd, setShowSubVariantsToAdd] = useState([]);
+  const [openShowSubVariants, setOpenShowSubVariants] = useState(false);
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
@@ -249,7 +238,7 @@ export default function CheckerDetails(props) {
 
   const getDealersDetails = async () => {
     const { data } = await getDealersAndSubDealersDetailsPendingDetails();
-    console.log(data?.data, "data");
+    // console.log(data?.data, "data");
     if (data) {
       let dealersData = data?.data;
       setAllDealers([...dealersData]);
@@ -271,7 +260,6 @@ export default function CheckerDetails(props) {
 
   const getShowBranchesToAddInMainDealers = async (mainDealerID) => {
     const { data } = await getAllBranchesToAddInMainDealer(mainDealerID);
-
     if (data) {
       if (data) {
         if (data) {
@@ -284,7 +272,6 @@ export default function CheckerDetails(props) {
 
   const getShowBranchesInSubDealers = async (params) => {
     const { data } = await getAllBranchesInSubDealer(params);
-
     if (data) {
       if (data) {
         let subBranchData = data?.data?.data;
@@ -303,6 +290,67 @@ export default function CheckerDetails(props) {
       }
     }
   };
+
+  const getShowVariantsInMainDealers = async (mainDealerID) => {
+    const { data } = await showVehicleVariantsInMainDealer(mainDealerID);
+    // console.log(data, "showVariants");
+    if (data) {
+      if (data?.data?.error === "FALSE") {
+        const vehicleData = data?.data?.data;
+        setShowVariants(vehicleData);
+      }
+    }
+  };
+
+  const getAllAddVariantsDetails = async (params) => {
+    const { data } = await showVehicleVariantsToAddInMainDealer(params);
+    // console.log(data?.data?.data,"mainVariantstoadd");
+    if (data) {
+      if (data) {
+        if (data) {
+          let addData = data?.data?.data;
+          setshowAddVariants([...addData]);
+        }
+      }
+    }
+  };
+
+  const getShowVariantsInSubDealers = async (subDealerID) => {
+    // console.log(subDealerID, "subDealerID");
+    const { data } = await showVehicleVariantsInSubDealer(subDealerID);
+    if (data) {
+      if (data?.data?.error === "FALSE") {
+        let subData = data?.data?.data;
+        setShowSubVariants(subData);
+      }
+    }
+  };
+
+  const getShowVariantsInSubDealersToAdd = async (subDealerID) => {
+    const { data } = await showVehicleVariantsInSubDealerToAdd(subDealerID);
+    // console.log(data, "dataVariants");
+    if (data) {
+      // if (data) {
+      let showData = data?.data?.data;
+      setShowSubVariantsToAdd([...showData]);
+      // }
+    }
+  };
+
+  useEffect(() => {
+    const res = dealerId?.split("-")[dealerId?.split("-").length - 1];
+    const response = async () => {
+      if (res === "A01") {
+        await getShowBranchesInMainDealers();
+        await getShowBranchesToAddInMainDealers();
+      } else {
+        // console.log("else");
+        await getShowBranchesInSubDealers();
+        await getShowBranchesInSubDealersToAdd();
+      }
+    };
+    response();
+  }, [dealerId]);
 
   return (
     <Box
@@ -524,7 +572,7 @@ export default function CheckerDetails(props) {
                                   alignItems: "center",
                                 }}
                               >
-                                <AutoAwesomeMotionIcon
+                                <FormatListBulletedIcon
                                   fontSize="small"
                                   onClick={() => {
                                     setOpenShowBranchModal(true);
@@ -534,6 +582,7 @@ export default function CheckerDetails(props) {
                                       row.dealerID
                                     );
                                     setaddMaindealerId(row.dealerID);
+                                    setdealerId(row?.dealerID);
                                   }}
                                 />
                                 <Typography
@@ -561,6 +610,48 @@ export default function CheckerDetails(props) {
                               state={addStateId}
                               city={row?.city}
                               setOpenShowBranchModal={setOpenShowBranchModal}
+                            />
+
+                            <Button>
+                              <ColorIcon>
+                                <Grid
+                                  sx={{
+                                    display: "flex",
+                                    flexDirection: "column",
+                                    alignItems: "center",
+                                  }}
+                                >
+                                  <SourceIcon
+                                    size="lg"
+                                    onClick={() => {
+                                      setOpenShowVariants(true);
+                                      getShowVariantsInMainDealers(
+                                        row.dealerID
+                                      );
+                                      getAllAddVariantsDetails(row.dealerID);
+                                      setaddMaindealerId(row.dealerID);
+                                    }}
+                                  />
+                                  <Typography
+                                    sx={{ fontSize: 8, fontWeight: 800 }}
+                                  >
+                                    Link Vehicles
+                                  </Typography>
+                                </Grid>
+                              </ColorIcon>
+                            </Button>
+                            <ShowVehicleVariantModal
+                              show={openShowVariants}
+                              close={() => setOpenShowVariants(false)}
+                              getShowVariantsInMainDealers={
+                                getShowVariantsInMainDealers
+                              }
+                              showVariants={showVariants}
+                              mainDealerID={addMaindealerId}
+                              showAddVariants={showAddVariants}
+                              getAllAddVariantsDetails={
+                                getAllAddVariantsDetails
+                              }
                             />
                           </Grid>
                         </StyledTableCell>
@@ -732,9 +823,9 @@ export default function CheckerDetails(props) {
                                                   sx={{ ml: 1 }}
                                                   onClick={() => {
                                                     handleEditSubDealerTable(
-                                                      row
+                                                      val
                                                     );
-                                                    setMainDealerData(row);
+                                                    setMainDealerData(val);
                                                   }}
                                                 />
                                                 <Typography>Edit</Typography>
@@ -763,7 +854,7 @@ export default function CheckerDetails(props) {
                                                   alignItems: "center",
                                                 }}
                                               >
-                                                <AutoAwesomeMotionIcon
+                                                <FormatListBulletedIcon
                                                   size="large"
                                                   onClick={() => {
                                                     setOpenShowSubBranchModal(
@@ -773,13 +864,13 @@ export default function CheckerDetails(props) {
                                                       val?.state
                                                     );
                                                     setaddSubdealerId(
-                                                      val.subDealerID
+                                                      val?.dealerID
                                                     );
                                                     getShowBranchesInSubDealers(
-                                                      val.subDealerID
+                                                      val?.dealerID
                                                     );
                                                     getShowBranchesInSubDealersToAdd(
-                                                      val.subDealerID
+                                                      val?.dealerID
                                                     );
                                                   }}
                                                 />
@@ -793,6 +884,7 @@ export default function CheckerDetails(props) {
                                                 </Typography>
                                               </Grid>
                                             </ColorIcon>
+
                                             <ShowBranchesForSubDealers
                                               show={openShowSubBranchModal}
                                               close={() =>
@@ -819,6 +911,63 @@ export default function CheckerDetails(props) {
                                               city={val.city}
                                               setShowBranchToAd={
                                                 setShowBranchToAdd
+                                              }
+                                            />
+
+                                            <ColorIcon>
+                                              <Grid
+                                                sx={{
+                                                  display: "flex",
+                                                  flexDirection: "column",
+                                                  alignItems: "center",
+                                                }}
+                                              >
+                                                <SourceIcon
+                                                  fontSize="small"
+                                                  onClick={() => {
+                                                    setOpenShowSubVariants(
+                                                      true
+                                                    );
+                                                    getShowVariantsInSubDealers(
+                                                      val?.dealerID
+                                                    );
+                                                    getShowVariantsInSubDealersToAdd(
+                                                      val?.dealerID
+                                                    );
+                                                    setaddSubdealerId(
+                                                      val?.dealerID
+                                                    );
+                                                  }}
+                                                />
+                                                <Typography
+                                                  sx={{
+                                                    fontSize: 8,
+                                                    fontWeight: 800,
+                                                  }}
+                                                >
+                                                  Link Vehicles
+                                                </Typography>
+                                              </Grid>
+                                            </ColorIcon>
+
+                                            <ShowSubVehicleVariantModal
+                                              show={openShowSubVariants}
+                                              close={() =>
+                                                setOpenShowSubVariants(false)
+                                              }
+                                              showSubVariants={showSubVariants}
+                                              subDealerID={addSubdealerId}
+                                              setShowSubVariants={
+                                                setShowSubVariants
+                                              }
+                                              showSubVariantsToAdd={
+                                                showSubVariantsToAdd
+                                              }
+                                              getShowVariantsInSubDealers={
+                                                getShowVariantsInSubDealers
+                                              }
+                                              getShowVariantsInSubDealersToAdd={
+                                                getShowVariantsInSubDealersToAdd
                                               }
                                             />
                                           </Grid>
